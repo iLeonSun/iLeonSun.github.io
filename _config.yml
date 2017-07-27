@@ -3,7 +3,7 @@
 #
 
 # Name of your site (displayed in the header)
-name: MY BLOG
+name: Leon's BLOG
 
 # Short bio or description (displayed in the header)
 description: Welcome to my blog!
@@ -18,12 +18,12 @@ avatar: https://avatars1.githubusercontent.com/u/20942626?v=4&u=3477726f70ea0fb8
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email:
+  email: liangliang_sun@163.com
   facebook:
   flickr:
   github: iLeonSun/iLeonSun.github.io
   instagram:
-  linkedin:
+  linkedin: 
   pinterest:
   rss: # just type anything here for a working RSS icon
   twitter: 
@@ -73,9 +73,11 @@ sass:
   style: :expanded # You might prefer to minify using :compressed
 
 # Use the following plug-ins
-gems:
+plugins:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
+  - jekyll-paginate
+  - jemoji
 
 # Exclude these files from your production _site
 exclude:
@@ -84,3 +86,177 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+# Set the time zone for site generation. 
+# This sets the TZ environment variable, which Ruby uses to handle time and date creation and manipulation.  
+timezone: Asia/Shanghai
+
+
+#######
+#
+#############
+# HTML Head #
+#############
+
+lang: "en"
+author: "Leon Sun"
+title: "{ Leon Sun }"
+description: "Blog and website of John Smith, blogging mainly for tech. Opinions expressed are mine."
+keywords: "smith, jones, personal, jekyll, theme"
+favicon: "/img/favicon.ico"
+
+################
+# Header layout #
+################
+
+black-favicon: "/img/cpu.png"
+
+background-img: "../img/bg2.jpg"
+
+##############################
+# Dynamic Text on the Header #
+##############################
+
+dynamic-typing: True
+shuffle: True # Shuffle the lines.
+loop: True
+loop-count: False # Set False for infinite loop, or set any number for finite loop.
+type-speed: 10
+start-delay: 200
+delete-delay: 5000
+lines: # You can add HTML Tags in the Text
+  - text: "Welcome to my blog."
+  - text: "The more you learn, the stronger you are."
+
+me-img: "/img/bg1.jpg"
+
+# To use facebook profile pic comment the previous line and uncomment the following
+# line, and replace 'user_id' with your facebook user id.
+# Facebook user id can be found by clicking on your profile pic and the large number
+# in the end of the url just before '&type' is your user id.
+# Note: fbid is not the same as user id and user id only contains numbers
+
+# me-img: "https://graph.facebook.com/user_id/picture?type=large&width=500&height=500"
+
+# To use github profile pic uncomment the following line and replace 'user_name'
+# with your github user name.
+
+# me-img: "https://github.com/user_name.png?size=500"
+
+# To use gravatar profile pic uncomment the following line and replace 'email_hash'
+# with your gravatar profile email hash.
+# You can create the email hash by using an online tool like 'http://www.md5hashgenerator.com/'
+# just enter your email and it will generate the hash.
+
+# me-img: "https://www.gravatar.com/avatar/email_hash?s=500"
+
+##############################
+# Color the browser elements #
+##############################
+color-browser: "#000000"
+apple-status-bar-style: "black"
+
+################
+# Web app mode #
+################
+
+web-app-mode: True
+
+# Icons for Web App mode
+
+icon-36p: "/img/web-app/icon-36p.png"
+icon-48p: "/img/web-app/icon-48p.png"
+icon-72p: "/img/web-app/icon-72p.png"
+icon-96p: "/img/web-app/icon-96p.png"
+icon-144p: "/img/web-app/icon-144p.png"
+icon-192p: "/img/web-app/icon-192p.png"
+
+########
+# Blog #
+########
+
+enable-gesture-navigation: True
+
+post-preview-words: 96
+
+paginate: 5
+
+email-share: True
+fb-share: True
+twitter-share: True
+linkedin-share: True
+reddit-share: True
+google-plus-share: True
+tumblr-share: True
+pinterest-share: True
+pocket-share: True
+vkontakte-share: True
+
+disqus-shortname: "panossakkos"
+
+syntax-highlight: True
+
+
+###########
+# Contact #
+###########
+
+email: "go2hell@126.com"
+
+################
+# Author Blurb #
+################
+
+# The author blurb goes underneath blog posts.
+# This works best when your author blurb image has a transparent background, or matches your site background color.
+
+# if the author_blurb is not set, then this feature is skipped
+author_blurb: "Leon Sun is an awesome person."
+author_blurb_image: "/img/author.png"
+
+##################
+# Social Buttons #
+##################
+
+social:
+  - title: "facebook"
+    url: "https://facebook.com/"
+  - title: "twitter"
+    url: "https://twitter.com/"
+  - title: "github"
+    url: "https://github.com/PanosSakkos/personal-jekyll-theme"
+  - title: "bitcoin"
+    url: "https://blockchain.info/address/1LHuKC9Em3KA5yoZaf7nngnNdf9K7s2gSi"
+  - title: "rss"
+    url: "/feed.xml"
+
+############
+# 404 page #
+############
+
+err-404-img: "/img/labtocat.png"
+
+################################################################################
+
+# NB! Tread carefully if you want to change the variables below this point!
+
+# Sections shown in the index page
+
+pages_list:
+  About: 'about'
+  Blog: 'latest-post'
+  Timeline: 'timeline'
+  Contact: 'contact'
+
+# Exclusion list from the generated _site
+
+exclude: ["LICENSE", "README.md", "CONTRIBUTING", "CONTRIBUTORS", "scripts"]
+
+# Pagination path
+
+paginate_path: "blog/page:num/"
+
+# Enable minification SASS
+
+sass:
+  style: compressed
