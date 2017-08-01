@@ -101,9 +101,9 @@ timezone: Asia/Shanghai
 lang: "en"
 author: "Leon Sun"
 title: "{ Leon Sun }"
-description: "Blog and website of John Smith, blogging mainly for tech. Opinions expressed are mine."
-keywords: "smith, jones, personal, jekyll, theme"
-favicon: "/img/favicon.ico"
+description: "Blog and website of Leon Sun"
+keywords: "Leon, IC, physical design"
+favicon: "/img/cpu.svg"
 
 ################
 # Header layout #
@@ -219,16 +219,19 @@ author_blurb_image: "/img/author.png"
 ##################
 
 social:
-  - title: "facebook"
-    url: "https://facebook.com/"
-  - title: "twitter"
-    url: "https://twitter.com/"
   - title: "github"
-    url: "https://github.com/PanosSakkos/personal-jekyll-theme"
-  - title: "bitcoin"
-    url: "https://blockchain.info/address/1LHuKC9Em3KA5yoZaf7nngnNdf9K7s2gSi"
+    url: "https://github.com/iLeonSun"
+  - title: "wechat"
+    url: "wechat.html"
+  - title: "envelope"
+    url: "mailto:liangliang.sun@163.com"
   - title: "rss"
     url: "/feed.xml"
+
+#  - title: "facebook"
+#    url: "https://facebook.com/"
+#  - title: "twitter"
+#    url: "https://twitter.com/"
 
 ############
 # 404 page #

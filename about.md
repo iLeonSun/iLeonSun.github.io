@@ -1,13 +1,11 @@
 ---
-layout: page
+layout: mytest 
 title: About
-permalink: /about/
+permalink: /about
 ---
 
 I'm LeonSun, a ASIC physical design engineer.
 
-*hello world*
-
 ### Contact me
 
-[go2hell@126.com](mailto:go2hell@126.com)
+[liangliang.sun@163.com](mailto:liangliang.sun@163.com)
