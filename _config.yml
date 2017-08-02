@@ -128,7 +128,7 @@ lines: # You can add HTML Tags in the Text
   - text: "Welcome to my blog."
   - text: "The more you learn, the stronger you are."
 
-me-img: "/img/bg1.jpg"
+me-img: "/img/avatar.png"
 
 # To use facebook profile pic comment the previous line and uncomment the following
 # line, and replace 'user_id' with your facebook user id.

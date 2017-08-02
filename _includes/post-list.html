@@ -13,11 +13,9 @@
     <strong>{{ post.title }}</strong>
   </a>
 </h4>
-<p align="left">
-	{{ post.excerpt }}
-	<small>
-	<a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-	</small>
+<p align="left" style="font-size:16px;font-style:italic">
+	{{ post.excerpt | strip_html| append: "<br>......"}}
 </p>
+<a href="{{ site.baseurl }}{{ post.url }}" style="font-size:18px" align="center">Read More</a>
 
 <!-- Post List End -->
