@@ -1,6 +1,8 @@
 ---
 layout: post
 title: My first post will coming soon!
+category: test
+tags: a, b, c
 permalink: /helloworld
 ---
 

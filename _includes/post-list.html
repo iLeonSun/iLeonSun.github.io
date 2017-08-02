@@ -2,18 +2,22 @@
 <!-- Post List Start -->
 
 <h4 align="left">
-  <strong>{{ post.date | date_to_string }}</strong>
-  <small>.
+  <strong>{{ post.date | date:"%Y-%m-%d" }}</strong>
+  <small>
     <a class="category" href="{{site.baseurl}}/categories/{{ post.category | downcase }}.html">
       {{ post.category }}
     </a>
-  .</small>
+  </small>
   <br class="visible-xs-block">
   <a href="{{site.baseurl}}{{post.url}}">
     <strong>{{ post.title }}</strong>
   </a>
-  <br class="visible-xs-block">
-  <small><a href="{{site.baseurl}}{{post.url}}#disqus_thread">Comments</a></small>
 </h4>
+<p align="left">
+	{{ post.excerpt }}
+	<small>
+	<a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+	</small>
+</p>
 
 <!-- Post List End -->

@@ -16,8 +16,8 @@ body {
     font-family: "Lora","Helvetica Neue",Helvetica,Arial,sans-serif;
 /*!
 	color: $font-color;
-    background-color: $primary-color;
 */
+    background-color: $primary-color;
 }
 
 html {
@@ -312,7 +312,7 @@ ul.social-buttons li a {
     line-height: 40px;
     outline: 0;
     color: $social-buttons-color;
-    background-color: #222;
+    background-color: $social-buttons-bg-color;
 
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -321,15 +321,24 @@ ul.social-buttons li a {
     &:hover,
     &:focus,
     &:active {
-        color: #222;
+        color: $social-buttons-bg-color;
         background-color: darken($social-buttons-color, 10%);
     }
 }
 
 footer {
-    padding: 50px 0;
+	/*! position: index relative, other absolute
+	*position: absolute;
+	*/
+ 	right: 0;
+ 	bottom: 0;
+ 	left: 0;
+	background-color: #333333;
+    padding: 20px 0 10px 0;
     text-align: center;
     p {
+		font-size: 14px;
+		color: white;
         margin: 0;
     }
 }

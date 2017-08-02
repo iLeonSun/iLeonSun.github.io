@@ -17,13 +17,22 @@
 
         {% include swipe-instructions.html %}
 
-        {{ page.content | markdownify }}
+        <!-- {{ page.content | markdownify }} -->
+		{{ content }}
 
+		<!--
         <div>
           {% for post in paginator.posts %}
             {% include post-list.html%}
           {% endfor %}
         </div>
+		-->
+
+		{% for post in site.posts %}
+		    <div display:"block">
+            {% include post-list.html%}
+		    </div>
+		{% endfor %}
 
         {% include pagination.html %}
 
@@ -32,9 +41,6 @@
     </section>
 
     {% include footer.html %}
-
-    {% include js.html %}
-
   </body>
 </html>
 

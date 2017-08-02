@@ -1,13 +1,16 @@
 <!-- Footer Start -->
+{% if page.layout == "index" %}
+{% assign footer_position = "relative" %}
+{% else %}
+{% assign footer_position = "absolute" %}
+{% endif %}
 
-<footer>
+<footer style="position:{{footer_position}}">
 
     {% include social-buttons.html %}
 
-    <p><br></p>
-
     <div class="container text-center">
-        <p>Copyright &copy; {{ site.author }} {{ site.time | date: "%Y" }}</p>
+		<p>Copyright &copy; {{ site.author }} {{ site.time | date: "%Y" }}</p> 
         {% if site.keybase-in-footer %}
         <p style="font-size: 16px;"><a href="https://keybase.io/{{site.keybase-username}}" target="_blank"><i
                 class="fa fa-key"></i> {{site.keybase-username}} on Keybase</a></p>
