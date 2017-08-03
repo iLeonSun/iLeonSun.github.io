@@ -1,5 +1,5 @@
 ---
-layout: mytest 
+layout: about
 title: About
 permalink: /about
 ---
