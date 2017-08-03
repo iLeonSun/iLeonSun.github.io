@@ -1,3 +1,4 @@
 ### Leon's BLOG
-this is my blog
-thanks to :http://jekyllthemes.org/themes/personal/
+This is my blog based on github page and jekyll.
+Blog url: https://ileonsun.github.io
+
