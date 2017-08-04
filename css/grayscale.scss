@@ -33,6 +33,22 @@ body {
 	box-sizing: border-box;
 }
 
+/*! overwirte bootstrap.min.css pre 
+comment out in bootstrap.min.css
+pre {
+	display:block;
+	padding:9.5px;
+	margin:0 0 10px;
+	font-size:13px;
+	line-height:1.42857143;
+	color:#333;
+	word-break:break-all;
+	word-wrap:break-word;
+	background-color:none!important;
+	border:1px solid #ccc;
+	border-radius:4px
+}
+*/
 
 h1,
 h2,
@@ -272,6 +288,13 @@ a {
         text-align: left;
       }
     }
+	/* line number (2017/08/04,leon) */
+	pre.lineno {
+		border-right-style: solid;
+   	 	border-right-width: 3px;
+   	 	border-right-color: #6ce26c;
+   	 	padding: 0 0.5em 0 0.5em !important;	
+	}
     img.emoji {
       /* Override any img styles to ensure Emojis are displayed inline */
       margin: 0px !important;
@@ -354,14 +377,12 @@ footer {
 
 ::-moz-selection {
     text-shadow: none;
-    background: #fcfcfc;
-    background: rgba($font-color, 0.2);
+    background: #66c2ff;
 }
 
 ::selection {
     text-shadow: none;
-    background: #fcfcfc;
-    background: rgba($font-color, 0.2);
+    background: #66c2ff;
 }
 
 img::selection {
@@ -463,4 +484,11 @@ body {
 
 .fourofour {
   border: 1px solid $primary-color !important;
+}
+
+code pre {
+	margin: 0!important;
+}
+pre td.code {
+	padding: 0 0 0 0.5em !important;
 }

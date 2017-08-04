@@ -3,7 +3,7 @@ title: "test markdown syntax"
 layout: post
 section-type: post
 ---
-{% highlight bash linenos %}
+{% highlight bash  %}
 cd ~/tmp
 rm * -rf
 {% endhighlight %}
@@ -13,7 +13,29 @@ rm * -rf
 ~~~
 {% highlight java linenos %}
 class Abc {
-	
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
 }
 {% endhighlight %}
 ~~~java
