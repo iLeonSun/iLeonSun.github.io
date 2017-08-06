@@ -9,7 +9,6 @@ echo "abc" | sed 's/a/b/'
 ```bash
 cd ~/tmp
 rm * -rf
-<<<<<<< HEAD
 ```
 {% highlight Bash %}
 cd ~/tmp
@@ -47,7 +46,7 @@ cd ~/tmp
 rm * -rf
 ```
 
-{% highlight java linenos %}
+{% highlight java %}
 class Abc {
 	public staic void main() {
 		sys.out.print("hello world")
