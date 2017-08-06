@@ -506,3 +506,16 @@ pre td.code {
     background-color: #f1f1f1;
 }
 
+/* line number using hljs (2017/08/06,leon) */
+.hljs-ln-numbers {
+	border-right-style: solid;
+ 	border-right-width: 3px;
+ 	border-right-color: #6ce26c;
+ 	padding: 0 0.5em 0 0.5em !important;	
+	text-align: right;
+	width: 2.2em;
+}
+
+.hljs-ln-code {
+	padding: 0 0 0 0.5em !important;
+}
