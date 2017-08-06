@@ -41,49 +41,41 @@ class Abc {
 	}
 }
 {% endhighlight %}
-```bash
-cd ~/tmp
-rm * -rf
-```
+{% highlight java %}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+class Abc {
+	public staic void main() {
+		sys.out.print("hello world")
+	}
+}
+{% endhighlight %}
 
-{% highlight java %}
-class Abc {
-	public staic void main() {
-		sys.out.print("hello world")
-	}
-}
-class Abc {
-	public staic void main() {
-		sys.out.print("hello world")
-	}
-}
-class Abc {
-	public staic void main() {
-		sys.out.print("hello world")
-	}
-}
-class Abc {
-	public staic void main() {
-		sys.out.print("hello world")
-	}
-}
-class Abc {
-	public staic void main() {
-		sys.out.print("hello world")
-	}
-}
-{% endhighlight %}
-{% highlight java %}
-class Abc {
-	
-}
-{% endhighlight %}
 ```java
 class Abc {
 	
 }
 ```
-{% highlight ruby %}
+
+{% highlight ruby linenos %}
 def foo
 	puts 'foo'
 end
