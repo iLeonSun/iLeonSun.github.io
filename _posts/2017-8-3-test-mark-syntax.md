@@ -7,10 +7,12 @@ section-type: post
 cd ~/tmp
 rm * -rf
 {% endhighlight %}
-~~~bash
+
+```bash
 cd ~/tmp
 rm * -rf
-~~~
+```
+
 {% highlight java linenos %}
 class Abc {
 	public staic void main() {
@@ -38,11 +40,12 @@ class Abc {
 	}
 }
 {% endhighlight %}
-~~~java
+
+```java
 class Abc {
 	
 }
-~~~
+```
 
 {% highlight ruby linenos %}
 def foo
