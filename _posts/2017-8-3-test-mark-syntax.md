@@ -9,6 +9,7 @@ echo "abc" | sed 's/a/b/'
 ```bash
 cd ~/tmp
 rm * -rf
+<<<<<<< HEAD
 ```
 {% highlight Bash %}
 cd ~/tmp
@@ -41,7 +42,12 @@ class Abc {
 	}
 }
 {% endhighlight %}
-{% highlight java %}
+```bash
+cd ~/tmp
+rm * -rf
+```
+
+{% highlight java linenos %}
 class Abc {
 	public staic void main() {
 		sys.out.print("hello world")
@@ -73,7 +79,11 @@ class Abc {
 	
 }
 {% endhighlight %}
-
+```java
+class Abc {
+	
+}
+```
 {% highlight ruby %}
 def foo
 	puts 'foo'
