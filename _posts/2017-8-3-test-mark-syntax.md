@@ -2,6 +2,7 @@
 title: "test markdown syntax"
 layout: post
 section-type: post
+comments: true
 ---
 ```bash
 echo "abc" | sed 's/a/b/'
