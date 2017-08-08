@@ -4,10 +4,10 @@ layout: post
 section-type: post
 comments: true
 ---
-{% highlight bash linenos %}
+{% highlight bash %}
 echo "abc" | sed 's/a/b/'
 {% endhighlight %}
-{% highlight bash linenos %}
+{% highlight bash %}
 cd ~/tmp
 rm * -rf
 {% endhighlight %}
@@ -70,13 +70,13 @@ class Abc {
 }
 {% endhighlight %}
 
-{% highlight java linenos %}
+{% highlight java %}
 class Abc {
 	
 }
 {% endhighlight %}
 
-{% highlight ruby linenos %}
+{% highlight ruby %}
 def foo
 	puts 'foo'
 end
