@@ -74,10 +74,10 @@ timezone: Asia/Shanghai
 
 lang: "en"
 author: "Leon Sun"
-title: "{ Leon Sun }"
+title: "Leon Sun"
 description: "Blog and website of Leon Sun"
 keywords: "Leon, IC, physical design"
-favicon: "/img/cpu.svg"
+favicon: "/img/cpu.png"
 
 ################
 # Header layout #

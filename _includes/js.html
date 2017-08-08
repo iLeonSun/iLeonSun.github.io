@@ -43,31 +43,6 @@ $(window).scroll(toggleNavCollapse);$(function(){$("a.page-scroll").bind("click"
 
 {% endif %}
 
-{% if jekyll.environment == "production" %}
-  {% if site.google-tracking-id %}
-
-  <!-- Google Tracking Id Start -->
-
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', '{{ site.google-tracking-id }}', 'auto');
-    ga('send', 'pageview');
-  </script>
-
-  <!-- Google Tracking Id End -->
-
-  {% endif %}
-{% endif %}
-
-{% if site.disqus-shortname and jekyll.environment == "production" %}
-{% endif %}
-
-  <!-- Disqus -->
-
-
 {% if page.section-type == "post" %}
 
   <!-- Share buttons Start -->
@@ -249,4 +224,8 @@ function addTohistory() {
 
 {% if page.layouti == "post" && page.comments == "true" %}
 <script id="dsq-count-scr" src="//ileonsun.disqus.com/count.js" async></script>
+{% endif %}
+
+{% if jekyll.environment == 'production' %}
+{% include analytics.html %}
 {% endif %}
