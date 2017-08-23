@@ -3,6 +3,7 @@ title: How to pass formality
 layout: post
 section-type: post
 comments: true
+category: tool
 tags: tool,formality,verification
 ---
 
@@ -21,7 +22,7 @@ PR中，由于涉及到的逻辑优化较简单，一般不难pass formality;如
  Setup Verification for Formality, 记录优化过程中的各项逻辑操作，比如replace, merge, uniquify, retime, reg_constant等等，是用于辅助formality verification的。DC产生的不可读svf可以在formality内转成可读文本。
  
 ## RTL VS GATE
-如果综合后，RTL-Gate formality fail/inconclusive,改如何debug呢？
+如果综合后，RTL-Gate formality fail/inconclusive,该如何debug呢？
 Formality debug 可以有logic cone, failing pattern, analyze_point, alternative strategy 等。
 ### Fail
 Formality fail 通常有以下几种情况：
@@ -32,11 +33,13 @@ Formality fail 通常有以下几种情况：
 主要的处理办法有以下几种：
 
 - DC里对整个design 设置`simplified_verification_mode`，其实就是设置下面的参数:
-
 >The tool sets the value for the following  environment  variables  when the  simplified_verification_mode variable is set to true regardless of the value you specify:
-compile_ultra_ungroup_dw = false
-compile_clock_gating_through_hierarchy = false
-hdlin_verification_priority = true
+>
+>compile_ultra_ungroup_dw = false
+>
+>compile_clock_gating_through_hierarchy = false
+>
+>hdlin_verification_priority = true
 
 - 在DC里使用`set_verification_priority` 来告诉DC某个cell/design，要verification优先，不要优化地太狠，不要ungroup。但是verification_priority attribute不会传到subdesign.
 - 分两步综合，首先对相关design设dont_retime，compile后,再对design 用optimize_register 做Retime 优化。
@@ -50,8 +53,11 @@ Inconclusive 一般由于逻辑太复杂，logic cone 太大，导致formality�
 - 加大timeout limit: `verification_timeout_limit`, 0 为no limit;
 - 设高datapath effort：`verification_datapath_effort_level`；
 - 使用alternate strategy：formality内置其它多种不同算法来比较hard verification,需要挨个尝试，可能全部试过多没用，自求多福...
-> verification_alternate_strategy specifies that verification uses a nonstandard strategy for solving hard verifications. The order of the list indicates which strategy to use first:
-none s2 s3 s1 l2 s10 s8 l1 l3 s4 s6 s5 k1 k2 s7 s9
+> verification_alternate_strategy specifies that verification uses a nonstandard strategy for solving hard verifications. 
+>
+> The order of the list indicates which strategy to use first:
+>
+> none s2 s3 s1 l2 s10 s8 l1 l3 s4 s6 s5 k1 k2 s7 s9
 - DC里相关design设置verification优先，降低opt effort；
 - DC先compile hard_verification design, 再compile other designs.
 
