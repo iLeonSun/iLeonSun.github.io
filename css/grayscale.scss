@@ -19,12 +19,18 @@ html {
 body {
     width: 100%;
     height: 100%;
-	font-family: 'Times New Roman','NSimSun', 'SimSun','宋体';
+	/*font-family: 'Times New Roman','NSimSun', 'SimSun','宋体';*/
+	font-family: Times New Roman,Hiragino Sans GB,"冬青黑","Microsoft YaHei","微软雅黑",SimSun,"宋体",Helvetica,Tahoma,Arial sans-serif;
 /*!
 	color: $font-color;
 */
     background-color: $primary-color;
 	margin: 0;
+	font-size: 18px;
+	word-wrap: break-word;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-font-smoothing: antialiased;
+	-webkit-backface-visibility: hidden;
 }
 #content {
     min-height: 100%;
@@ -88,7 +94,7 @@ p {
     line-height: 1.5;
     @media(min-width:768px) {
         margin: 0 0 35px;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1.6;
     }
 /* word break add 0824 */

@@ -4,7 +4,7 @@ layout: post
 section-type: post
 comments: true
 category: tool
-tags: tool,formality,verification
+tags: [formality,verification]
 ---
 
 ## Formality
@@ -100,7 +100,7 @@ Found 1 Rejected Guidance Command
 --------------------------------
 The rejection of some SVF guidance commands will almost invariably
 cause verification failures. For more information use:
-        'report_svf_operation -status rejected -command command_name
+        report_svf_operation -status rejected -command command_name
 --------------------------------
 reg_constant
 -----------

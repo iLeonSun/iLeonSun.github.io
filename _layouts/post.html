@@ -16,9 +16,12 @@
             		<h1><strong>{{ page.title }}</strong></h1>
 		    		<h5>
 		    		<ul class="list-inline">
-		    		    <li><a href="#todo"><i class="fa fa-calendar" aria-hidden="true">{{ page.date | date: "%Y-%m-%d" }}</i></a></li>
+		    		    <li><i class="fa fa-calendar" aria-hidden="true" style="letter-spacing:-1px;color:#00cdff">{{ page.date | date: "%Y/%m/%d" }}</i></li>
 		    		    <li><a href="#todo"><i class="fa fa-list" aria-hidden="true">{{ page.category }}</i></a></li>
-		    		    <li><a href="#todo"><i class="fa fa-comments" aria-hidden="true">#comments</i></a></li>
+						<!-- <li><a href="#todo"><i class="fa fa-comments" aria-hidden="true">#comments</i></a></li> -->
+						{% for tag in page.tags %}
+							<li><a href="#todo"><i class="fa fa-tags" aria-hidden="true">{{ tag }}</i></a></li>
+						{% endfor %}
 		    		</ul>
 		    		</h5>
 		    		<hr style="border-color: green;border-width: 2px;">
