@@ -1,5 +1,5 @@
 ---
-title: How to pass formality
+title: How to pass formal check
 layout: post
 section-type: post
 comments: true
@@ -10,7 +10,7 @@ tags: tool,formality,verification
 ## Formality
 >Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.  
 
-Formality是Snopsys家的LEC工具，是IC设计中常用的工具之一。后端设计中，一般要做两次formality check:
+Formality是Synopsys家的LEC工具，是IC设计中常用的工具之一。后端设计中，一般要做两次formality check:
 1. 综合后，RTL VS synthesis gate-level netlist.
 2. PR后，synthesis netlist VS PR netlist.
 

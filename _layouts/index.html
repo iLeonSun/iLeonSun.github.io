@@ -8,7 +8,8 @@
   <!-- no need <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top"  data-offset="151"> -->
   <body>
 	<!-- 2017/08/03: index page use height 100% to show bg img correctly -->
-	<div id="content" style="height:100%">
+	<!-- no footer in index page, so no need #content here -->
+	<div /*id="content"*/ style="height:100%">
 		{% include navigation.html %}
 		{% include header.html %}
 
@@ -20,7 +21,7 @@
 			{% endfor %}
 		{% endfor %}
 	</div>
-    {% include footer.html %}
+	<!-- remve footer in index page -->
     {% include js.html %}
   </body>
 </html>

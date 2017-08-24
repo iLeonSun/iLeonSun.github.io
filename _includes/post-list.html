@@ -1,15 +1,15 @@
 
 <!-- Post List Start -->
 
-<h4 align="left">
-  <strong>{{ post.date | date:"%Y-%m-%d" }}</strong>
+<h4 align="left" style="font-family:Times">
+  <strong>{{ post.date | date:"%Y/%m/%d" }}</strong>
   <small>
     <a class="category" href="{{site.baseurl}}/categories/{{ post.category | downcase }}.html">
       {{ post.category }}
     </a>
   </small>
-  <br class="visible-xs-block">
-  <a href="{{site.baseurl}}{{post.url}}">
+  &ensp;
+  <a href="{{site.baseurl}}{{post.url}}" style="font-family:'Courgette', cursive,Georgia, Times, 'Times New Roman', serif,'宋体', 'SimSun'">
     <strong>{{ post.title }}</strong>
   </a>
 </h4>
