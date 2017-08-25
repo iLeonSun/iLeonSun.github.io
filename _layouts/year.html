@@ -1,5 +1,5 @@
 
-<!-- Category Layout Start -->
+<!-- Year Layout Start -->
 
 <!DOCTYPE html>
 <html lang="{{ site.lang }}">
@@ -13,15 +13,16 @@
     <section class="container content-section text-center">
       <div class="row">
         <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-          {% assign category = page.title %}
+		  {% capture year %} {{ page.date | date: "%Y" }} {% endcapture %}
 		  <h2 style="text-align:left">
-			  <i class="fa fa-folder-open" aria-hidden="true"> {{ category }} </i>
+		  <i class="fa fa-calendar" aria-hidden="true" /*style="letter-spacing:-1px;color:#00cdff"*/>{{ year }} </i>
 		  </h2>
           <div>
             {% for post in site.posts %}
-              {% if post.category == category %}
-                {% include post-list.html%}
-              {% endif %}
+				{% capture p_year %} {{ post.date | date: "%Y" }} {% endcapture %}
+                {% if year == p_year %}
+                  {% include post-list.html%}
+                {% endif %}
             {% endfor %}
           </div>
 
@@ -36,4 +37,4 @@
   </body>
 </html>
 
-<!-- Category Layout End -->
+<!-- Year Layout End -->

@@ -559,3 +559,32 @@ section div#disqus_thread {
 .list-inline {
 	text-align: center !important;
 }
+
+body div#content section {
+	background-color: white;
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .prev {
+  text-align: left;
+}
+.PageNavigation .next {
+  text-align: right;
+}
+.PageNavigation span.prev_next_text {
+  color: #727272 !important;
+  /*padding: 0 1em;*/
+}

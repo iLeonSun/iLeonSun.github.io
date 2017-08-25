@@ -16,11 +16,15 @@
             		<h1><strong>{{ page.title }}</strong></h1>
 		    		<h5>
 		    		<ul class="list-inline">
-		    		    <li><i class="fa fa-calendar" aria-hidden="true" style="letter-spacing:-1px;color:#00cdff">{{ page.date | date: "%Y/%m/%d" }}</i></li>
-		    		    <li><a href="#todo"><i class="fa fa-list" aria-hidden="true">{{ page.category }}</i></a></li>
+						<!-- {% capture year %} {{ page.date | date:"%Y" |lstrip }} {% endcapture %} -->
+						{%  assign year = page.date | date:"%Y" %}
+						<li><a href="/{{year}}"> <i class="fa fa-calendar" aria-hidden="true" style="letter-spacing:-1px">{{ page.date | date: "%Y/%m/%d" }}</i></a></li>
+						{% for ca in page.category %}
+							<li><a href="/category/{{ ca }}"><i class="fa fa-folder-open" aria-hidden="true">{{ ca }}</i></a></li>
+						{% endfor %}
 						<!-- <li><a href="#todo"><i class="fa fa-comments" aria-hidden="true">#comments</i></a></li> -->
 						{% for tag in page.tags %}
-							<li><a href="#todo"><i class="fa fa-tags" aria-hidden="true">{{ tag }}</i></a></li>
+							<li><a href="/tag/{{ tag }}"><i class="fa fa-tags" aria-hidden="true">{{ tag }}</i></a></li>
 						{% endfor %}
 		    		</ul>
 		    		</h5>
@@ -31,13 +35,35 @@
             		</section>
 		  
 					<!-- % include share.html % -->
+					<br>
+					<br>
+					<br>
+					<!-- the previous/next page navigation -->
+					<div class="PageNavigation">
+					  {% if page.previous.url %}
+					    <a class="prev" href="{{page.previous.url}}"> 
+							<span class="prev_next_text">
+								<i class="fa fa-angle-left" aria-hidden="true"></i>上一篇
+							</span>
+							<br>
+							{{page.previous.title}}
+						</a>
+					  {% endif %}
+					  {% if page.next.url %}
+					    <a class="next" href="{{page.next.url}}">
+							<span class="prev_next_text">
+								下一篇<i class="fa fa-angle-right" aria-hidden="true"></i>
+							</span>
+							<br>
+							{{page.next.title}}
+						</a>
+					  {% endif %}
+					</div>
 
 		    		{% include comments.html %}
-					{% if jekyll.environment == "production" %}
-            		{% include comments.html %}
-					{% endif %}
 				</div>
 			</div>
+
 		</section>
 	</div>
 	{% include disqus.html %}

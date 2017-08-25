@@ -1,5 +1,6 @@
 ---
 title: "test markdown syntax"
+date: 2017-08-03
 layout: post
 section-type: post
 comments: true

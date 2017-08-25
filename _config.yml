@@ -52,6 +52,7 @@ plugins:
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
   - jekyll-paginate
   - jemoji
+  - jekyll-archives #Automatically generate post archives by dates, tags, and categories.
 
 # Exclude these files from your production _site
 exclude:
@@ -65,6 +66,19 @@ exclude:
 # This sets the TZ environment variable, which Ruby uses to handle time and date creation and manipulation.  
 timezone: Asia/Shanghai
 
+jekyll-archives:
+    enabled: 
+        - categories
+        - tags
+        - year
+    layouts: 
+        category: category
+        tag: tag
+        year: year
+    permalinks:
+        category: '/category/:name/'
+        tag: '/tag/:name/'
+        year: '/:year/'
 
 #######
 #

@@ -1,5 +1,6 @@
 ---
 title: How to pass formal check
+date: 2017-08-23
 layout: post
 section-type: post
 comments: true

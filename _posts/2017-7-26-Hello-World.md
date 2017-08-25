@@ -2,8 +2,8 @@
 layout: post
 title: My first post will coming soon!
 category: test
-tags: a, b, c
-permalink: /helloworld
+tags: [a, b, c]
+date: 2017-07-26
 excerpt_separator: <!--more-->
 ---
 ## Hello World
