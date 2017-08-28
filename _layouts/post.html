@@ -18,7 +18,7 @@
 		    		<ul class="list-inline">
 						<!-- {% capture year %} {{ page.date | date:"%Y" |lstrip }} {% endcapture %} -->
 						{%  assign year = page.date | date:"%Y" %}
-						<li><a href="/{{year}}"> <i class="fa fa-calendar" aria-hidden="true" style="letter-spacing:-1px">{{ page.date | date: "%Y/%m/%d" }}</i></a></li>
+						<li><a href="/year/{{year}}"> <i class="fa fa-calendar" aria-hidden="true" style="letter-spacing:-1px">{{ page.date | date: "%Y/%m/%d" }}</i></a></li>
 						{% for ca in page.category %}
 							<li><a href="/category/{{ ca }}"><i class="fa fa-folder-open" aria-hidden="true">{{ ca }}</i></a></li>
 						{% endfor %}
