@@ -6,7 +6,6 @@ tags:
 date: 2017-07-26
 excerpt_separator: <!--more-->
 ---
-## Hello World
 第0篇blog,当然是献给`Hello World`.
 <!--more-->
 ## 为何写blog?
