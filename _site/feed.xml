@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-08-28T17:37:40+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">How to pass formal check</title><link href="http://localhost:4000/how-to-pass-formal-check/" rel="alternate" type="text/html" title="How to pass formal check" /><published>2017-08-23T00:00:00+08:00</published><updated>2017-08-23T00:00:00+08:00</updated><id>http://localhost:4000/how-to-pass-formal-check</id><content type="html" xml:base="http://localhost:4000/how-to-pass-formal-check/">&lt;h2 id=&quot;formality&quot;&gt;Formality&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-08-29T12:36:29+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">How to pass formal check</title><link href="http://localhost:4000/how-to-pass-formal-check/" rel="alternate" type="text/html" title="How to pass formal check" /><published>2017-08-23T00:00:00+08:00</published><updated>2017-08-23T00:00:00+08:00</updated><id>http://localhost:4000/how-to-pass-formal-check</id><content type="html" xml:base="http://localhost:4000/how-to-pass-formal-check/">&lt;h2 id=&quot;formality&quot;&gt;Formality&lt;/h2&gt;
 &lt;blockquote&gt;
   &lt;p&gt;Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -196,146 +196,31 @@ Verification INCONCLUSIVE
 &lt;p&gt;最终，通过优先综合除法器design，再综合其它design, 才成功pass formal check.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;RTL-Gate LEC check 是一项很复杂的过程，通常需要在DC/formality里迭代完成，这是非常耗时的，所以formal check 的经验在此格外重要，大牛可能一眼就看出是什么原因，需要在综合时做何种设置；而吾类菜鸟就要慢慢debug,花费大量时间尝试各种可能。文中所述仅为本人在项目中积累的粗浅经验，有错请指正。&lt;strong&gt;不积跬步无以至千里&lt;/strong&gt;，不断积累，早日成大牛!&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="tool" /><category term="formality" /><category term="verification" /><summary type="html">Formality Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.</summary></entry><entry><title type="html">test markdown syntax</title><link href="http://localhost:4000/test-mark-syntax/" rel="alternate" type="text/html" title="test markdown syntax" /><published>2017-08-03T00:00:00+08:00</published><updated>2017-08-03T00:00:00+08:00</updated><id>http://localhost:4000/test-mark-syntax</id><content type="html" xml:base="http://localhost:4000/test-mark-syntax/">&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;abc&quot;&lt;/span&gt; | sed &lt;span class=&quot;s1&quot;&gt;'s/a/b/'&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;RTL-Gate LEC check 是一项很复杂的过程，通常需要在DC/formality里迭代完成，这是非常耗时的，所以formal check 的经验在此格外重要，大牛可能一眼就看出是什么原因，需要在综合时做何种设置；而吾类菜鸟就要慢慢debug,花费大量时间尝试各种可能。文中所述仅为本人在项目中积累的粗浅经验，有错请指正。&lt;strong&gt;不积跬步无以至千里&lt;/strong&gt;，不断积累，早日成大牛!&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="tool" /><category term="formality" /><category term="verification" /><summary type="html">Formality Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.</summary></entry><entry><title type="html">Hello World</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="Hello World" /><published>2017-07-26T00:00:00+08:00</published><updated>2017-07-26T00:00:00+08:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;h2 id=&quot;hello-world&quot;&gt;Hello World&lt;/h2&gt;
+&lt;p&gt;第0篇blog,当然是献给&lt;code&gt;Hello World&lt;/code&gt;.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id=&quot;为何写blog&quot;&gt;为何写blog?&lt;/h2&gt;
+&lt;h3 id=&quot;1-更深刻地思考&quot;&gt;1. 更深刻地思考&lt;/h3&gt;
+&lt;p&gt;写blog，是一次真正的思考过程。因为要写出来，所以你要有清晰的条理，合理的逻辑。当你在写作时，会深究前因后果，会比平时思考的更加深刻，更能提高你的逻辑思维能力。&lt;/p&gt;
+&lt;h3 id=&quot;2-更深入地理解&quot;&gt;2. 更深入地理解&lt;/h3&gt;
+&lt;p&gt;真正的理解，不是自己明白，而是能让别人明白。在别人请教你问题时，你也许会发现其实你的理解并不全面或并不正确；你给别人讲解的过程，也是你自己反思的过程，这个过程里你可能会有意外收获。写blog，这是一个像陌生人讲解的过程，如果他人能够认可你的解释，那才说明你真正地理解了。&lt;/p&gt;
+&lt;h3 id=&quot;3-更持续地学习&quot;&gt;3. 更持续地学习&lt;/h3&gt;
+&lt;p&gt;做技术相关的工作，怎么能不持续学习？信息时代，技术迭代更新的速度大大加快。不断地学习新知识和新技术是提高自身竞争的不二法门。&lt;/p&gt;
+&lt;h3 id=&quot;4-更具体的记忆&quot;&gt;4. 更具体的记忆&lt;/h3&gt;
+&lt;p&gt;只有大牛才能写blog? NO！不要害怕出错，这是个提高的过程。多年后，你可以从你的blog上看到你的成长，blog里记录了你菜鸟时期的傻逼问题，也记录了你成长之后的深邃理解，这就是你自己的记忆。&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
-rm &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; -rf&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;写什么&quot;&gt;写什么？&lt;/h2&gt;
+&lt;h3 id=&quot;1-工作相关的技术问题&quot;&gt;1. 工作相关的技术问题&lt;/h3&gt;
+&lt;p&gt;主要记录、总结、反思工作/学习过程中碰到的相关技术问题。IC phyical design 是个复杂的过程，工作过程中碰到的知识点有很多很杂。&lt;/p&gt;
+&lt;h3 id=&quot;2-其它方面的兴趣爱好&quot;&gt;2. 其它方面的兴趣爱好&lt;/h3&gt;
+&lt;p&gt;类似于学习笔记吧，可能会包括java,python等，&lt;/p&gt;
+&lt;h3 id=&quot;3-生活吐槽&quot;&gt;3. 生活吐槽？&lt;/h3&gt;
+&lt;p&gt;貌似github page不能加password protect，待定。&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/tmp
-rm &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; -rf&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;怎么写&quot;&gt;怎么写？&lt;/h2&gt;
+&lt;p&gt;就是github + jekyll 搭个自己的blog了。用markdown 写blog，github pg 编译成静态网页，还能免费托管在github，完美。&lt;br /&gt;
+jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还好大多数都已经有前人替我们趟过，然后无私地写blog分享出来，share！&lt;br /&gt;
+看着自己的blog从一无所有，到navigation、footer、theme、code hlighlight，再到disqus comment,google analysis，还有不断地调整css 达到自己想要的效果，真的是很有成就感啊:smile:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staic&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hello world&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Abc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
-	&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;first line&lt;br /&gt;
-second line&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-tcl&quot; data-lang=&quot;tcl&quot;&gt;	set a &lt;span class=&quot;s2&quot;&gt;&quot;abc&quot;&lt;/span&gt;
-	echo &lt;span class=&quot;nv&quot;&gt;$a&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;a href=&quot;www.google.com&quot; title=&quot;google search&quot;&gt;google&lt;/a&gt;
-&lt;img src=&quot;/img/bg1.jpg&quot; alt=&quot;cpu&quot; title=&quot;cpu&quot; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;the more you learn, the &lt;em&gt;stronger&lt;/em&gt; you are&lt;/p&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;the more you learn, the &lt;em&gt;stronger&lt;/em&gt; you are &lt;br /&gt;
-the more you learn, the &lt;em&gt;stronger&lt;/em&gt; you are&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;</content><author><name>Leon Sun</name></author><summary type="html">echo &quot;abc&quot; | sed 's/a/b/' cd ~/tmp rm * -rf cd ~/tmp rm * -rf class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } } class Abc { public staic void main() { sys.out.print(&quot;hello world&quot;) } }</summary></entry><entry><title type="html">My first post will coming soon!</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="My first post will coming soon!" /><published>2017-07-26T00:00:00+08:00</published><updated>2017-07-26T00:00:00+08:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;h2 id=&quot;hello-world&quot;&gt;Hello World&lt;/h2&gt;
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.
-&lt;!--more--&gt;
-Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.
-Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.
-Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.
-Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;
-
-&lt;p&gt;Hi all, this is a test post, my real first post will coming soon,
-you will not wait soon.&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="test" /><category term="a" /><category term="b" /><category term="c" /><summary type="html">Hello World Hi all, this is a test post, my real first post will coming soon, you will not wait soon.</summary></entry></feed>
+&lt;h2 id=&quot;最后&quot;&gt;最后&lt;/h2&gt;
+&lt;p&gt;我就是自己的读者，即使是唯一的，我也会keep writing…&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="杂谈" /><summary type="html">Hello World 第0篇blog,当然是献给Hello World.</summary></entry></feed>
