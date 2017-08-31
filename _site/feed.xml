@@ -1,4 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-08-29T12:36:29+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">How to pass formal check</title><link href="http://localhost:4000/how-to-pass-formal-check/" rel="alternate" type="text/html" title="How to pass formal check" /><published>2017-08-23T00:00:00+08:00</published><updated>2017-08-23T00:00:00+08:00</updated><id>http://localhost:4000/how-to-pass-formal-check</id><content type="html" xml:base="http://localhost:4000/how-to-pass-formal-check/">&lt;h2 id=&quot;formality&quot;&gt;Formality&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-08-31T16:19:11+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">Control NDM unexpected pin shapes</title><link href="http://localhost:4000/control-ndm-terminal/" rel="alternate" type="text/html" title="Control NDM unexpected pin shapes" /><published>2017-08-31T00:00:00+08:00</published><updated>2017-08-31T00:00:00+08:00</updated><id>http://localhost:4000/control-ndm-terminal</id><content type="html" xml:base="http://localhost:4000/control-ndm-terminal/">&lt;p&gt;从ICC2开始, synopsys 为了提高PR工具的速度，引入了一种新格式的库，即NDM(new data model)。NDM 其实就是将logic info 和 physical info合成到一起，NDM有4种view:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;layout view&lt;/li&gt;
+  &lt;li&gt;design view&lt;/li&gt;
+  &lt;li&gt;frame view&lt;/li&gt;
+  &lt;li&gt;timing view&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用ICC2 library manger 生成NDM时，physical lib 是必须的，可以为lef、gds、oasis、ICC frame，常用的是lef/gds。使用lef时，比较方便，因为lef里含有design info，如site name，cell type，pin direction 等信息（site name有时会需要转成与tech lef一致，&lt;code&gt;read_lef -convert_sites&lt;/code&gt;）；而使用gds/oasis时，就比较麻烦，这是因为，gds里只有一层层的metal，site name/cell type 这些信息需要用户根据实际指定（marco,pad,corner,filler,cover…), pin name可以从通过trace text得到，而pin direction 则必须从timing lib得到。
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
+&lt;p&gt;碰到的问题是，使用gds作为physical source来产生NDM时，会将每个via cut shape当做termial。&lt;br /&gt;
+gds 局部图如下，text 在每层metal上，每层metal之间有width 0.05um spacing 0.08um 的via。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/2017-08-31_gds.png&quot; alt=&quot;gds局部图&quot; width=&quot;70%&quot; /&gt; &lt;br /&gt;
+extract frame时设了&lt;code&gt;lib.physical_model.merge_metal_blockage&lt;/code&gt;为true，根据man page，当两块metal之间距离小于spacing threshold (2&lt;em&gt;min_spacing-min_width)时会被merge，查看techfile，该层min witdh和min spacing分别为0.05和0.08，那么threshold应该为2&lt;/em&gt;0.08-0.05=0.11。而这些via之间间距为0.08，却没有被merge。
+这会有什么影响呢？PR时，ICC2里会报如下warning:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Warning: Cell **** port DVSS09 contains more than 1000000 pins (Number of pins: 1062350).  This may increase routing runtime. (ZRT-565)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个warning的意思应该是含有太多的pin shape，或者说这个port 有太多的terminal。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;icc2_shell&amp;gt; sizeof_collection [get_shapes -of [get_ports DVSS09*]]
+1059159
+icc2_shell&amp;gt; sizeof_collection [get_terminals DVSS09*]
+1059159
+icc2_shell&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;该warning的manpage如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ZRT-565  
+  
+NAME  
+  
+ZRT-565 (warning) Cell %s port %s contains more than %d pins (Number of pins: %d). This may increase routing runtime.  
+  
+DESCRIPTION  
+  
+A port contains a large number of pins. This is atypical and may increase routing runtime.  
+  
+WHAT NEXT  
+  
+If this is not expected, please reduce the number of pins for the port.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;p&gt;1.&lt;code&gt;read_gds -trace_option&lt;/code&gt;：尝试改变gds trace option，&lt;code&gt;pins_only&lt;/code&gt;,&lt;code&gt;same_layer&lt;/code&gt;都没有效果；&lt;br /&gt;
+2.&lt;code&gt;read_gds -trace_connectivity_limit&lt;/code&gt;: 尝试设trace limit 为1，仍然没有效果；&lt;br /&gt;
+3.&lt;code&gt;file.gds.create_custom_via&lt;/code&gt;:尝试把那些via cut shape当做一整个via，这个变量设为true，runtime大大增加，未等待到结果；&lt;br /&gt;
+4.&lt;code&gt;file.gds.exclude_layers&lt;/code&gt;: 直接把gds里的via layer都exclude。  &lt;br /&gt;
+在&lt;code&gt;read_gds&lt;/code&gt;前，&lt;code&gt;set_app_options -name file.gds.exclude_layers -value { {VIA1 VIA1} {VIA2 VIA2} {VIA3 VIA3} {VIA4 VIA4} {VIA5 VIA5} {VIA6 VIA6} {VIA7 VIA7} }&lt;/code&gt;，让lm忽略所有via layer，果然生成的NDM里没有了那些pin shape。这些via的enclosure没有超出upper/lower metal，所有去掉这些via在route时应该不会引起额外的drc。&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;使用GDS作为physical source生成NDM时，design info需要tool自己trace，这个过程有许多变量来控制，要根据实际需要调整这些变量来得到合理的NDM。&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="tool" /><category term="icc2_lm" /><category term="ndm" /><summary type="html">从ICC2开始, synopsys 为了提高PR工具的速度，引入了一种新格式的库，即NDM(new data model)。NDM 其实就是将logic info 和 physical info合成到一起，NDM有4种view: layout view design view frame view timing view 使用ICC2 library manger 生成NDM时，physical lib 是必须的，可以为lef、gds、oasis、ICC frame，常用的是lef/gds。使用lef时，比较方便，因为lef里含有design info，如site name，cell type，pin direction 等信息（site name有时会需要转成与tech lef一致，read_lef -convert_sites）；而使用gds/oasis时，就比较麻烦，这是因为，gds里只有一层层的metal，site name/cell type 这些信息需要用户根据实际指定（marco,pad,corner,filler,cover…), pin name可以从通过trace text得到，而pin direction 则必须从timing lib得到。</summary></entry><entry><title type="html">How to pass formal check</title><link href="http://localhost:4000/how-to-pass-formal-check/" rel="alternate" type="text/html" title="How to pass formal check" /><published>2017-08-23T00:00:00+08:00</published><updated>2017-08-23T00:00:00+08:00</updated><id>http://localhost:4000/how-to-pass-formal-check</id><content type="html" xml:base="http://localhost:4000/how-to-pass-formal-check/">&lt;h2 id=&quot;formality&quot;&gt;Formality&lt;/h2&gt;
 &lt;blockquote&gt;
   &lt;p&gt;Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -196,8 +247,7 @@ Verification INCONCLUSIVE
 &lt;p&gt;最终，通过优先综合除法器design，再综合其它design, 才成功pass formal check.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;RTL-Gate LEC check 是一项很复杂的过程，通常需要在DC/formality里迭代完成，这是非常耗时的，所以formal check 的经验在此格外重要，大牛可能一眼就看出是什么原因，需要在综合时做何种设置；而吾类菜鸟就要慢慢debug,花费大量时间尝试各种可能。文中所述仅为本人在项目中积累的粗浅经验，有错请指正。&lt;strong&gt;不积跬步无以至千里&lt;/strong&gt;，不断积累，早日成大牛!&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="tool" /><category term="formality" /><category term="verification" /><summary type="html">Formality Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.</summary></entry><entry><title type="html">Hello World</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="Hello World" /><published>2017-07-26T00:00:00+08:00</published><updated>2017-07-26T00:00:00+08:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;h2 id=&quot;hello-world&quot;&gt;Hello World&lt;/h2&gt;
-&lt;p&gt;第0篇blog,当然是献给&lt;code&gt;Hello World&lt;/code&gt;.
+&lt;p&gt;RTL-Gate LEC check 是一项很复杂的过程，通常需要在DC/formality里迭代完成，这是非常耗时的，所以formal check 的经验在此格外重要，大牛可能一眼就看出是什么原因，需要在综合时做何种设置；而吾类菜鸟就要慢慢debug,花费大量时间尝试各种可能。文中所述仅为本人在项目中积累的粗浅经验，有错请指正。&lt;strong&gt;不积跬步无以至千里&lt;/strong&gt;，不断积累，早日成大牛!&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="tool" /><category term="formality" /><category term="verification" /><summary type="html">Formality Formality® is an equivalence-checking (EC) solution that uses formal, static techniques to determine if two versions of a design are functionally equivalent.</summary></entry><entry><title type="html">Hello World</title><link href="http://localhost:4000/Hello-World/" rel="alternate" type="text/html" title="Hello World" /><published>2017-07-26T00:00:00+08:00</published><updated>2017-07-26T00:00:00+08:00</updated><id>http://localhost:4000/Hello-World</id><content type="html" xml:base="http://localhost:4000/Hello-World/">&lt;p&gt;第0篇blog,当然是献给&lt;code&gt;Hello World&lt;/code&gt;.
 &lt;!--more--&gt;&lt;/p&gt;
 &lt;h2 id=&quot;为何写blog&quot;&gt;为何写blog?&lt;/h2&gt;
 &lt;h3 id=&quot;1-更深刻地思考&quot;&gt;1. 更深刻地思考&lt;/h3&gt;
@@ -223,4 +273,4 @@ jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还�
 看着自己的blog从一无所有，到navigation、footer、theme、code hlighlight，再到disqus comment,google analysis，还有不断地调整css 达到自己想要的效果，真的是很有成就感啊:smile:&lt;/p&gt;
 
 &lt;h2 id=&quot;最后&quot;&gt;最后&lt;/h2&gt;
-&lt;p&gt;我就是自己的读者，即使是唯一的，我也会keep writing…&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="杂谈" /><summary type="html">Hello World 第0篇blog,当然是献给Hello World.</summary></entry></feed>
+&lt;p&gt;我就是自己的读者，即使是唯一的，我也会keep writing…&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="杂谈" /><summary type="html">第0篇blog,当然是献给Hello World.</summary></entry></feed>

@@ -143,6 +143,40 @@
 <!-- Post List Start -->
 
 <h4 align="left" style="font-family:Times">
+  <strong>2017/08/31</strong>
+  <small>
+    <a class="category" href="/categories/tool.html">
+      tool
+    </a>
+  </small>
+  &ensp;
+  <a href="/control-ndm-terminal/" style="font-family:'Courgette', cursive,Georgia, Times, 'Times New Roman', serif,'宋体', 'SimSun'">
+    <strong>Control NDM unexpected pin shapes</strong>
+  </a>
+</h4>
+<p align="left" style="font-size:16px;font-style:italic">
+	从ICC2开始, synopsys 为了提高PR工具的速度，引入了一种新格式的库，即NDM(new data model)。NDM 其实就是将logic info 和 physical info合成到一起，NDM有4种view:
+
+  layout view
+  design view
+  frame view
+  timing view
+
+
+使用ICC2 library manger 生成NDM时，physical lib 是必须的，可以为lef、gds、oasis、ICC frame，常用的是lef/gds。使用lef时，比较方便，因为lef里含有design info，如site name，cell type，pin direction 等信息（site name有时会需要转成与tech lef一致，read_lef -convert_sites）；而使用gds/oasis时，就比较麻烦，这是因为，gds里只有一层层的metal，site name/cell type 这些信息需要用户根据实际指定（marco,pad,corner,filler,cover…), pin name可以从通过trace text得到，而pin direction 则必须从timing lib得到。
+
+......
+	<br/>
+	<a href="/control-ndm-terminal/" style="font-size:18px" align="center !important">Read More</a>
+</p>
+
+<!-- Post List End -->
+
+				
+						
+<!-- Post List Start -->
+
+<h4 align="left" style="font-family:Times">
   <strong>2017/08/23</strong>
   <small>
     <a class="category" href="/categories/tool.html">
@@ -184,8 +218,7 @@
   </a>
 </h4>
 <p align="left" style="font-size:16px;font-style:italic">
-	Hello World
-第0篇blog,当然是献给Hello World.
+	第0篇blog,当然是献给Hello World.
 
 ......
 	<br/>
