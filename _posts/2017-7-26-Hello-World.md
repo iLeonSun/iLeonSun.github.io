@@ -4,6 +4,7 @@ title: Hello World
 category: 杂谈
 tags: 
 date: 2017-07-26
+comments: true
 excerpt_separator: <!--more-->
 ---
 第0篇blog,当然是献给`Hello World`.
@@ -29,7 +30,7 @@ excerpt_separator: <!--more-->
 ## 怎么写？
 就是github + jekyll 搭个自己的blog了。用markdown 写blog，github pg 编译成静态网页，还能免费托管在github，完美。  
 jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还好大多数都已经有前人替我们趟过，然后无私地写blog分享出来，share！  
-看着自己的blog从一无所有，到navigation、footer、theme、code hlighlight，再到disqus comment,google analysis，还有不断地调整css 达到自己想要的效果，真的是很有成就感啊:smile:
+看着自己的blog从一无所有，到navigation、footer、theme、code hlighlight，再到disqus comment,google analytics，还有不断地调整css 达到自己想要的效果，真的是很有成就感啊:smile:
 
 ## 最后
 我就是自己的读者，即使是唯一的，我也会keep writing...  

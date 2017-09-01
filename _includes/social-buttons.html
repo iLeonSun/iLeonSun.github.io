@@ -1,17 +1,27 @@
 <!-- Social Buttons Start -->
 
+	<!-- overlayed element -->
+	<div id="overlay" onclick="off()">
+ 	  <div id="wechat_QRcode">
+		  <img src= "{{ site.social[1].url }}"/>
+  	  </div>
+	</div>
 <ul class="list-inline social-buttons">
     {% for network in site.social %}
-    <li>
-		<a href="{{ network.url }}" target="_blank" >
-			<i class="fa fa-{{ network.title }} fa-fw">
-			</i>
-		</a>
-	</li>
+		{% if network.title == "wechat" %}
+			<li>
+				<a onclick="on()">
+					<i class="fa fa-{{ network.title }} fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		{% else %}
+			<li> 
+				<a href={{ network.url }} target="_blank">
+					<i class="fa fa-{{ network.title }} fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		{% endif %}
     {% endfor %}
-    {% if site.keybase-in-social %}
-    <li><a href="https://keybase.io/{{site.keybase-username}}" target="_blank"><i class="fa fa-key fa-fw"></i></a></li>
-    {% endif %}
 </ul>
 
 <!-- Social Buttons End -->

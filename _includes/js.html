@@ -229,3 +229,14 @@ function addTohistory() {
 {% if jekyll.environment == 'production' %}
 {% include analytics.html %}
 {% endif %}
+
+<!-- overlay content -->
+<script>
+function on() {
+    document.getElementById("overlay").style.display = "block";
+}
+
+function off() {
+    document.getElementById("overlay").style.display = "none";
+}
+</script>

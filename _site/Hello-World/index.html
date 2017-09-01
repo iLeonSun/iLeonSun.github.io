@@ -168,7 +168,7 @@
 <h2 id="怎么写">怎么写？</h2>
 <p>就是github + jekyll 搭个自己的blog了。用markdown 写blog，github pg 编译成静态网页，还能免费托管在github，完美。<br>
 jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还好大多数都已经有前人替我们趟过，然后无私地写blog分享出来，share！<br>
-看着自己的blog从一无所有，到navigation、footer、theme、code hlighlight，再到disqus comment,google analysis，还有不断地调整css 达到自己想要的效果，真的是很有成就感啊<img class="emoji" title=":smile:" alt=":smile:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png" height="20" width="20" align="absmiddle"></p>
+看着自己的blog从一无所有，到navigation、footer、theme、code hlighlight，再到disqus comment,google analytics，还有不断地调整css 达到自己想要的效果，真的是很有成就感啊<img class="emoji" title=":smile:" alt=":smile:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png" height="20" width="20" align="absmiddle"></p>
 
 <h2 id="最后">最后</h2>
 <p>我就是自己的读者，即使是唯一的，我也会keep writing…</p>
@@ -211,6 +211,29 @@ jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还�
 		</section>
 	</div>
 	
+<div id="disqus_thread"></div>
+<script>
+	/*var disqus_developer = 1;*/
+	/**
+	*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+	/*
+	var disqus_config = function () {
+	this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+	*/
+	(function() { // DON'T EDIT BELOW THIS LINE
+	var d = document, s = d.createElement('script');
+	s.src = 'https://ileonsun.disqus.com/embed.js';
+	s.setAttribute('data-timestamp', +new Date());
+	(d.head || d.body).appendChild(s);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+
 
 
     <!-- Footer Start -->
@@ -218,36 +241,53 @@ jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还�
 
     <!-- Social Buttons Start -->
 
+	<!-- overlayed element -->
+	<div id="overlay" onclick="off()">
+ 	  <div id="wechat_QRcode">
+		  <img src="/img/wechat_qrcode.png">
+  	  </div>
+	</div>
 <ul class="list-inline social-buttons">
     
-    <li>
-		<a href="https://github.com/iLeonSun" target="_blank">
-			<i class="fa fa-github fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li> 
+				<a href="https://github.com/iLeonSun" target="_blank">
+					<i class="fa fa-github fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
-    <li>
-		<a href="wechat.html" target="_blank">
-			<i class="fa fa-wechat fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li>
+				<a onclick="on()">
+					<i class="fa fa-wechat fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
-    <li>
-		<a href="mailto:liangliang_sun@163.com" target="_blank">
-			<i class="fa fa-envelope fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li> 
+				<a href="mailto:liangliang_sun@163.com" target="_blank">
+					<i class="fa fa-envelope fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
-    <li>
-		<a href="/feed.xml" target="_blank">
-			<i class="fa fa-rss fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li> 
+				<a href="/feed.xml" target="_blank">
+					<i class="fa fa-rss fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
+		
+			<li> 
+				<a href="https://www.linkedin.com/in/leon-sun-707a1986" target="_blank">
+					<i class="fa fa-linkedin fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
 </ul>
 
@@ -318,6 +358,17 @@ function addTohistory() {
 
 
 
+
+<!-- overlay content -->
+<script>
+function on() {
+    document.getElementById("overlay").style.display = "block";
+}
+
+function off() {
+    document.getElementById("overlay").style.display = "none";
+}
+</script>
 
   </body>
 </html><!-- Post Layout End -->

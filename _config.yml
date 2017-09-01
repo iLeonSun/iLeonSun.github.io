@@ -99,7 +99,7 @@ favicon: "/img/cpu.png"
 
 black-favicon: "/img/cpu.png"
 
-background-img: "../img/bg2.jpg"
+background-img: "../img/bg.jpg"
 
 ##############################
 # Dynamic Text on the Header #
@@ -211,9 +211,11 @@ social:
   - title: "github"
     url: "https://github.com/iLeonSun"
   - title: "wechat"
-    url: "wechat.html"
+    url: "/img/wechat_qrcode.png"
   - title: "envelope"
     url: "mailto:liangliang_sun@163.com"
+  - title: "linkedin"
+    url: "https://www.linkedin.com/in/leon-sun-707a1986"
   - title: "rss"
     url: "/feed.xml"
 

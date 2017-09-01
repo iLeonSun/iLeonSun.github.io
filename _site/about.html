@@ -130,12 +130,28 @@
 
 	<section id="post" class="container content-section text-center">
 	<div>
-	<p>I’m LeonSun, a ASIC physical design engineer.</p>
+		<section /*class="text-justify"*/>
+			<h3 id="about-me">About Me</h3>
+<p>I’m Leon Sun, a ASIC physical design engineer in Shanghai,China.</p>
 
-<h3 id="contact-me">Contact me</h3>
+<h3 id="contact-me">Contact Me</h3>
+<p>The recommended way to contact me is by emailing me. <br />
+You can also contact me by wechat,github and linkedin.<br />
+See the links below for details.</p>
 
-<p><a href="mailto:liangliang.sun@163.com">liangliang.sun@163.com</a></p>
+<div id="overlay" onclick="off()"> 
+ <div id="wechat_QRcode"> 
+	 <img src="/img/wechat_qrcode.png" />
+  </div> 
+ </div>
+<ul class="list-inline"> 
+	<li> <a href="mailto:liangliang_sun@163.com" target="_blank"> <i class="fa fa-envelope fa-fw fa-4x" aria-hidden="true"> </i> </a> </li>
+	<li> <a onclick="on()"> <i class="fa fa-wechat fa-fw fa-4x" aria-hidden="true"> </i> </a> </li>
+	<li> <a href="https://www.linkedin.com/in/leon-sun-707a1986" target="_blank"> <i class="fa fa-linkedin fa-fw fa-4x" aria-hidden="true"> </i> </a> </li>
+	<li> <a href="https://github.com/iLeonSun" target="_blank"> <i class="fa fa-github fa-fw fa-4x" aria-hidden="true"> </i> </a> </li>
+</ul>
 
+		</section>
 	</div>
 	</section>
 	</div>
@@ -144,36 +160,53 @@
 
     <!-- Social Buttons Start -->
 
+	<!-- overlayed element -->
+	<div id="overlay" onclick="off()">
+ 	  <div id="wechat_QRcode">
+		  <img src= "/img/wechat_qrcode.png"/>
+  	  </div>
+	</div>
 <ul class="list-inline social-buttons">
     
-    <li>
-		<a href="https://github.com/iLeonSun" target="_blank" >
-			<i class="fa fa-github fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li> 
+				<a href=https://github.com/iLeonSun target="_blank">
+					<i class="fa fa-github fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
-    <li>
-		<a href="wechat.html" target="_blank" >
-			<i class="fa fa-wechat fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li>
+				<a onclick="on()">
+					<i class="fa fa-wechat fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
-    <li>
-		<a href="mailto:liangliang_sun@163.com" target="_blank" >
-			<i class="fa fa-envelope fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li> 
+				<a href=mailto:liangliang_sun@163.com target="_blank">
+					<i class="fa fa-envelope fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
-    <li>
-		<a href="/feed.xml" target="_blank" >
-			<i class="fa fa-rss fa-fw">
-			</i>
-		</a>
-	</li>
+		
+			<li> 
+				<a href=/feed.xml target="_blank">
+					<i class="fa fa-rss fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
+		
+			<li> 
+				<a href=https://www.linkedin.com/in/leon-sun-707a1986 target="_blank">
+					<i class="fa fa-linkedin fa-fw" aria-hidden="true"> </i>
+				</a>
+			</li>
+		
     
 </ul>
 
@@ -244,6 +277,17 @@ function addTohistory() {
 
 
 
+
+<!-- overlay content -->
+<script>
+function on() {
+    document.getElementById("overlay").style.display = "block";
+}
+
+function off() {
+    document.getElementById("overlay").style.display = "none";
+}
+</script>
 
   </body>
 </html>
