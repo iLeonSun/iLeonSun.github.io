@@ -222,7 +222,7 @@ function addTohistory() {
 <!-- Javascript End -->
 
 
-{% if page.layouti == "post" && page.comments == "true" %}
+{% if page.layout == "post" && page.comments == "true" %}
 <script id="dsq-count-scr" src="//ileonsun.disqus.com/count.js" async></script>
 {% endif %}
 
@@ -240,3 +240,8 @@ function off() {
     document.getElementById("overlay").style.display = "none";
 }
 </script>
+
+<!-- share.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+<!-- <script src="/js/qrcode.js"></script> -->
+<!-- <script src="/js/social-share.min.js"></script> -->
