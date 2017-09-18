@@ -1,13 +1,11 @@
-
-<!-- Post Layout Start -->
-
 <!DOCTYPE html>
-<html lang="zh">
+<!-- Post Layout Start --><html lang="zh">
 
   
 <!-- HEAD Start -->
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
 
 
@@ -33,7 +31,7 @@
   <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/rrssb.css" >
+  <link rel="stylesheet" href="/css/rrssb.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -174,7 +172,7 @@
   <li>PR后，synthesis netlist VS PR netlist.</li>
 </ol>
 
-<p><img src="/img/2017-08-21_111804.png" alt="formality check in physical design" title="formality check in physical design" /></p>
+<p><img src="/img/2017-08-21_111804.png" alt="formality check in physical design" title="formality check in physical design"></p>
 
 <p>DC综合时，涉及designware mapping, retiming optimize, regisiter add/removal等复杂的逻辑操作，导致RLT-gate formality check会比较棘手，虽然DC会产生SVF( Setup Verification for Formality),但是由于设计复杂性，仍然会产生各种意想不到的fail/hard verification.
 PR中，由于涉及到的逻辑优化较简单，一般不难pass formality;如果涉及复杂优化，如add/spilt multibit bank等复杂逻辑操作，也许需要生成svf来辅助formality check.</p>
@@ -239,11 +237,11 @@ Formality debug 可以有logic cone, failing pattern, analyze_point, alternative
 <h4 id="11-problem">1.1 Problem</h4>
 <p>综合后，formality fail，有73个failing points，这些points都属于两个module，随便选取一个points:
 u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
-其余failing points的命名也类似，从这些reg的名字可以看出它们都是做了retime优化的（DC retime的默认命名**REG**_S*).</p>
+其余failing points的命名也类似，从这些reg的名字可以看出它们都是做了retime优化的（DC retime的默认命名**REG**_S*).这些reg都是U_DIV module下，而这个U_DIV是例化了一个DW_div_pipe designware.</p>
 <h4 id="12-debug">1.2 Debug</h4>
 <p>打开logic cone， 如下图,发现failing points是SD/AD, 在Imp里是constant0; 而Ref里它们是从fm_bb出来，fm_bb 是formality black box，bbox 的input被formality认为loginc cone 的endpoint, output 被认为是logic cone的startpoint,因为不知内部逻辑，其output作为logic cone的startpoint时可以为0/1/X。</p>
 
-<p><img src="/img/logic_cone.png" alt="logic cone" title="logic cone" /></p>
+<p><img src="/img/logic_cone.png" alt="logic cone" title="logic cone"></p>
 
 <p>analyze_points 对这个点分析：</p>
 <pre><code>fm_shell (verify)&gt; analyze_points r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
@@ -323,17 +321,24 @@ Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm0/u_
 compile_seqmap_propagate_high_effort:         Removes cells with a constant on the reset.
 compile_seqmap_propagate_constants_size_only: Propagates constants through size_only cells.
 </code></pre>
-<p>其中，<code>compile_seqmap_propagate_constants_size_only</code> 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。</p>
+<p>其中，<code>compile_seqmap_propagate_constants_size_only</code> 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。
+所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了吧。尝试之后，万万没想到，failing points居然更多，而且有很多<code>Required Inputs</code>。</p>
+<pre><code>--------------------------------
+Found 61 Required Inputs
+--------------------------------
+A required input is one that is designated as required
+for all failing patterns for one or more cpoints and fans out 
+to more failing than passing points.
+This implies that it may be driving downstream logic that is related to
+the failure(s)
+--------------------------------
+</code></pre>
+<p>如此看来，这个变量好像不能乱设啊。不清楚为啥不remove const reg，会导致这么严重的问题。之前的debug好像都付诸东流了…</p>
 
 <h4 id="13-slove">1.3 Slove</h4>
-<p>所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了。但是，难道我们要用没有remove constant reg的netlist做PR? 好吧，曲线救国：</p>
-<ol>
-  <li>set var flase, RTL—&gt; netlist1</li>
-  <li>set var true,   RTL—&gt; netlist 2</li>
-  <li>formality, RTL VS netlist1</li>
-  <li>formality, netlist1 VS netlist2</li>
-  <li>PR with netlist2</li>
-</ol>
+<p>既然这些reg 是例化了的DW_div_pipe内部的，然后经retime命名为此；那么为何FM retime的时候不能找到它了？难道是FM 的retime 与DC的retime有什么不一样了？明明已经读了SVF，FM会根据SVF做retime呀，真是越想越不合理… <br>
+换个更新版本的DC/FM尝试一下吧，结果居然pass了！！！<img class="emoji" title=":disappointed_relieved:" alt=":disappointed_relieved:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f625.png" height="20" width="20" align="absmiddle"> <br>
+所以，<strong>如果failing points不多，而且都与DesignWare相关，那么请首先尝试更新版本！</strong></p>
 
 <h3 id="case2">Case2</h3>
 <h4 id="21-problem">2.1 Problem</h4>
@@ -372,8 +377,9 @@ Verification INCONCLUSIVE
 					<div style="display:block">
 					<h4 style="text-align:left"> 分享到: 
 					<div class="social-share share-component" data-sites="weibo,wechat,qq,qzone"></div>
-					</div>
 					</h4>
+</div>
+					
 					<br>
 					<br>
 					<br>
@@ -404,7 +410,8 @@ Verification INCONCLUSIVE
 
 
   <div id="disqus_thread"></div>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
 
 
 <!-- Disqus Comments End -->
@@ -434,7 +441,8 @@ Verification INCONCLUSIVE
 	(d.head || d.body).appendChild(s);
 	})();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
 
 
 
@@ -447,14 +455,14 @@ Verification INCONCLUSIVE
 	<!-- overlayed element -->
 	<div id="overlay" onclick="off()">
  	  <div id="wechat_QRcode">
-		  <img src= "/img/wechat_qrcode.png"/>
+		  <img src="/img/wechat_qrcode.png">
   	  </div>
 	</div>
 <ul class="list-inline social-buttons">
     
 		
 			<li> 
-				<a href=https://github.com/iLeonSun target="_blank">
+				<a href="https://github.com/iLeonSun" target="_blank">
 					<i class="fa fa-github fa-fw" aria-hidden="true"> </i>
 				</a>
 			</li>
@@ -470,7 +478,7 @@ Verification INCONCLUSIVE
     
 		
 			<li> 
-				<a href=mailto:liangliang_sun@163.com target="_blank">
+				<a href="mailto:liangliang_sun@163.com" target="_blank">
 					<i class="fa fa-envelope fa-fw" aria-hidden="true"> </i>
 				</a>
 			</li>
@@ -478,7 +486,7 @@ Verification INCONCLUSIVE
     
 		
 			<li> 
-				<a href=https://www.linkedin.com/in/leon-sun-707a1986 target="_blank">
+				<a href="https://www.linkedin.com/in/leon-sun-707a1986" target="_blank">
 					<i class="fa fa-linkedin fa-fw" aria-hidden="true"> </i>
 				</a>
 			</li>
@@ -486,7 +494,7 @@ Verification INCONCLUSIVE
     
 		
 			<li> 
-				<a href=/feed.xml target="_blank">
+				<a href="/feed.xml" target="_blank">
 					<i class="fa fa-rss fa-fw" aria-hidden="true"> </i>
 				</a>
 			</li>
@@ -498,7 +506,7 @@ Verification INCONCLUSIVE
 
 
     <div class="container text-center">
-		<p>Copyright &copy; Leon Sun 2017</p> 
+		<p>Copyright © Leon Sun 2017</p> 
         
     </div>
 </footer>
@@ -644,6 +652,4 @@ function off() {
 <!-- <script src="/js/social-share.min.js"></script> -->
 
   </body>
-</html>
-
-<!-- Post Layout End -->
+</html><!-- Post Layout End -->

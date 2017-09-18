@@ -67,7 +67,7 @@ Inconclusive 一般由于逻辑太复杂，logic cone 太大，导致formality�
 #### 1.1 Problem
 综合后，formality fail，有73个failing points，这些points都属于两个module，随便选取一个points:
 u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
-其余failing points的命名也类似，从这些reg的名字可以看出它们都是做了retime优化的（DC retime的默认命名\*\*REG\*\*_S\*).
+其余failing points的命名也类似，从这些reg的名字可以看出它们都是做了retime优化的（DC retime的默认命名\*\*REG\*\*_S\*).这些reg都是U_DIV module下，而这个U_DIV是例化了一个DW_div_pipe designware.
 #### 1.2 Debug
 打开logic cone， 如下图,发现failing points是SD/AD, 在Imp里是constant0; 而Ref里它们是从fm_bb出来，fm_bb 是formality black box，bbox 的input被formality认为loginc cone 的endpoint, output 被认为是logic cone的startpoint,因为不知内部逻辑，其output作为logic cone的startpoint时可以为0/1/X。
 
@@ -157,14 +157,24 @@ compile_seqmap_propagate_high_effort:         Removes cells with a constant on t
 compile_seqmap_propagate_constants_size_only: Propagates constants through size_only cells.
 ```
 其中，`compile_seqmap_propagate_constants_size_only` 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。
+所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了吧。尝试之后，万万没想到，failing points居然更多，而且有很多`Required Inputs`。
+```
+--------------------------------
+Found 61 Required Inputs
+--------------------------------
+A required input is one that is designated as required
+for all failing patterns for one or more cpoints and fans out 
+to more failing than passing points.
+This implies that it may be driving downstream logic that is related to
+the failure(s)
+--------------------------------
+```
+如此看来，这个变量好像不能乱设啊。不清楚为啥不remove const reg，会导致这么严重的问题。之前的debug好像都付诸东流了...   
 
 #### 1.3 Slove
-所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了。但是，难道我们要用没有remove constant reg的netlist做PR? 好吧，曲线救国：
-1. set var flase, RTL---> netlist1
-2. set var true,   RTL---> netlist 2
-3. formality, RTL VS netlist1
-4. formality, netlist1 VS netlist2
-5. PR with netlist2
+既然这些reg 是例化了的DW_div_pipe内部的，然后经retime命名为此；那么为何FM retime的时候不能找到它了？难道是FM 的retime 与DC的retime有什么不一样了？明明已经读了SVF，FM会根据SVF做retime呀，真是越想越不合理...   
+换个更新版本的DC/FM尝试一下吧，结果居然pass了！！！:disappointed_relieved:   
+所以，**如果failing points不多，而且都与DesignWare相关，那么请首先尝试更新版本！**
 
 ### Case2 
 #### 2.1 Problem

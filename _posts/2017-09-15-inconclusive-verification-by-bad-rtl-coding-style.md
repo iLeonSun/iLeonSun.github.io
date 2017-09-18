@@ -14,8 +14,8 @@ excerpt_separator: <!--more-->
 **************************************************
 Report         : aborted_points
 
-Reference      : r:/WORK/wp2
-Implementation : i:/WORK/wp2
+Reference      : r:/WORK/**
+Implementation : i:/WORK/**
 Version        : L-2016.03-SP5
 Date           : Sat Sep  2 15:44:52 2017
 **************************************************
@@ -24,42 +24,42 @@ Date           : Sat Sep  2 15:44:52 2017
        0 Loop  (driven by a potentially state-holding asynchronous loop)
       11 Hard  (too complex to solve)
 
- Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_10_
-         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_10_
+ Hard :  Ref  DFF        r:/WORK/**/**/**/**/bar1avg4_3d_reg_10_
+         Impl DFF        i:/WORK/**/**/**/**/bar1avg4_3d_reg_10_
 
- Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_11_
-         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_11_
+ Hard :  Ref  DFF        r:/WORK/**/**/**/**/bar1avg4_3d_reg_11_
+         Impl DFF        i:/WORK/**/**/**/**/bar1avg4_3d_reg_11_
 
- Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_8_
-         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_8_
+ Hard :  Ref  DFF        r:/WORK/**/**/**/**/bar1avg4_3d_reg_8_
+         Impl DFF        i:/WORK/**/**/**/**/bar1avg4_3d_reg_8_
 
- Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_9_
-         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_9_
+ Hard :  Ref  DFF        r:/WORK/**/**/**/**/bar1avg4_3d_reg_9_
+         Impl DFF        i:/WORK/**/**/**/**/bar1avg4_3d_reg_9_
 
- Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.0\*
-         Impl DFF        i:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.0\*
+ Hard :  Ref  DFF        r:/WORK/**/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.0\*
+         Impl DFF        i:/WORK/**/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.0\*
 
- Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.1\*
-         Impl DFF        i:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.1\*
+ Hard :  Ref  DFF        r:/WORK/**/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.1\*
+         Impl DFF        i:/WORK/**/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.1\*
 ```
 ## Debug
 使用`analyze_points`发现都是同一个datapath 被rejected, formality 也给出了建议。  
 ```
-fm_shell (verify)> analyze_points r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_10_ 
+fm_shell (verify)> analyze_points r:/WORK/**/**/**/**/bar1avg4_3d_reg_10_ 
 Found 1 Rejected Datapath Guidance Module
 --------------------------------
 These modules contain cells that may be related to
 rejected datapath guidance.
 --------------------------------
-r:/WORK/wp2_tdedgdet_M_AVG0_M_TYPE0_0 in file ***/**/**/**.v.e
+r:/WORK/**_tdedgdet_M_AVG0_M_TYPE0_0 in file ***/**/**/**.v.e
     Module with rejected datapath guidance on cell(s):
-        r:/WORK/wp2_tdedgdet_M_AVG0_M_TYPE0_0/DP_OP_1054J26_124_1439
+        r:/WORK/**_tdedgdet_M_AVG0_M_TYPE0_0/DP_OP_1054J26_124_1439
      Use 'report_svf_operation { 67437 }' for more information.
      Try adding the following command(s) to your Design Compiler script right before the first compile_ultra command:
-          current_design wp2
+          current_design **
           set_verification_priority [ get_cells { **/**/**/add_134952 **/**/**/add_134952_2 **/**/**/add_134952_3 **/**/**/add_134952_4 **/**/**/add_134953 **/**/**/add_134953_2 **/**/**/add_134953_3 **/**/**/add_134953_4 **/**/**/add_134954 **/**/**/add_134954_2 **/**/**/add_134954_3 **/**/**/add_134954_4 **/**/**/add_134955 **/**/**/add_134955_2 **/**/**/add_134955_3 **/**/**/add_134955_4 **/**/**/add_134956 **/**/**/add_134956_10 **/**/**/add_134956_11 **/**/**/add_134956_12 **/**/**/add_134956_13 **/**/**/add_134956_14 **/**/**/add_134956_15 **/**/**/add_134956_2 **/**/**/add_134956_3 **/**/**/add_134956_4 **/**/**/add_134956_5 **/**/**/add_134956_6 **/**/**/add_134956_7 **/**/**/add_134956_8 **/**/**/add_134956_9 **/**/**/add_134961 **/**/**/add_134961_10 **/**/**/add_134961_11 **/**/**/add_134961_12 **/**/**/add_134961_13 **/**/**/add_134961_14 **/**/**/add_134961_15 **/**/**/add_134961_16 **/**/**/add_134961_17 **/**/**/add_134961_18 **/**/**/add_134961_19 **/**/**/add_134961_2 **/**/**/add_134961_20 **/**/**/add_134961_21 **/**/**/add_134961_22 **/**/**/add_134961_23 **/**/**/add_134961_24 **/**/**/add_134961_3 **/**/**/add_134961_4 **/**/**/add_134961_5 **/**/**/add_134961_6 **/**/**/add_134961_7 **/**/**/add_134961_8 **/**/**/add_134961_9 } ]
           
-          current_design wp2
+          current_design **
 
 -----------
 --------------------------------
@@ -74,8 +74,8 @@ fm_shell (verify)> report_svf_operation { 67437 }
 Report         : svf_operation
                  67437 
 
-Reference      : r:/WORK/wp2
-Implementation : i:/WORK/wp2
+Reference      : r:/WORK/**
+Implementation : i:/WORK/**
 Version        : L-2016.03-SP5
 Date           : Thu Aug 31 18:27:18 2017
 **************************************************
@@ -83,11 +83,11 @@ Date           : Thu Aug 31 18:27:18 2017
 ## SVF Operation 67437 (Line: 1926568) - datapath.  Status: rejected
 ## Operation Id: 67437
 guide_datapath \
-  -design { wp2_tdedgdet_M_AVG0_M_TYPE0_0 } \
+  -design { **_tdedgdet_M_AVG0_M_TYPE0_0 } \
   -datapath { DP_OP_1054J26_124_1439 } \
-  -body { wp2_tdedgdet_M_AVG0_M_TYPE0_0_DP_OP_1054J26_124_1439_J26_0 } 
+  -body { **_tdedgdet_M_AVG0_M_TYPE0_0_DP_OP_1054J26_124_1439_J26_0 } 
 
-Info:  guide_datapath 67437 (Line: 1926568)  Pre-verification of r:/WORK/wp2_tdedgdet_M_AVG0_M_TYPE0_0/DP_OP_1054J26_124_1439 INCONCLUSIVE.
+Info:  guide_datapath 67437 (Line: 1926568)  Pre-verification of r:/WORK/**_tdedgdet_M_AVG0_M_TYPE0_0/DP_OP_1054J26_124_1439 INCONCLUSIVE.
 ```
 好像并不能看出太多内容。但是我们可以从formality给的建议里看出，这些cell都是adder。需要注意的是，formality指出的cell name 是在第一次`compile_ultra`之前的，也就是说，这些cell name是从RTL转成GTECH网表时的名称。在综合后，这些`add_*`module（+操作符）会被打平。  
 根据formality提示，在`compile_ultra`前加上`set_verification_priority`后，这些adder就不会被ungroup，也就不会被打平优化，这样就导致了通过该datapath的timing很差，达到-700ps左右。但是，好处也很明显，通过这样综合的网表，是可以pass formal的。  
@@ -165,7 +165,7 @@ always@(posedge clk)
       foosum_3d <=   foosum_2d ;
   end
 ```
-可以发现，上面这段verilog，由于12为reg多次累加，导致了sum的高位无法pass。而且明显foosum_2d可以复用barsum_2d的逻辑，这部分逻辑是可以优化的。这里复杂的RTL累加，是此次hard verification的罪魁祸首。所以说，good RTL coding style是很重要的，涉及datapath的尤其要注意。SolvNet的[Coding Guidelines for Datapath Synthesis](https://solvnet.synopsys.com/retrieve/015771.html)可以好好阅读一下。  
+可以发现，上面这段verilog，由于12位reg多次累加，导致了sum的高位无法pass。而且明显foosum_2d可以复用barsum_2d的逻辑，这部分逻辑是可以优化的。这里复杂的RTL累加，是此次hard verification的罪魁祸首。所以说，good RTL coding style是很重要的，涉及datapath的尤其要注意。SolvNet的[Coding Guidelines for Datapath Synthesis](https://solvnet.synopsys.com/retrieve/015771.html)可以好好阅读一下。  
 (PS: 文中涉及design相关已做隐藏\*\*)
 
 ## Reference
