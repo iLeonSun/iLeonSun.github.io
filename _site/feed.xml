@@ -1,4 +1,167 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-09-04T18:05:51+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">Control NDM unexpected pin shapes</title><link href="http://localhost:4000/control-ndm-unexpected-pin-shapes/" rel="alternate" type="text/html" title="Control NDM unexpected pin shapes" /><published>2017-08-31T00:00:00+08:00</published><updated>2017-08-31T00:00:00+08:00</updated><id>http://localhost:4000/control-ndm-unexpected-pin-shapes</id><content type="html" xml:base="http://localhost:4000/control-ndm-unexpected-pin-shapes/">&lt;p&gt;从ICC2开始, synopsys 为了提高PR工具的速度，引入了一种新格式的库，即NDM(new data model)。NDM 其实就是将logic info 和 physical info合成到一起，NDM有4种view:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-09-18T11:15:58+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">hard verification by bad RLT coding style</title><link href="http://localhost:4000/inconclusive-verification-by-bad-rtl-coding-style/" rel="alternate" type="text/html" title="hard verification by bad RLT coding style" /><published>2017-09-15T00:00:00+08:00</published><updated>2017-09-15T00:00:00+08:00</updated><id>http://localhost:4000/inconclusive-verification-by-bad-rtl-coding-style</id><content type="html" xml:base="http://localhost:4000/inconclusive-verification-by-bad-rtl-coding-style/">&lt;p&gt;最近项目中碰到一个hard verification，有11个点inconclusive，属于同一个module下。由于RTL是加密的，无法获知这个module的内容，这也给debug带来了一定麻烦。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;**************************************************
+Report         : aborted_points
+
+Reference      : r:/WORK/wp2
+Implementation : i:/WORK/wp2
+Version        : L-2016.03-SP5
+Date           : Sat Sep  2 15:44:52 2017
+**************************************************
+
+11 Aborted compare points:
+       0 Loop  (driven by a potentially state-holding asynchronous loop)
+      11 Hard  (too complex to solve)
+
+ Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_10_
+         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_10_
+
+ Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_11_
+         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_11_
+
+ Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_8_
+         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_8_
+
+ Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_9_
+         Impl DFF        i:/WORK/wp2/**/**/**/bar1avg4_3d_reg_9_
+
+ Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.0\*
+         Impl DFF        i:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.0\*
+
+ Hard :  Ref  DFF        r:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.1\*
+         Impl DFF        i:/WORK/wp2/**/**/**/foosum_3d_reg_16___foosum_3d_reg_15___foosum_3d_reg_14___foosum_3d_reg_13___foosum_3d_reg_12___foosum_3d_reg_11___foosum_3d_reg_10___foosum_3d_reg_9_/\*dff.00.1\*
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;debug&quot;&gt;Debug&lt;/h2&gt;
+&lt;p&gt;使用&lt;code&gt;analyze_points&lt;/code&gt;发现都是同一个datapath 被rejected, formality 也给出了建议。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;fm_shell (verify)&amp;gt; analyze_points r:/WORK/wp2/**/**/**/bar1avg4_3d_reg_10_ 
+Found 1 Rejected Datapath Guidance Module
+--------------------------------
+These modules contain cells that may be related to
+rejected datapath guidance.
+--------------------------------
+r:/WORK/wp2_tdedgdet_M_AVG0_M_TYPE0_0 in file ***/**/**/**.v.e
+    Module with rejected datapath guidance on cell(s):
+        r:/WORK/wp2_tdedgdet_M_AVG0_M_TYPE0_0/DP_OP_1054J26_124_1439
+     Use 'report_svf_operation { 67437 }' for more information.
+     Try adding the following command(s) to your Design Compiler script right before the first compile_ultra command:
+          current_design wp2
+          set_verification_priority [ get_cells { **/**/**/add_134952 **/**/**/add_134952_2 **/**/**/add_134952_3 **/**/**/add_134952_4 **/**/**/add_134953 **/**/**/add_134953_2 **/**/**/add_134953_3 **/**/**/add_134953_4 **/**/**/add_134954 **/**/**/add_134954_2 **/**/**/add_134954_3 **/**/**/add_134954_4 **/**/**/add_134955 **/**/**/add_134955_2 **/**/**/add_134955_3 **/**/**/add_134955_4 **/**/**/add_134956 **/**/**/add_134956_10 **/**/**/add_134956_11 **/**/**/add_134956_12 **/**/**/add_134956_13 **/**/**/add_134956_14 **/**/**/add_134956_15 **/**/**/add_134956_2 **/**/**/add_134956_3 **/**/**/add_134956_4 **/**/**/add_134956_5 **/**/**/add_134956_6 **/**/**/add_134956_7 **/**/**/add_134956_8 **/**/**/add_134956_9 **/**/**/add_134961 **/**/**/add_134961_10 **/**/**/add_134961_11 **/**/**/add_134961_12 **/**/**/add_134961_13 **/**/**/add_134961_14 **/**/**/add_134961_15 **/**/**/add_134961_16 **/**/**/add_134961_17 **/**/**/add_134961_18 **/**/**/add_134961_19 **/**/**/add_134961_2 **/**/**/add_134961_20 **/**/**/add_134961_21 **/**/**/add_134961_22 **/**/**/add_134961_23 **/**/**/add_134961_24 **/**/**/add_134961_3 **/**/**/add_134961_4 **/**/**/add_134961_5 **/**/**/add_134961_6 **/**/**/add_134961_7 **/**/**/add_134961_8 **/**/**/add_134961_9 } ]
+          
+          current_design wp2
+
+-----------
+--------------------------------
+****************************************************************************************
+Analysis Completed
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;看看SVF里的67437 operation是什么：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;fm_shell (verify)&amp;gt; report_svf_operation { 67437 }
+**************************************************
+Report         : svf_operation
+                 67437 
+
+Reference      : r:/WORK/wp2
+Implementation : i:/WORK/wp2
+Version        : L-2016.03-SP5
+Date           : Thu Aug 31 18:27:18 2017
+**************************************************
+
+## SVF Operation 67437 (Line: 1926568) - datapath.  Status: rejected
+## Operation Id: 67437
+guide_datapath \
+  -design { wp2_tdedgdet_M_AVG0_M_TYPE0_0 } \
+  -datapath { DP_OP_1054J26_124_1439 } \
+  -body { wp2_tdedgdet_M_AVG0_M_TYPE0_0_DP_OP_1054J26_124_1439_J26_0 } 
+
+Info:  guide_datapath 67437 (Line: 1926568)  Pre-verification of r:/WORK/wp2_tdedgdet_M_AVG0_M_TYPE0_0/DP_OP_1054J26_124_1439 INCONCLUSIVE.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;好像并不能看出太多内容。但是我们可以从formality给的建议里看出，这些cell都是adder。需要注意的是，formality指出的cell name 是在第一次&lt;code&gt;compile_ultra&lt;/code&gt;之前的，也就是说，这些cell name是从RTL转成GTECH网表时的名称。在综合后，这些&lt;code&gt;add_*&lt;/code&gt;module（+操作符）会被打平。&lt;br /&gt;
+根据formality提示，在&lt;code&gt;compile_ultra&lt;/code&gt;前加上&lt;code&gt;set_verification_priority&lt;/code&gt;后，这些adder就不会被ungroup，也就不会被打平优化，这样就导致了通过该datapath的timing很差，达到-700ps左右。但是，好处也很明显，通过这样综合的网表，是可以pass formal的。&lt;br /&gt;
+DC的DesignWare里有多种adder architecture，综合时，DC会根据design约束自动选择合适的adder&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;。当约束不紧时，DC会选择面积小的逐步进位加法器；当约束紧时，DC会选择更快的加法器，比如优化后的超前进位加法器等。我尝试了对u_tdedgdet不给timing constraint，直接compile，得到的网表可以pass formal；又通过&lt;code&gt;characterize&lt;/code&gt;把top constraint约束到u_tdedgdet，综合后，得到的网表为inconclusive。从这里也可以看出，DC对adder的选择和优化过狠，导致hard verification。&lt;br /&gt;
+既然加了&lt;code&gt;set_verification_priority&lt;/code&gt;后的网表时序太差，那么能否通过incremental compile来优化timing？&lt;br /&gt;
+首先，DC在使用&lt;code&gt;set_verification_priority&lt;/code&gt;时，是将design/cell 的&lt;code&gt;verification_priority&lt;/code&gt; attribute 设为&lt;code&gt;default&lt;/code&gt;,而不是&lt;code&gt;true&lt;/code&gt;，这一点需要注意。&lt;br /&gt;
+另外，我发现DC好像无法remove掉该attribute。如下，我明明已经用&lt;code&gt;remove_attribute&lt;/code&gt;或&lt;code&gt;remove_verification_priority&lt;/code&gt;去掉了，而且&lt;code&gt;get_attribute&lt;/code&gt;也显示没有该属性，但是在ungroup、compile的时候还是会有log显示有该属性。这一点真的是比较奇怪，个人觉得应该是DC的一个bug。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dc_shell&amp;gt; get_cells -filter &quot;verification_priority==default&quot; -hierarchical
+{**/**/**/add_x_91 **/**/**/add_x_90 **/**/**/add_x_89 **/**/**/add_x_87 **/**/**/add_x_86 **/**/**/add_x_85 **/**/**/add_x_84 **/**/**/add_x_83 **/**/**/add_x_82 ... }
+
+dc_shell&amp;gt; remove_attribute  [get_cells **/**/**/add_x_*] verification_priority
+**/**/**/add_x_91 **/**/**/add_x_90 **/**/**/add_x_89 **/**/**/add_x_87 **/**/**/add_x_86 **/**/**/add_x_85 **/**/**/add_x_84 **/**/**/add_x_83 **/**/**/add_x_82 ...
+dc_shell&amp;gt; ungroup [get_cells **/**/**/add_x_*]
+Information: '**/**/**/add_x_91' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_90' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_89' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_87' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_86' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_85' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_84' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_83' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_82' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_81' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+...
+
+dc_shell&amp;gt; remove_verification_priority -all
+1
+dc_shell&amp;gt; ungroup [get_cells **/**/**/add_x_*]
+Information: '**/**/**/add_x_91' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_90' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_89' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_87' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_86' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_85' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_84' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_83' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_82' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+Information: '**/**/**/add_x_81' will not be ungrouped because of the verification_priority attribute set on it. (OPT-774)
+...
+
+dc_shell&amp;gt; get_attribute **/**/**/add_x_91 verification_priority
+Warning: Attribute 'verification_priority' does not exist on cell '**/**/**/add_x_91'. (UID-101)
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Anyway，既然不能ungroup，那我就尝试&lt;code&gt;group_path&lt;/code&gt;,把through这些adder的path都拿出来设一个group，优化后发现还是修不下去…这么看来，好像使用&lt;code&gt;verification_priority&lt;/code&gt;这条路进入了死胡同… &lt;br /&gt;
+我又试了各种alternative strategy，也仅仅把hard verification points从11个减小到10个… &lt;br /&gt;
+换更新的DC/FM版本试试，还是没效果…实在是崩溃… &lt;br /&gt;
+最后，向前端要了解密的该module的RTL，结果发现该module里居然12位reg累加了20次，20次！！&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;reg     [11:0]  foo00_2d, foo01_2d, foo02_2d, foo03_2d, foo04_2d;
+reg     [11:0]  foo10_2d, foo11_2d, foo12_2d, foo13_2d, foo14_2d;
+reg     [11:0]  foo20_2d, foo21_2d, foo22_2d, foo23_2d, foo24_2d;
+reg     [11:0]  foo30_2d, foo31_2d, foo32_2d, foo33_2d, foo34_2d;
+reg     [11:0]  foo40_2d, foo41_2d, foo42_2d, foo43_2d, foo44_2d;
+//省略部分...
+wire    [15:0]  barsum_2d   =	foo00_2d + foo01_2d + foo02_2d + foo03_2d + foo04_2d +
+                                foo10_2d +                                + foo14_2d +
+                                foo20_2d +                                + foo24_2d +
+                                foo30_2d +                                + foo34_2d +
+                                foo40_2d + foo41_2d + foo42_2d + foo43_2d + foo44_2d ;
+wire    [16:0]  foosum_2d   =	foo00_2d + foo01_2d + foo02_2d + foo03_2d + foo04_2d +
+                                foo10_2d + foo11_2d + foo12_2d + foo13_2d + foo14_2d +
+                                foo20_2d + foo21_2d + foo22_2d + foo23_2d + foo24_2d +
+                                foo30_2d + foo31_2d + foo32_2d + foo33_2d + foo34_2d +
+                                foo40_2d + foo41_2d + foo42_2d + foo43_2d + foo44_2d ;
+//省略部分...
+reg     [14:0]  bar_3d;
+reg     [11:0]  bar1avg4_3d;
+reg     [16:0]    foosum_3d;
+always@(posedge clk)
+  if (en&amp;amp;dvd)
+  begin
+    bar1avg4_3d &amp;lt;= barsum_2d[15:4];
+      foosum_3d &amp;lt;=   foosum_2d ;
+  end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以发现，上面这段verilog，由于12为reg多次累加，导致了sum的高位无法pass。而且明显foosum_2d可以复用barsum_2d的逻辑，这部分逻辑是可以优化的。这里复杂的RTL累加，是此次hard verification的罪魁祸首。所以说，good RTL coding style是很重要的，涉及datapath的尤其要注意。SolvNet的&lt;a href=&quot;https://solvnet.synopsys.com/retrieve/015771.html&quot;&gt;Coding Guidelines for Datapath Synthesis&lt;/a&gt;可以好好阅读一下。&lt;br /&gt;
+(PS: 文中涉及design相关已做隐藏**)&lt;/p&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://solvnet.synopsys.com/retrieve/018499.html&quot;&gt;DesignWare Adder &amp;amp; Multiplier Characterization&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Leon Sun</name></author><category term="tool" /><category term="verification" /><category term="formality" /><summary type="html">最近项目中碰到一个hard verification，有11个点inconclusive，属于同一个module下。由于RTL是加密的，无法获知这个module的内容，这也给debug带来了一定麻烦。</summary></entry><entry><title type="html">Control NDM unexpected pin shapes</title><link href="http://localhost:4000/control-ndm-unexpected-pin-shapes/" rel="alternate" type="text/html" title="Control NDM unexpected pin shapes" /><published>2017-08-31T00:00:00+08:00</published><updated>2017-08-31T00:00:00+08:00</updated><id>http://localhost:4000/control-ndm-unexpected-pin-shapes</id><content type="html" xml:base="http://localhost:4000/control-ndm-unexpected-pin-shapes/">&lt;p&gt;从ICC2开始, synopsys 为了提高PR工具的速度，引入了一种新格式的库，即NDM(new data model)。NDM 其实就是将logic info 和 physical info合成到一起，NDM有4种view:&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;layout view&lt;/li&gt;
   &lt;li&gt;design view&lt;/li&gt;
