@@ -6,9 +6,9 @@ comments: true
 date: 2017-10-02
 category: STA
 tags: 
-excerpt_separator: <--more-->
+excerpt_separator: <!--more-->
 ---
-Clock gating check是一种常见的时序检查，当gating signal控制clock signal时，其跳变必须满足时序要求以得到想要的gated clock。最常见的gating check发生在ICG cell上。ICG是常见的low power解决方案，通过在clock tree上插入ICG cell，来减少ICG后面clock buffer/register的不必要跳变，从而起到降低功耗的目的。其实，只要是多输入逻辑cell，只要满足两个条件，都需要做gating check。<--more-->
+Clock gating check是一种常见的时序检查，当gating signal控制clock signal时，其跳变必须满足时序要求以得到想要的gated clock。最常见的gating check发生在ICG cell上。ICG是常见的low power解决方案，通过在clock tree上插入ICG cell，来减少ICG后面clock buffer/register的不必要跳变，从而起到降低功耗的目的。其实，只要是多输入逻辑cell，只要满足两个条件，都需要做gating check。<!--more-->
 ## 1.clock gating check 的必要条件
 clock gating check必须满足两个条件：
 1. clock pin上必须是**有效clock signal**。
@@ -69,7 +69,7 @@ Warning: There is 1 invalid end point for unconstrained paths. (UITE-416)
 No Paths.
 
 1
-pt_shell> report_timing -to and2/A2 -group **clock_gating_default**                                                                                                             
+pt_shell> report_timing -to and2/A2 -group **clock_gating_default**
 ****************************************
 Report : timing
         -path_type full
@@ -111,7 +111,7 @@ Date   : Fri Oct  6 17:43:15 2017
 
 
 1
-pt_shell> report_timing -to and3/A2 -group **clock_gating_default**                                                                                                             
+pt_shell> report_timing -to and3/A2 -group **clock_gating_default**
 ****************************************
 Report : timing
         -path_type full
