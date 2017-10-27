@@ -21,6 +21,10 @@
 <lastmod>2017-10-02T00:00:00+08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/NLDM-VS-CCS/</loc>
+<lastmod>2017-10-25T00:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/year/2017</loc>
 </url>
 <url>
@@ -52,5 +56,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/category/%E6%9D%82%E8%B0%88</loc>
+</url>
+<url>
+<loc>http://localhost:4000/blog/page2/</loc>
 </url>
 </urlset>
