@@ -24,7 +24,7 @@ permalink: /:title/
 # The release of Jekyll Now that you're using
 
 # Jekyll 3 now only supports Kramdown for Markdown
-# highlighter: rough
+highlighter: rough
 kramdown:
   # Use GitHub flavored markdown, including triple backtick fenced code blocks
   input: GFM
@@ -34,7 +34,7 @@ kramdown:
   # span, block element options fall back to global
   syntax_highlighter_opts:
     # Rouge Options › https://github.com/jneen/rouge#full-options
-    css_class: 'highlight'
+    css_class:
     #line_numbers: true # bad idea, spans don't need linenos and would inherit this option
     span:
       line_numbers: false

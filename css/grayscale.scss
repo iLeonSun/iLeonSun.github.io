@@ -323,6 +323,10 @@ a {
    	 	border-right-width: 3px;
    	 	border-right-color: #6ce26c;
    	 	padding: 0 0.5em 0 0.5em !important;	
+		text-align: right;
+	}
+	.rouge-code {
+		padding-left: 0.5em;
 	}
     img.emoji {
       /* Override any img styles to ensure Emojis are displayed inline */
