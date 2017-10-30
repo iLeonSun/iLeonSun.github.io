@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T11:32:13+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T14:45:52+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-cell-model&quot;&gt;1. cell model&lt;/h2&gt;
 &lt;p&gt;集成电路设计是典型的hierarchical design：PMOS/NMOS –&amp;gt; std cell –&amp;gt; design module –&amp;gt; block –&amp;gt; chip。每一次的低层抽象过程，都要抽取出logic和physical信息，以供高层使用。&lt;br /&gt;
@@ -54,21 +54,20 @@ SDC里，我们用&lt;code&gt;set_clock_gating_check&lt;/code&gt;往往不能完
 
 &lt;h2 id=&quot;3case-example&quot;&gt;3.case example&lt;/h2&gt;
 &lt;p&gt;为了验证clock gating check，需要写一个简单的test module,verilog 如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-verilog&quot;&gt;module test ( A, CLK, OUT);
+input A;
+input CLK;
+output OUT;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-verilog&quot; data-lang=&quot;verilog&quot;&gt;&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CLK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CLK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OUT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+DFQD2BWP7T40P140HVT reg0 (.D(A), .CP(CLK), .Q(reg0out));
+AN2D2BWP7T40P140HVT and1 (.A1(CLK), .A2(reg0out), .Z(and1out));
+AN2D2BWP7T40P140HVT and2 (.A1(CLK), .A2(reg0out), .Z(and2out));
+AN2D2BWP7T40P140HVT and3 (.A1(CLK), .A2(reg0out), .Z(OUT));
+DFQD2BWP7T40P140HVT reg1 (.D(and1out), .CP(A), .Q());
+DFQD2BWP7T40P140HVT reg2 (.D(A), .CP(and2out), .Q());
 
-&lt;span class=&quot;n&quot;&gt;DFQD2BWP7T40P140HVT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reg0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reg0out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;AN2D2BWP7T40P140HVT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;and1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reg0out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;and1out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;AN2D2BWP7T40P140HVT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;and2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reg0out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;and2out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;AN2D2BWP7T40P140HVT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;and3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CLK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reg0out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;DFQD2BWP7T40P140HVT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reg1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;and1out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;DFQD2BWP7T40P140HVT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reg2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;and2out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;endmodule&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
+endmodule
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;电路图如下：
 &lt;img src=&quot;/img/2017-10-02_1.png&quot; alt=&quot;电路图&quot; /&gt;
 在port CLK处定义clock myclk，然后report timing :&lt;/p&gt;
@@ -218,7 +217,8 @@ Warning: There is 1 invalid end point for unconstrained paths. (UITE-416)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;and2/A1有myclk，但是后面fanout没有myclk的sink。所以没有clock gating check。
 再试一下在and2/Z定义myclk的generated clock。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pt_shell&amp;gt; create_generated_clock -name myclk_gen1 -source CLK -divide_by 1 and2/Z
+&lt;pre&gt;&lt;code&gt;
+pt_shell&amp;gt; create_generated_clock -name myclk_gen1 -source CLK -divide_by 1 and2/Z
 Information: Abandoning fast timing updates. (PTE-018)
 1
 pt_shell&amp;gt; report_timing -to and2/A2 -group **clock_gating_default**
@@ -305,6 +305,7 @@ Date           : Sat Sep  2 15:44:52 2017
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;debug&quot;&gt;Debug&lt;/h2&gt;
 &lt;p&gt;使用&lt;code&gt;analyze_points&lt;/code&gt;发现都是同一个datapath 被rejected, formality 也给出了建议。&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;fm_shell (verify)&amp;gt; analyze_points r:/WORK/**/**/**/**/bar1avg4_3d_reg_10_ 
 Found 1 Rejected Datapath Guidance Module
 --------------------------------
@@ -328,7 +329,8 @@ Analysis Completed
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;看看SVF里的67437 operation是什么：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;fm_shell (verify)&amp;gt; report_svf_operation { 67437 }
+&lt;pre&gt;&lt;code&gt;
+fm_shell (verify)&amp;gt; report_svf_operation { 67437 }
 **************************************************
 Report         : svf_operation
                  67437 
@@ -354,7 +356,8 @@ DC的DesignWare里有多种adder architecture，综合时，DC会根据design约
 既然加了&lt;code&gt;set_verification_priority&lt;/code&gt;后的网表时序太差，那么能否通过incremental compile来优化timing？&lt;br /&gt;
 首先，DC在使用&lt;code&gt;set_verification_priority&lt;/code&gt;时，是将design/cell 的&lt;code&gt;verification_priority&lt;/code&gt; attribute 设为&lt;code&gt;default&lt;/code&gt;,而不是&lt;code&gt;true&lt;/code&gt;，这一点需要注意。&lt;br /&gt;
 另外，我发现DC好像无法remove掉该attribute。如下，我明明已经用&lt;code&gt;remove_attribute&lt;/code&gt;或&lt;code&gt;remove_verification_priority&lt;/code&gt;去掉了，而且&lt;code&gt;get_attribute&lt;/code&gt;也显示没有该属性，但是在ungroup、compile的时候还是会有log显示有该属性。这一点真的是比较奇怪，个人觉得应该是DC的一个bug。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;dc_shell&amp;gt; get_cells -filter &quot;verification_priority==default&quot; -hierarchical
+&lt;pre&gt;&lt;code&gt;
+dc_shell&amp;gt; get_cells -filter &quot;verification_priority==default&quot; -hierarchical
 {**/**/**/add_x_91 **/**/**/add_x_90 **/**/**/add_x_89 **/**/**/add_x_87 **/**/**/add_x_86 **/**/**/add_x_85 **/**/**/add_x_84 **/**/**/add_x_83 **/**/**/add_x_82 ... }
 
 dc_shell&amp;gt; remove_attribute  [get_cells **/**/**/add_x_*] verification_priority
@@ -395,7 +398,8 @@ Warning: Attribute 'verification_priority' does not exist on cell '**/**/**/add_
 我又试了各种alternative strategy，也仅仅把hard verification points从11个减小到10个… &lt;br /&gt;
 换更新的DC/FM版本试试，还是没效果…实在是崩溃… &lt;br /&gt;
 最后，向前端要了解密的该module的RTL，结果发现该module里居然12位reg累加了20次，20次！！&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;reg     [11:0]  foo00_2d, foo01_2d, foo02_2d, foo03_2d, foo04_2d;
+&lt;pre&gt;&lt;code&gt;
+reg     [11:0]  foo00_2d, foo01_2d, foo02_2d, foo03_2d, foo04_2d;
 reg     [11:0]  foo10_2d, foo11_2d, foo12_2d, foo13_2d, foo14_2d;
 reg     [11:0]  foo20_2d, foo21_2d, foo22_2d, foo23_2d, foo24_2d;
 reg     [11:0]  foo30_2d, foo31_2d, foo32_2d, foo33_2d, foo34_2d;
@@ -451,9 +455,11 @@ gds 局部图如下，text 在每层metal上，每层metal之间有width 0.05um 
 &lt;p&gt;&lt;img src=&quot;/img/2017-08-31_gds.png&quot; alt=&quot;gds局部图&quot; width=&quot;70%&quot; /&gt; &lt;br /&gt;
 extract frame时设了&lt;code&gt;lib.physical_model.merge_metal_blockage&lt;/code&gt;为true，根据man page，当两块metal之间距离小于spacing threshold (2&lt;em&gt;min_spacing-min_width)时会被merge，查看techfile，该层min witdh和min spacing分别为0.05和0.08，那么threshold应该为2&lt;/em&gt;0.08-0.05=0.11。而这些via之间间距为0.08，却没有被merge。
 这会有什么影响呢？PR时，ICC2里会报如下warning:&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;Warning: Cell **** port DVSS09 contains more than 1000000 pins (Number of pins: 1062350).  This may increase routing runtime. (ZRT-565)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;这个warning的意思应该是含有太多的pin shape，或者说这个port 有太多的terminal。&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;icc2_shell&amp;gt; sizeof_collection [get_shapes -of [get_ports DVSS09*]]
 1059159
 icc2_shell&amp;gt; sizeof_collection [get_terminals DVSS09*]
@@ -461,7 +467,8 @@ icc2_shell&amp;gt; sizeof_collection [get_terminals DVSS09*]
 icc2_shell&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;该warning的manpage如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ZRT-565  
+&lt;pre&gt;&lt;code&gt;
+ZRT-565  
   
 NAME  
   
@@ -601,10 +608,11 @@ reg_constant
 ****************************************************************************************
 Analysis Completed
 1
-
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;分析report,首先logic cone 有两个unmatched inputs：一个是gating, 但是发现这个gating并不影响func,而且ref/imp reg的CK 都是r,所以这个gating并不是导致failing points的原因；另一个是fm_bb，这个存在于ref里，也正是由于这个fm_bb的output是1才导致SD/AD pin fail。
 接着，有一个guidance cmd 被rejected：guide_reg_constant，这是svf里把reg标为constant 0/1 的操作。联想到imp里SD/AD pin的startpoints 都是constant 0, 所以应该是DC做reg_constant 操作，将failing point 前的reg 标为0，但是这个操作因为某种原因被formality rejected, 从而ref 里引入了fm_bb。那么到底是为何被reject? report_svf_operation report 截取一段如下：&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
 ## Operation Id: 945483
 guide_reg_constant \
@@ -614,9 +622,10 @@ guide_reg_constant \
   { 0 } 
 
 Info:  guide_reg_constant 945483 (Line: 8463522) Cannot find master reference cell 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1'.
-
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;原因就是：&lt;strong&gt;cannot find master reference cell&lt;/strong&gt;。居然没有这个cell?那它又是哪来的？查找svf file，发现：&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;## Operation Id: 875794
 guide_retiming \
   -design { wp45 } \
@@ -633,6 +642,7 @@ guide_reg_constant \
   { 0 } 
 
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;这个reg是经过forward retime后命名为此，随后DC觉得它是个constant 0 reg。constant0 reg可能是因为D pin tie 0,也可能是reset pin tie 1 导致的。那么DC是怎么处理这些constant register 的呢？查找DC log,发现如下信息：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm2/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
@@ -666,7 +676,8 @@ the failure(s)
 &lt;h3 id=&quot;case2&quot;&gt;Case2&lt;/h3&gt;
 &lt;h4 id=&quot;21-problem&quot;&gt;2.1 Problem&lt;/h4&gt;
 &lt;p&gt;综合完，RTL-Gate Formality inconclusive, 有33个points。原来这个module属于一个42bit除以9bit的除法器，每一位quotient的logic cone都很大，formality 很难比较。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;********************************* Verification Results *********************************
+&lt;pre&gt;&lt;code&gt;
+********************************* Verification Results *********************************
 Verification INCONCLUSIVE
 (Equivalence checking aborted due to complexity)
    ATTENTION: synopsys_auto_setup mode was enabled.

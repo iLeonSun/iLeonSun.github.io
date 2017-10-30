@@ -278,10 +278,11 @@ reg_constant
 ****************************************************************************************
 Analysis Completed
 1
-
 </code></pre>
+
 <p>分析report,首先logic cone 有两个unmatched inputs：一个是gating, 但是发现这个gating并不影响func,而且ref/imp reg的CK 都是r,所以这个gating并不是导致failing points的原因；另一个是fm_bb，这个存在于ref里，也正是由于这个fm_bb的output是1才导致SD/AD pin fail。
 接着，有一个guidance cmd 被rejected：guide_reg_constant，这是svf里把reg标为constant 0/1 的操作。联想到imp里SD/AD pin的startpoints 都是constant 0, 所以应该是DC做reg_constant 操作，将failing point 前的reg 标为0，但是这个操作因为某种原因被formality rejected, 从而ref 里引入了fm_bb。那么到底是为何被reject? report_svf_operation report 截取一段如下：</p>
+
 <pre><code>## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
 ## Operation Id: 945483
 guide_reg_constant \
@@ -291,9 +292,10 @@ guide_reg_constant \
   { 0 } 
 
 Info:  guide_reg_constant 945483 (Line: 8463522) Cannot find master reference cell 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1'.
-
 </code></pre>
+
 <p>原因就是：<strong>cannot find master reference cell</strong>。居然没有这个cell?那它又是哪来的？查找svf file，发现：</p>
+
 <pre><code>## Operation Id: 875794
 guide_retiming \
   -design { wp45 } \
@@ -310,6 +312,7 @@ guide_reg_constant \
   { 0 } 
 
 </code></pre>
+
 <p>这个reg是经过forward retime后命名为此，随后DC觉得它是个constant 0 reg。constant0 reg可能是因为D pin tie 0,也可能是reset pin tie 1 导致的。那么DC是怎么处理这些constant register 的呢？查找DC log,发现如下信息：</p>
 <pre><code>Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm2/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
@@ -343,7 +346,8 @@ the failure(s)
 <h3 id="case2">Case2</h3>
 <h4 id="21-problem">2.1 Problem</h4>
 <p>综合完，RTL-Gate Formality inconclusive, 有33个points。原来这个module属于一个42bit除以9bit的除法器，每一位quotient的logic cone都很大，formality 很难比较。</p>
-<pre><code>********************************* Verification Results *********************************
+<pre><code>
+********************************* Verification Results *********************************
 Verification INCONCLUSIVE
 (Equivalence checking aborted due to complexity)
    ATTENTION: synopsys_auto_setup mode was enabled.
