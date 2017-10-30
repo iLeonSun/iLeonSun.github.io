@@ -30,7 +30,7 @@ SDC里，我们用`set_clock_gating_check`往往不能完全覆盖所有需要ga
 
 ## 3.case example
 为了验证clock gating check，需要写一个简单的test module,verilog 如下：
-```
+~~~
 module test ( A, CLK, OUT);
 input A;
 input CLK;
@@ -44,11 +44,11 @@ DFQD2BWP7T40P140HVT reg1 (.D(and1out), .CP(A), .Q());
 DFQD2BWP7T40P140HVT reg2 (.D(A), .CP(and2out), .Q());
 
 endmodule
-```
+~~~
 电路图如下：
 ![电路图](/img/2017-10-02_1.png)
 在port CLK处定义clock myclk，然后report timing :
-```
+~~~
 pt_shell> create_clock -name myclk -period 2 [get_ports CLK]
 1
 pt_shell> report_timing -to and1/A2 -group **clock_gating_default**
@@ -147,13 +147,13 @@ Date   : Fri Oct  6 17:43:32 2017
 
 
 1
-```
+~~~
 对于这三个与门,都是A1 pin为clock pin, A2 pin位gating pin。  
 and2/A1的fanout有reg2/CP，为myclk的sink，所以and2/A1是**有效clock signal**, and1需要clock gating check;  
 and3/A1的fanout有output port OUT，所以and3/A1也是**有效clock singal**, and3需要clock gating check;   
 and1/A1的fanout既没有clock sink，也没有output port，所以and1不需要clock gating check.   
 如果在and2后面定义clock呢？
-```
+~~~
 pt_shell> create_clock -name myclk2 -period 2 and2/Z
 Warning: Creating a clock on internal pin 'and2/Z'. (UITE-130)
 1
@@ -193,10 +193,10 @@ Warning: There is 1 invalid end point for unconstrained paths. (UITE-416)
 
 
 1
-```
+~~~
 and2/A1有myclk，但是后面fanout没有myclk的sink。所以没有clock gating check。
 再试一下在and2/Z定义myclk的generated clock。
-```
+~~~
 pt_shell> create_generated_clock -name myclk_gen1 -source CLK -divide_by 1 and2/Z
 Information: Abandoning fast timing updates. (PTE-018)
 1
@@ -245,7 +245,7 @@ Date   : Fri Oct  6 18:17:01 2017
 
 
 1
-```
+~~~
 果然and2是有clock gating check，因为and2/A1满足**有效clock signal**的第三个条件。
 
 ## 结语
