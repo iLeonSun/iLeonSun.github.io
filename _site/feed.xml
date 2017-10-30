@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T19:04:08+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T19:08:55+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-cell-model&quot;&gt;1. cell model&lt;/h2&gt;
 &lt;p&gt;集成电路设计是典型的hierarchical design：PMOS/NMOS –&amp;gt; std cell –&amp;gt; design module –&amp;gt; block –&amp;gt; chip。每一次的低层抽象过程，都要抽取出logic和physical信息，以供高层使用。&lt;br /&gt;
@@ -727,20 +727,20 @@ jekyll 基于ruby, 配合github page使用过程中还是有很多坑的，还�
 
 &lt;h2 id=&quot;最后&quot;&gt;最后&lt;/h2&gt;
 &lt;p&gt;我就是自己的读者，即使是唯一的，我也会keep writing…&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="杂谈" /><summary type="html">第0篇blog,当然是献给Hello World.</summary></entry><entry><title type="html">Test syntax highlight</title><link href="http://localhost:4000/test/" rel="alternate" type="text/html" title="Test syntax highlight" /><published>2017-07-26T00:00:00+08:00</published><updated>2017-07-26T00:00:00+08:00</updated><id>http://localhost:4000/test</id><content type="html" xml:base="http://localhost:4000/test/">&lt;p&gt;第0篇blog,当然是献给&lt;code&gt;Hello World&lt;/code&gt;.
-&lt;!--more--&gt;
-##test TCL…&lt;/p&gt;
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id=&quot;test-tcl&quot;&gt;test TCL…&lt;/h2&gt;
 &lt;pre&gt;&lt;code class=&quot;language-tcl&quot;&gt;set a &quot;124&quot;
 puts stdout $a
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;##test bash…&lt;/p&gt;
+&lt;h2 id=&quot;test-bash&quot;&gt;test bash…&lt;/h2&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;echo &quot;test bash&quot;
 for i in `ls`
 do
 	echo $i
 done
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;##test java&lt;/p&gt;
+&lt;h2 id=&quot;test-java&quot;&gt;test java&lt;/h2&gt;
 &lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;class test {
 static int a
 public int geta() {
@@ -754,7 +754,7 @@ static void main() {
 system.out.print(&quot;hello world&quot;)
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;##test verilog&lt;/p&gt;
+&lt;h2 id=&quot;test-verilog&quot;&gt;test verilog&lt;/h2&gt;
 &lt;pre&gt;&lt;code class=&quot;language-verilog&quot;&gt;moudle test
 input a,b,c;
 output m,n;
