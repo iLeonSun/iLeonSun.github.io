@@ -30,7 +30,7 @@ SDC里，我们用`set_clock_gating_check`往往不能完全覆盖所有需要ga
 
 ## 3.case example
 为了验证clock gating check，需要写一个简单的test module,verilog 如下：
-~~~ verilog
+{% highlight verilog %}
 module test ( A, CLK, OUT);
 input A;
 input CLK;
@@ -44,7 +44,7 @@ DFQD2BWP7T40P140HVT reg1 (.D(and1out), .CP(A), .Q());
 DFQD2BWP7T40P140HVT reg2 (.D(A), .CP(and2out), .Q());
 
 endmodule
-~~~
+{% endhighlight %}
 电路图如下：
 ![电路图](/img/2017-10-02_1.png)
 在port CLK处定义clock myclk，然后report timing :
