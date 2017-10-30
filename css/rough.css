@@ -1,3 +1,11 @@
+pre.highlight {
+display: block;
+overflow-x: auto;
+padding: 0.5em;
+background: #fdf6e3;
+color: #657b83;
+}
+
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
 .highlight, .highlight .w {
