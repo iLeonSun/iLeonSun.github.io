@@ -30,6 +30,7 @@ $(window).scroll(toggleNavCollapse);$(function(){$("a.page-scroll").bind("click"
 
 {% endif %}
 
+{% comment %}
 {% if site.syntax-highlight and page.section-type == "post" %}
 
   <!-- Syntax highlight in post pages-->
@@ -42,6 +43,7 @@ $(window).scroll(toggleNavCollapse);$(function(){$("a.page-scroll").bind("click"
   <!-- <script src="/js/prism.js"</script> -->
 
 {% endif %}
+{% endcomment %}
 
 {% if page.section-type == "post" %}
 
