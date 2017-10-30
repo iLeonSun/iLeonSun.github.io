@@ -48,7 +48,7 @@ endmodule
 电路图如下：
 ![电路图](/img/2017-10-02_1.png)
 在port CLK处定义clock myclk，然后report timing :
-{% highlight  %}
+{% highlight %}
 pt_shell> create_clock -name myclk -period 2 [get_ports CLK]
 1
 pt_shell> report_timing -to and1/A2 -group **clock_gating_default**
