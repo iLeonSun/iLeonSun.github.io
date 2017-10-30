@@ -25,19 +25,19 @@ gds 局部图如下，text 在每层metal上，每层metal之间有width 0.05um 
 ![gds局部图](/img/2017-08-31_gds.png){:width="70%"}   
 extract frame时设了`lib.physical_model.merge_metal_blockage`为true，根据man page，当两块metal之间距离小于spacing threshold (2*min_spacing-min_width)时会被merge，查看techfile，该层min witdh和min spacing分别为0.05和0.08，那么threshold应该为2*0.08-0.05=0.11。而这些via之间间距为0.08，却没有被merge。
 这会有什么影响呢？PR时，ICC2里会报如下warning:
-```
+~~~
 Warning: Cell **** port DVSS09 contains more than 1000000 pins (Number of pins: 1062350).  This may increase routing runtime. (ZRT-565)
-```
+~~~
 这个warning的意思应该是含有太多的pin shape，或者说这个port 有太多的terminal。
-```
+~~~
 icc2_shell> sizeof_collection [get_shapes -of [get_ports DVSS09*]]
 1059159
 icc2_shell> sizeof_collection [get_terminals DVSS09*]
 1059159
 icc2_shell>
-```
+~~~
 该warning的manpage如下：
-```
+~~~
 ZRT-565  
   
 NAME  
@@ -51,7 +51,7 @@ A port contains a large number of pins. This is atypical and may increase routin
 WHAT NEXT  
   
 If this is not expected, please reduce the number of pins for the port.
-```
+~~~
 
 ## Solution
 1.`read_gds -trace_option`：尝试改变gds trace option，`pins_only`,`same_layer`都没有效果；  

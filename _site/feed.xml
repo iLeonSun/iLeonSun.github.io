@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T10:31:24+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T10:39:16+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-cell-model&quot;&gt;1. cell model&lt;/h2&gt;
 &lt;p&gt;集成电路设计是典型的hierarchical design：PMOS/NMOS –&amp;gt; std cell –&amp;gt; design module –&amp;gt; block –&amp;gt; chip。每一次的低层抽象过程，都要抽取出logic和physical信息，以供高层使用。&lt;br /&gt;
@@ -54,7 +54,7 @@ SDC里，我们用&lt;code&gt;set_clock_gating_check&lt;/code&gt;往往不能完
 
 &lt;h2 id=&quot;3case-example&quot;&gt;3.case example&lt;/h2&gt;
 &lt;p&gt;为了验证clock gating check，需要写一个简单的test module,verilog 如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;module test ( A, CLK, OUT);
+&lt;pre&gt;&lt;code class=&quot;language-verilog&quot;&gt;module test ( A, CLK, OUT);
 input A;
 input CLK;
 output OUT;

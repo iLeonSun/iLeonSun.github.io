@@ -30,7 +30,7 @@ SDC里，我们用`set_clock_gating_check`往往不能完全覆盖所有需要ga
 
 ## 3.case example
 为了验证clock gating check，需要写一个简单的test module,verilog 如下：
-~~~
+~~~ verilog
 module test ( A, CLK, OUT);
 input A;
 input CLK;

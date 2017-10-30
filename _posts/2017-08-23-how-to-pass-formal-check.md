@@ -74,7 +74,7 @@ u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U
 ![logic cone][2]
 
 analyze_points 对这个点分析：
-```
+~~~
 fm_shell (verify)> analyze_points r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
 Found 2 Unmatched Cone Inputs
 --------------------------------
@@ -110,10 +110,10 @@ reg_constant
 Analysis Completed
 1
 
-```
+~~~
 分析report,首先logic cone 有两个unmatched inputs：一个是gating, 但是发现这个gating并不影响func,而且ref/imp reg的CK 都是r,所以这个gating并不是导致failing points的原因；另一个是fm_bb，这个存在于ref里，也正是由于这个fm_bb的output是1才导致SD/AD pin fail。
 接着，有一个guidance cmd 被rejected：guide_reg_constant，这是svf里把reg标为constant 0/1 的操作。联想到imp里SD/AD pin的startpoints 都是constant 0, 所以应该是DC做reg_constant 操作，将failing point 前的reg 标为0，但是这个操作因为某种原因被formality rejected, 从而ref 里引入了fm_bb。那么到底是为何被reject? report_svf_operation report 截取一段如下：
-```
+~~~
 ## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
 ## Operation Id: 945483
 guide_reg_constant \
@@ -124,9 +124,9 @@ guide_reg_constant \
 
 Info:  guide_reg_constant 945483 (Line: 8463522) Cannot find master reference cell 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1'.
 
-```
+~~~
 原因就是：**cannot find master reference cell**。居然没有这个cell?那它又是哪来的？查找svf file，发现：
-```
+~~~
 ## Operation Id: 875794
 guide_retiming \
   -design { wp45 } \
@@ -142,23 +142,23 @@ guide_reg_constant \
   { u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1 } \
   { 0 } 
 
-```
+~~~
 这个reg是经过forward retime后命名为此，随后DC觉得它是个constant 0 reg。constant0 reg可能是因为D pin tie 0,也可能是reset pin tie 1 导致的。那么DC是怎么处理这些constant register 的呢？查找DC log,发现如下信息：
-```
+~~~
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm2/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm1/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm0/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
-```
+~~~
 真相大白：**默认情况下，DC会remove constant register, 并在log里给出OPT-1206提示**。至此，终于找到failing root cause,下面就是针对问题找到解决方法了。DC 对constant register 的处理由以下3个变量控制，默认值都是true:
-```
+~~~
 compile_seqmap_propagate_constants:           Removes cells with a constant on the input.
 compile_seqmap_propagate_high_effort:         Removes cells with a constant on the reset.
 compile_seqmap_propagate_constants_size_only: Propagates constants through size_only cells.
-```
+~~~
 其中，`compile_seqmap_propagate_constants_size_only` 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。
 所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了吧。尝试之后，万万没想到，failing points居然更多，而且有很多`Required Inputs`。
-```
+~~~
 --------------------------------
 Found 61 Required Inputs
 --------------------------------
@@ -168,7 +168,7 @@ to more failing than passing points.
 This implies that it may be driving downstream logic that is related to
 the failure(s)
 --------------------------------
-```
+~~~
 如此看来，这个变量好像不能乱设啊。不清楚为啥不remove const reg，会导致这么严重的问题。之前的debug好像都付诸东流了...   
 
 #### 1.3 Slove
@@ -179,7 +179,7 @@ the failure(s)
 ### Case2 
 #### 2.1 Problem
 综合完，RTL-Gate Formality inconclusive, 有33个points。原来这个module属于一个42bit除以9bit的除法器，每一位quotient的logic cone都很大，formality 很难比较。
-```
+~~~
 ********************************* Verification Results *********************************
 Verification INCONCLUSIVE
 (Equivalence checking aborted due to complexity)
@@ -194,7 +194,7 @@ Verification INCONCLUSIVE
  161129 Passing compare points
  33 Aborted compare points
  0 Unverified compare points
-```
+~~~
 #### 2.2 Debug
 前文提到的方法我都一一试过:timeout-limit, datapath-effort, new tool version, set_verification_priority, 10多种alternative strategy 都没用......
 难道真的是因为这个42bit/9bit 的除法器太大了，无论如何都无法过formality?
