@@ -1,4 +1,147 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-10-30T19:19:33+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-11-06T18:42:48+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">understanding SPEF</title><link href="http://localhost:4000/understanding-spef/" rel="alternate" type="text/html" title="understanding SPEF" /><published>2017-11-06T00:00:00+08:00</published><updated>2017-11-06T00:00:00+08:00</updated><id>http://localhost:4000/understanding-spef</id><content type="html" xml:base="http://localhost:4000/understanding-spef/">&lt;p&gt;SPEF(Standard Parasitic Exchange Format)是一种IEEE标准，包含着线上的寄生电阻、电容、电感等信息。SPEF是ASCII格式，可读的。PR后，要抽取spef，在STA工具里反标net上的RC，再配合db里std cell的RC，通过完整的RC才能计算得到准确的timing。&lt;br /&gt;
+反标RC过程中，经常会出现warning、error等信息，这时我们就需要debug spef。所以，我们有必要了解SPEF的语法格式。&lt;!-- more --&gt; &lt;br /&gt;
+SPEF file通常包括四个部分：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Header section&lt;/li&gt;
+  &lt;li&gt;Name map section&lt;/li&gt;
+  &lt;li&gt;Ports section&lt;/li&gt;
+  &lt;li&gt;Main parasitic description section&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;SPEF的keyword以*开头，如：&lt;code&gt;*NAME_MAP&lt;/code&gt;,&lt;code&gt;*D_NET&lt;/code&gt;;注释以&lt;code&gt;//&lt;/code&gt;开头。&lt;/p&gt;
+
+&lt;h2 id=&quot;1header-section&quot;&gt;1.Header section&lt;/h2&gt;
+&lt;p&gt;Header section 一般14行，包含spef version, design name, tool version, naming style, units等。 &lt;br /&gt;
+实例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*SPEF &quot;IEEE 1481-1999&quot;
+*DESIGN &quot;mydesign&quot;
+*DATE &quot;Sat Nov  4 17:13:47 2017&quot;
+*VENDOR &quot;Synopsys Inc.&quot;
+*PROGRAM &quot;StarRC&quot;
+*VERSION &quot;M-2017.06-SP2&quot;
+*DESIGN_FLOW &quot;PIN_CAP NONE&quot; &quot;NAME_SCOPE LOCAL&quot;
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1.0 NS
+*C_UNIT 1.0 FF
+*R_UNIT 1.0 OHM
+*L_UNIT 1.0 HENRY
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;2name-map-section&quot;&gt;2.Name map section&lt;/h2&gt;
+&lt;p&gt;由于cell/net name会很长，并且同一个net/cell会重复多次出现，为了减小文件大小，会将name映射成数字，在文件后面该数字就表示该name。&lt;br /&gt;
+实例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*2608468 xtggpio[2]
+*2608469 xtggpio[1]
+*2608470 xtggpio[0]
+*2608471 xtgclk
+*2608472 xflash
+*2608473 xmshutter
+*2608474 xhd
+//...
+*2621011 u_corei053/u_audtop/U_AUDD_LAI053/u_audgain/u_auddateng0/engaccval_reg_11___engaccval_reg_10___engaccval_reg_9___engaccval_reg_8___engaccval_reg_7___engaccval_reg_6___engaccval_reg_5___engaccval_reg_4_
+*2621012 u_corei053/u_audtop/U_AUDD_LAI053/u_audgain/u_auddateng0/engaccval_reg_19___engaccval_reg_18___engaccval_reg_17___engaccval_reg_16___engaccval_reg_15___engaccval_reg_14___engaccval_reg_13___engaccval_reg_12_
+*2621013 u_corei053/u_audtop/U_AUDD_LAI053/u_audgain/u_auddateng0/engaccval_reg_27___engaccval_reg_26___engaccval_reg_25___engaccval_reg_24___engaccval_reg_23___engaccval_reg_22___engaccval_reg_21___engaccval_reg_20_
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;3ports-session&quot;&gt;3.Ports session&lt;/h2&gt;
+&lt;p&gt;Port session包含design所有顶层端口，其格式为：&lt;br /&gt;
+&lt;code&gt;port_name direction&lt;/code&gt; &lt;br /&gt;
+&lt;code&gt;port_name&lt;/code&gt;是上面已经name_mapping后的数字格式; &lt;br /&gt;
+&lt;code&gt;direction&lt;/code&gt;可以为&lt;code&gt;I&lt;/code&gt;,&lt;code&gt;O&lt;/code&gt;,&lt;code&gt;B&lt;/code&gt;,分别对应input,output,inout。&lt;br /&gt;
+实例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*PORTS
+
+*1169423 I
+*1169424 I
+*1169425 I
+*1169426 O
+*1169427 O
+*1169428 O
+*1169429 O
+*1169430 O
+*2608614 B
+*2608615 B
+*2608616 B
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;4main-parasitic-description-section&quot;&gt;4.Main parasitic description section&lt;/h2&gt;
+&lt;p&gt;这个部分就是整个design所有net的寄生RCL信息了，每条net通常以&lt;code&gt;*D_NET&lt;/code&gt;和&lt;code&gt;*END&lt;/code&gt;关键字分开。&lt;br /&gt;
+D_NET表示distributed net，除此外，还有3种很少用：&lt;br /&gt;
+R_NET表示reduced nets; &lt;br /&gt;
+D_PNET表示distributed physical net;&lt;br /&gt;
+R_PNET表示reduced physical nets.&lt;br /&gt;
+每条net包含&lt;code&gt;*CONN&lt;/code&gt;,&lt;code&gt;*CAP&lt;/code&gt;,&lt;code&gt;*RES&lt;/code&gt;部分，格式如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*D_NET net_name total_cap
+*CONN
+//connection information
+*CAP
+//detailed cap information
+*RES
+//detailed res information
+*END
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;41-connection-section&quot;&gt;4.1 connection section&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;*CONN&lt;/code&gt;部分列出该条net所有的pin，此外，还会把该net的内部节点，其格式如下：&lt;br /&gt;
+&lt;code&gt;conn_type pin_name [direction] [driving info] *C xy_coordinate&lt;/code&gt; &lt;br /&gt;
+&lt;code&gt;conn_type&lt;/code&gt;有三种：&lt;code&gt;*I&lt;/code&gt;,&lt;code&gt;*P&lt;/code&gt;,&lt;code&gt;*N&lt;/code&gt;，分别指：&lt;br /&gt;
+&lt;code&gt;*I&lt;/code&gt;: internal connection，连到logic instant pin，后面跟instant pin name; &lt;br /&gt;
+&lt;code&gt;*P&lt;/code&gt;: external connection，连到port，后面跟port name;&lt;br /&gt;
+&lt;code&gt;*N&lt;/code&gt;: internal node，工具将net断开的内部节点，后面跟net node。&lt;br /&gt;
+conn_type为&lt;code&gt;I&lt;/code&gt;或&lt;code&gt;P&lt;/code&gt;时，需指定pin/port direction，value可以为&lt;code&gt;I&lt;/code&gt;和&lt;code&gt;O&lt;/code&gt;，分别指input,output。&lt;br /&gt;
+对output pin可以指定其driver cell,格式为&lt;code&gt;*D ref_name&lt;/code&gt;。&lt;br /&gt;
+&lt;code&gt;*C xy_coordinate&lt;/code&gt;表示该pin/port/node的坐标。&lt;br /&gt;
+实例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*CONN
+*I *2614346:I I *C 1109.1300 1841.2300
+*I *2614347:ZN O *D INVD2BWP7T40P140HVT *C 1208.3900 1760.8700
+*N *4816:2 *C 1109.1300 1841.2300
+*N *4816:3 *C 1208.3900 1760.8700
+*N *4816:4 *C 1208.3900 1760.8700
+*N *4816:5 *C 1208.3400 1760.8800
+
+// 连到port
+*CONN
+*P *2608554 B *C 82.4600 929.0250
+*I *4826447:PAD B *D PRWHSWCDGSD_H *C 82.4600 929.0250
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;42-capacitor-section&quot;&gt;4.2 capacitor section&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;*CAP&lt;/code&gt;部分列出该条net的所有cap，包括与GND之间的cap和与相邻net之间的coupled cap，格式分别为： &lt;br /&gt;
+&lt;code&gt;num net_node cap_value&lt;/code&gt; &lt;br /&gt;
+&lt;code&gt;num net_node another_net_node coupled_cap_value&lt;/code&gt;  &lt;br /&gt;
+实例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*CAP
+1 *2614346:I *3739625:I 1.89347 //coupled cap
+2 *2614346:I *1321176:4 1.07336
+3 *4816:5 *1890744:7 0.277137
+4 *4816:5 *4216046:D 0.0689194
+5 *4816:5 *1891199:15 1.56794
+6 *2614346:I *4465732:I 0.425209
+7 *2614346:I *2160917:2 0.016052
+8 *2614346:I *4469463:B 0.0161593
+9 *2614346:I *2160919:3 0.00672438
+10 *2614346:I *2161659:3 0.0140435
+11 *2614346:I *4470463:A 0.00825583
+12 *2614346:I *4474070:B 0.0595718
+13 *2614346:I *2166777:7 0.0540128
+14 *2614346:I *2169344:2 0.217477
+15 *2614346:I *2183021:6 1.00391
+16 *2614346:I 5.95695 //to GND
+17 *4816:5 9.14826 //to GND
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;43-resistance-section&quot;&gt;4.3 resistance section&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;*RES&lt;/code&gt;部分列出该条net上所有金属块的电阻。实例如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*RES
+1 *2614346:I *4816:2 0.001
+2 *2614346:I *4816:5 667.144
+3 *2614347:ZN *4816:3 6.25715
+4 *2614347:ZN *4816:4 0.001
+5 *4816:3 *4816:5 0.133914
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>Leon Sun</name></author><category term="STA" /><category term="SPEF" /><summary type="html">SPEF(Standard Parasitic Exchange Format)是一种IEEE标准，包含着线上的寄生电阻、电容、电感等信息。SPEF是ASCII格式，可读的。PR后，要抽取spef，在STA工具里反标net上的RC，再配合db里std cell的RC，通过完整的RC才能计算得到准确的timing。 反标RC过程中，经常会出现warning、error等信息，这时我们就需要debug spef。所以，我们有必要了解SPEF的语法格式。</summary></entry><entry><title type="html">NLDM vs. CCS</title><link href="http://localhost:4000/NLDM-VS-CCS/" rel="alternate" type="text/html" title="NLDM vs. CCS" /><published>2017-10-25T00:00:00+08:00</published><updated>2017-10-25T00:00:00+08:00</updated><id>http://localhost:4000/NLDM-VS-CCS</id><content type="html" xml:base="http://localhost:4000/NLDM-VS-CCS/">&lt;p&gt;随着工艺节点下降，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。&lt;!--more--&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;1-cell-model&quot;&gt;1. cell model&lt;/h2&gt;
 &lt;p&gt;集成电路设计是典型的hierarchical design：PMOS/NMOS –&amp;gt; std cell –&amp;gt; design module –&amp;gt; block –&amp;gt; chip。每一次的低层抽象过程，都要抽取出logic和physical信息，以供高层使用。&lt;br /&gt;
@@ -26,7 +169,7 @@ NLDM虽然很简单，但是随着工艺节点下降，金属电阻、寄生电�
 CCS receiver model是由两个cap值表示，它们随着transition而变化。C1,C2分别是transition前后半段的cap值。比如input pin的trip points是30%和70%，那么(30%,50%)这段时间的cap值为C1，(50%,70%)这段时间的cap值为C2，STA tool会动态选择cap值。如下图，C1/C2值还是能很好的拟合实际情形。 &lt;br /&gt;
 &lt;img src=&quot;/img/2017-10-25_ccs_input_cap.png&quot; alt=&quot;NLDM input cap&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;另外，CCS lib/db里，可以同时含timing/power/noise信息。CCS lib里会看到有ccsn_first_stage/ccsn_last_stage group，分别是最前/后级管子受noise的影响。&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="STA" /><summary type="html">上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。</summary></entry><entry><title type="html">Clock Gating Check</title><link href="http://localhost:4000/clock-gating-check/" rel="alternate" type="text/html" title="Clock Gating Check" /><published>2017-10-02T00:00:00+08:00</published><updated>2017-10-02T00:00:00+08:00</updated><id>http://localhost:4000/clock-gating-check</id><content type="html" xml:base="http://localhost:4000/clock-gating-check/">&lt;p&gt;Clock gating check是一种常见的时序检查，当gating signal控制clock signal时，其跳变必须满足时序要求以得到想要的gated clock。最常见的gating check发生在ICG cell上。ICG是常见的low power解决方案，通过在clock tree上插入ICG cell，来减少ICG后面clock buffer/register的不必要跳变，从而起到降低功耗的目的。其实，只要是多输入逻辑cell，只要满足两个条件，都需要做gating check。&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;另外，CCS lib/db里，可以同时含timing/power/noise信息。CCS lib里会看到有ccsn_first_stage/ccsn_last_stage group，分别是最前/后级管子受noise的影响。&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="STA" /><summary type="html">随着工艺节点下降，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。</summary></entry><entry><title type="html">Clock Gating Check</title><link href="http://localhost:4000/clock-gating-check/" rel="alternate" type="text/html" title="Clock Gating Check" /><published>2017-10-02T00:00:00+08:00</published><updated>2017-10-02T00:00:00+08:00</updated><id>http://localhost:4000/clock-gating-check</id><content type="html" xml:base="http://localhost:4000/clock-gating-check/">&lt;p&gt;Clock gating check是一种常见的时序检查，当gating signal控制clock signal时，其跳变必须满足时序要求以得到想要的gated clock。最常见的gating check发生在ICG cell上。ICG是常见的low power解决方案，通过在clock tree上插入ICG cell，来减少ICG后面clock buffer/register的不必要跳变，从而起到降低功耗的目的。其实，只要是多输入逻辑cell，只要满足两个条件，都需要做gating check。&lt;!--more--&gt;&lt;/p&gt;
 &lt;h2 id=&quot;1clock-gating-check-的必要条件&quot;&gt;1.clock gating check 的必要条件&lt;/h2&gt;
 &lt;p&gt;clock gating check必须满足两个条件：&lt;/p&gt;
 &lt;ol&gt;

@@ -151,6 +151,33 @@
 <!-- Post List Start -->
 
 <h4 align="left" style="font-family:Times">
+  <strong>2017/11/06</strong>
+  <small>
+    <a class="category" href="/categories/sta.html">
+      STA
+    </a>
+  </small>
+  &ensp;
+  <a href="/understanding-spef/" style="font-family:'Courgette', cursive,Georgia, Times, 'Times New Roman', serif,'宋体', 'SimSun'">
+    <strong>understanding SPEF</strong>
+  </a>
+</h4>
+<p align="left" style="font-size:16px;font-style:italic">
+	SPEF(Standard Parasitic Exchange Format)是一种IEEE标准，包含着线上的寄生电阻、电容、电感等信息。SPEF是ASCII格式，可读的。PR后，要抽取spef，在STA工具里反标net上的RC，再配合db里std cell的RC，通过完整的RC才能计算得到准确的timing。
+反标RC过程中，经常会出现warning、error等信息，这时我们就需要debug spef。所以，我们有必要了解SPEF的语法格式。
+
+......
+	<br/>
+	<a href="/understanding-spef/" style="font-size:18px" align="center !important">Read More</a>
+</p>
+
+<!-- Post List End -->
+
+				
+						
+<!-- Post List Start -->
+
+<h4 align="left" style="font-family:Times">
   <strong>2017/10/25</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -163,7 +190,7 @@
   </a>
 </h4>
 <p align="left" style="font-size:16px;font-style:italic">
-	上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。
+	随着工艺节点下降，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。
 
 ......
 	<br/>

@@ -8,7 +8,7 @@ category: STA
 tags: 
 excerpt_separator: <!--more-->
 ---
-上篇里提到了，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。<!--more-->  
+随着工艺节点下降，一些负面效应在advanced node下越来越明显，这些效应也使传统的NLDM model越来越不精确。Synopsys提出了Composite Current Source(CCS)，CCS是基于电流源模型，集timing/power/noise于一体，精确度更高，与SPICE的误差可以达到±2%。<!--more-->  
 
 ## 1. cell model
 集成电路设计是典型的hierarchical design：PMOS/NMOS --> std cell --> design module --> block --> chip。每一次的低层抽象过程，都要抽取出logic和physical信息，以供高层使用。  
