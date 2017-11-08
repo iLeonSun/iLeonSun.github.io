@@ -1,4 +1,151 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-11-06T18:42:48+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">understanding SPEF</title><link href="http://localhost:4000/understanding-spef/" rel="alternate" type="text/html" title="understanding SPEF" /><published>2017-11-06T00:00:00+08:00</published><updated>2017-11-06T00:00:00+08:00</updated><id>http://localhost:4000/understanding-spef</id><content type="html" xml:base="http://localhost:4000/understanding-spef/">&lt;p&gt;SPEF(Standard Parasitic Exchange Format)是一种IEEE标准，包含着线上的寄生电阻、电容、电感等信息。SPEF是ASCII格式，可读的。PR后，要抽取spef，在STA工具里反标net上的RC，再配合db里std cell的RC，通过完整的RC才能计算得到准确的timing。&lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-11-08T18:59:40+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">understanding ITF</title><link href="http://localhost:4000/understanding-itf/" rel="alternate" type="text/html" title="understanding ITF" /><published>2017-11-08T00:00:00+08:00</published><updated>2017-11-08T00:00:00+08:00</updated><id>http://localhost:4000/understanding-itf</id><content type="html" xml:base="http://localhost:4000/understanding-itf/">&lt;p&gt;后端设计中，我们需要知道每条net的RC值来计算timing，RC由process直接决定，不同的导体/绝缘体材料、金属宽度/厚度/间距、制造过程中的光刻/刻蚀/抛光等引起的工艺偏差、工作温度等因素都会导致RC变化。&lt;br /&gt;
+Foundary会考虑制造过程中的种种因素，建立RC模型，来提供给后端；后端根据此模型，抽取计算得到整条net的RC，继而得出net timing。 &lt;br /&gt;
+Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以通过Starrc相互转换。&lt;!--more--&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+
+  &lt;p&gt;ITF: Interconnect Technology Format &lt;br /&gt;
+TLU+: TLU 升级版，synopsys工具用到，根据net width/spacing查表得到cap &lt;br /&gt;
+NXTGRD: New Xtraction Generic Regression Database&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;1itf-structure&quot;&gt;1.ITF structure&lt;/h2&gt;
+&lt;p&gt;三种格式中，itf file是可读的，我们下面就看一下它的内容。 &lt;br /&gt;
+ITF是按芯片的横截面来描述的，从最上层的绝缘层开始，逐层向下描述。ITF文件结构如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;TECHNOLOGY = process_name
+REFERENCE_DIRECTION = VERTICAL | HORIZONTAL | GATE
+[GLOBAL_TEMPERATURE = temp_value]
+[BACKGROUND_ER = value]
+[HALF_NODE_SCALE_FACTOR = scale_factor]
+[USE_SI_DENSITY = YES | NO ]
+[DROP_FACTOR_LATERAL_SPACING = value]
+
+DIELECTRIC top_dielectric_name {…}
+CONDUCTOR top_conductor_name {…}
+[…]
+[DIELECTRIC bottom_dielectric_name{…}]
+
+VIA top_via_name {…}
+[…]
+VIA bottom_via_name {…}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;文件最上方为process technology的整体描述，接着是DIELECTRIC/CONDUCTOR的逐层描述，最后是VIA部分。&lt;/p&gt;
+
+&lt;h2 id=&quot;2example-of-tsmc28hpc-itf&quot;&gt;2.Example of TSMC28HPC+ ITF&lt;/h2&gt;
+&lt;p&gt;下面结合以TSMC的ITF中的M8为例，来详细解析一下。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$$ 省略文件头和AP,M8比较有代表性。
+$$ PS:itf中用$注释
+DIELECTRIC PASS2 	 {THICKNESS=0.668210	ER=4.2 } 
+DIELECTRIC PASS1 	 {THICKNESS=0.071590	ER=7.1 } 
+DIELECTRIC IMD8c 	 {THICKNESS=0.778950	ER=4.2 } 
+DIELECTRIC IMD8b 	 {THICKNESS=0.051500	ER=7.1 } 
+DIELECTRIC IMD8a_A 	 {THICKNESS=0.055000	ER=4.2 } 
+$$ 上面5行说明AP/M8之间有5层绝缘层，THICKNESS为该层厚度，ER为该层相对介电常数ε。
+$$ 介电常数ε也被称为电容率，理想金属导体的ε应该是正无穷。
+$$ 金属导线的cap值就是和这些绝缘层的ε有关。
+CONDUCTOR M8 {THICKNESS= 0.885450
+    CRT1=3.890e-03 CRT2=-1.500e-07 
+	$$ 这两个值用来计算temperature variation时的电阻， temperature-dependent resistance 为T的二次多项式，如下：
+	$$ R= CRT2*(T-T0)^2 + CRT1*(T-T0) + R0
+    SIDE_TANGENT = 0.046869 
+	$$ 理想情况下，金属层的截面应该是规则矩形，但是沉积过程引起的偏差，可能会导致截面为梯形（上宽下窄或上窄下宽）
+	$$ SIDE_TANGENT指的就是截面斜边偏移角度的正切值(tanΘ)；正值表示上宽下窄，负值表示上窄下宽
+	$$ 这里，我们可以计算得出M8截面是个底角2.68°的上宽下窄的梯形。
+    POLYNOMIAL_BASED_THICKNESS_VARIATION {
+	$$ 这部分描述的是工艺过程中M8后端偏差，该值是基于density和width的多项式
+         DENSITY_POLYNOMIAL_ORDERS  { 4, 3, 2, 1, 0 }
+		 $$ 多项式中density的指数
+         WIDTH_POLYNOMIAL_ORDERS  { 4, 3, 2, 1, 0 }
+		 $$ 多项式中width的指数
+         WIDTH_RANGES {0.9 10.8000}
+		 $$ width分布，这里有两个值，所以下面的多项式系数有三组，分别对应width&amp;lt;=0.9, 0.9&amp;lt;width&amp;lt;10.8, width&amp;gt;10.8的情况
+         POLYNOMIAL_COEFFICIENTS  {
+             0    -2.09675E+01    4.71013E+01    -3.63903E+01    1.10754E+01  
+             0    2.24127E+01    -5.02114E+01    3.88210E+01    -1.28144E+01  
+             0    -7.76371E+00    1.73158E+01    -1.32161E+01    5.02100E+00  
+             0    9.83830E-01    -2.18583E+00    1.54960E+00    -8.13606E-01  
+             0    -3.44482E-02    7.69210E-02    -3.26943E-02    5.70675E-02  
+         }
+		 $$ 多项式的系数，因为上面density/width指数都有5种，所以多项式有5*5=25项，表格分别为每项的指数，具体为：
+		 $$ delta_thickness = 
+         $$     0 * D^4W^4  +  -2.09675E+01 * D^3W^4 +  4.71013E+01 * D^2W^4  +  -3.63903E+01 * D^1W^4 +  1.10754E+01 * D^0W^4 
+         $$     0 * D^4W^3  +  2.24127E+01  * D^3W^3 + -5.02114E+01 * D^2W^3  +  3.88210E+01  * D^1W^3 + -1.28144E+01 * D^0W^3 
+         $$     0 * D^4W^2  +  -7.76371E+00 * D^3W^2 +  1.73158E+01 * D^2W^2  +  -1.32161E+01 * D^1W^2 +  5.02100E+00 * D^0W^2 
+         $$     0 * D^4W^1  +  9.83830E-01  * D^3W^1 + -2.18583E+00 * D^2W^1  +  1.54960E+00  * D^1W^1 + -8.13606E-01 * D^0W^1 
+         $$     0 * D^4W^0  +  -3.44482E-02 * D^3W^0 +  7.69210E-02 * D^2W^0  +  -3.26943E-02 * D^1W^0 +  5.70675E-02 * D^0W^0 
+		  
+         POLYNOMIAL_COEFFICIENTS  {
+             8.60236E-04    -2.58636E-02    1.86404E-01    -6.33564E-01    1.60353E+00  
+             -2.01704E-03    6.46872E-02    -4.28490E-01    1.02433E+00    -3.01753E+00  
+             1.99839E-03    -6.92845E-02    4.59826E-01    -7.29301E-01    2.14093E+00  
+             -9.64384E-04    3.62202E-02    -2.60733E-01    3.44576E-01    -7.69564E-01  
+             1.81498E-04    -7.35529E-03    5.84458E-02    -7.00805E-02    1.21186E-01  
+         }
+         POLYNOMIAL_COEFFICIENTS  {
+             0    0    0    0    0  
+             0    0    0    0    0  
+             0    0    0    0    0  
+             0    0    0    0    0  
+             0    0    0    0    0.060929
+         }
+    }
+    RHO_VS_SI_WIDTH_AND_THICKNESS {
+	$$ 这部分表示体电阻率(bulk resistivity)，该值是基于width和thickness查表得到
+         WIDTH   { 0.3240 0.3600 0.3960 0.4320 0.4680 0.5400 0.7200 1.0800 1.3500 1.8000 2.7000 3.6000 4.5000 5.4000 6.7500 8.1000 9.0000 10.8000 }
+         THICKNESS   { 0.5950 0.6800 0.7650 0.8500 0.9350 1.0200 1.1050 1.1900 1.2750 }
+         VALUES  { 
+ 0.0206 0.0204 0.0202 0.0201 0.0200 0.0198 0.0196 0.0193 0.0192 0.0191 0.0190 0.0189 0.0189 0.0189 0.0189 0.0189 0.0189 0.0189
+ 0.0205 0.0203 0.0202 0.0201 0.0200 0.0198 0.0195 0.0192 0.0191 0.0190 0.0189 0.0188 0.0188 0.0188 0.0188 0.0188 0.0188 0.0188
+ 0.0205 0.0203 0.0201 0.0200 0.0199 0.0197 0.0195 0.0192 0.0191 0.0189 0.0188 0.0188 0.0188 0.0187 0.0187 0.0187 0.0187 0.0187
+ 0.0204 0.0202 0.0201 0.0200 0.0199 0.0197 0.0194 0.0191 0.0190 0.0189 0.0188 0.0187 0.0187 0.0187 0.0187 0.0187 0.0187 0.0186
+ 0.0204 0.0202 0.0201 0.0199 0.0198 0.0197 0.0194 0.0191 0.0190 0.0189 0.0187 0.0187 0.0187 0.0186 0.0186 0.0186 0.0186 0.0186
+ 0.0204 0.0202 0.0200 0.0199 0.0198 0.0196 0.0194 0.0191 0.0189 0.0188 0.0187 0.0187 0.0186 0.0186 0.0186 0.0186 0.0186 0.0186
+ 0.0204 0.0202 0.0200 0.0199 0.0198 0.0196 0.0193 0.0190 0.0189 0.0188 0.0187 0.0186 0.0186 0.0186 0.0185 0.0185 0.0185 0.0185
+ 0.0203 0.0202 0.0200 0.0199 0.0198 0.0196 0.0193 0.0190 0.0189 0.0188 0.0187 0.0186 0.0186 0.0185 0.0185 0.0185 0.0185 0.0185
+ 0.0203 0.0201 0.0200 0.0199 0.0198 0.0196 0.0193 0.0190 0.0189 0.0188 0.0186 0.0186 0.0185 0.0185 0.0185 0.0185 0.0185 0.0185
+           }
+       }
+    ETCH_VS_WIDTH_AND_SPACING  {
+	$$ 这部分表示刻蚀宽度偏差。理想情况下，刻蚀的宽度就是mask留的宽度，但实际制造中，光刻和刻蚀会受到线宽和间距影响而引起偏差
+	$$ 因此，实际的线宽应该是理想线宽减去两倍的刻蚀偏差，real_width=origin-2*etch_value
+	$$ etch_value为正值时，说明线宽变窄，shrink; etch_value为负值时，说明线宽变宽，expansion
+	$$ 实际线上电阻应该基于考虑etch后的真实线宽
+	$$ etch_value通过spacing和width查表得到
+         SPACINGS { 0.3600 0.5400 0.7200 0.9000 1.0800 1.3500 1.8000 2.2500 2.7000 3.1500 3.6000 4.0500 4.5000 4.9500 5.4000 }
+         WIDTHS   { 0.3600 0.5400 0.7200 0.9000 1.0800 1.3500 1.8000 2.7000 3.6000 4.5000 5.4000 6.7500 8.1000 9.0000 10.8000 }
+         VALUES  { 
+ -0.023150 -0.022300 -0.021450 -0.020650 -0.019800 -0.018950 -0.018100 -0.017300 -0.016450 -0.015600 -0.014800 -0.013950 -0.013100 -0.012250 -0.011450
+ -0.014300 -0.013100 -0.011900 -0.010700 -0.009500 -0.008350 -0.007150 -0.006000 -0.004800 -0.003600 -0.002450 -0.001200 -0.000050 0.001150 0.002300
+ -0.001000 0.000250 0.001500 0.002750 0.004050 0.005300 0.006550 0.007800 0.009100 0.010350 0.011600 0.012900 0.014150 0.015400 0.016650
+ 0.008950 0.010350 0.011700 0.013100 0.014550 0.015900 0.017300 0.018700 0.020100 0.021500 0.022900 0.024250 0.025650 0.027050 0.028450
+ -0.005550 -0.004300 -0.003050 -0.001800 -0.000500 0.000750 0.002000 0.003250 0.004500 0.005750 0.007000 0.008250 0.009550 0.010750 0.012050
+ -0.001700 -0.000150 0.001450 0.002950 0.004500 0.006100 0.007650 0.009250 0.010800 0.012350 0.013900 0.015450 0.017000 0.018550 0.020150
+ -0.035000 -0.032850 -0.030650 -0.028500 -0.026350 -0.024200 -0.022050 -0.019900 -0.017700 -0.015550 -0.013400 -0.011250 -0.009050 -0.006900 -0.004750
+ -0.039750 -0.036550 -0.033350 -0.030150 -0.026950 -0.023700 -0.020500 -0.017300 -0.014050 -0.010850 -0.007650 -0.004400 -0.001200 0.002000 0.005200
+ -0.032350 -0.028100 -0.023850 -0.019600 -0.015400 -0.011150 -0.006900 -0.002650 0.001600 0.005800 0.010050 0.014300 0.018500 0.022800 0.027050
+ -0.025800 -0.020500 -0.015250 -0.010000 -0.004750 0.000550 0.005850 0.011100 0.016350 0.021650 0.026900 0.032200 0.037450 0.042750 0.048000
+ -0.015900 -0.009600 -0.003350 0.002950 0.009250 0.015550 0.021800 0.028150 0.034400 0.040700 0.047000 0.053300 0.059550 0.065850 0.072150
+ -0.007650 0.000200 0.008050 0.015900 0.023700 0.031550 0.039400 0.047250 0.055100 0.062900 0.070800 0.078600 0.086450 0.094300 0.102150
+ 0.005350 0.014700 0.024100 0.033450 0.042850 0.052200 0.061600 0.070950 0.080350 0.089750 0.099100 0.108500 0.117850 0.127250 0.136600
+ -0.011200 -0.000750 0.009700 0.020150 0.030600 0.041050 0.051500 0.062000 0.072450 0.082900 0.093350 0.103850 0.114300 0.124750 0.135200
+ -0.001550 0.011000 0.023500 0.036050 0.048550 0.061100 0.073600 0.086150 0.098700 0.111200 0.123700 0.136250 0.148750 0.161300 0.173800
+           }
+       }
+ WMIN=0.36 SMIN=0.36 
+ $$ WMIN为min width；SMIN为min spacing
+ CRT_VS_SI_WIDTH {
+ $$ 上面说过temperature-dependent resistance，两个系数分别为CRT1和CRT2
+ $$ CRT1/CRT2基于width查一维表得到
+  (0.3900, 3.6490e-03, -8.5347e-07)  (0.4572, 3.6834e-03, -8.5317e-07)  (0.5520, 3.7122e-03, -8.2474e-07)  (0.7000, 3.7416e-03, -8.9018e-07)  (1.0630, 3.7820e-03, -9.4955e-07)  (1.3347, 3.7960e-03, -7.8620e-07)  (4.4036, 3.8055e-03, -4.7080e-07)  (6.5707, 3.8055e-03, -4.7080e-07)
+ }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;3-conclusion&quot;&gt;3. Conclusion&lt;/h2&gt;
+&lt;p&gt;芯片制造过程中的工艺偏差，会导致金属的宽度/厚度/形状发生偏差，继而导致RC的偏差。 &lt;br /&gt;
+thickness = origin - f(density,width)  &lt;br /&gt;
+width = origin - 2*f(spacing,width) &lt;br /&gt;
+resistivity = f(width,thickness)&lt;br /&gt;
+R= CRT2*(T-T0)^2 + CRT1*(T-T0) + R0&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="STA" /><category term="process" /><summary type="html">后端设计中，我们需要知道每条net的RC值来计算timing，RC由process直接决定，不同的导体/绝缘体材料、金属宽度/厚度/间距、制造过程中的光刻/刻蚀/抛光等引起的工艺偏差、工作温度等因素都会导致RC变化。 Foundary会考虑制造过程中的种种因素，建立RC模型，来提供给后端；后端根据此模型，抽取计算得到整条net的RC，继而得出net timing。 Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以通过Starrc相互转换。</summary></entry><entry><title type="html">understanding SPEF</title><link href="http://localhost:4000/understanding-spef/" rel="alternate" type="text/html" title="understanding SPEF" /><published>2017-11-06T00:00:00+08:00</published><updated>2017-11-06T00:00:00+08:00</updated><id>http://localhost:4000/understanding-spef</id><content type="html" xml:base="http://localhost:4000/understanding-spef/">&lt;p&gt;SPEF(Standard Parasitic Exchange Format)是一种IEEE标准，包含着线上的寄生电阻、电容、电感等信息。SPEF是ASCII格式，可读的。PR后，要抽取spef，在STA工具里反标net上的RC，再配合db里std cell的RC，通过完整的RC才能计算得到准确的timing。&lt;br /&gt;
 反标RC过程中，经常会出现warning、error等信息，这时我们就需要debug spef。所以，我们有必要了解SPEF的语法格式。&lt;!-- more --&gt; &lt;br /&gt;
 SPEF file通常包括四个部分：&lt;/p&gt;
 &lt;ol&gt;
