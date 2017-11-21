@@ -47,7 +47,9 @@
   {% include color-browser.html %}
 
   {% include syntax-highlight.html %}
-  {% include syntax-highlight.html %}
+  {% if jekyll.environment == 'production' %}
+	{% include analytics.html %}
+  {% endif %}
 
 </head>
 
