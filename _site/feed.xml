@@ -1,4 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-11-08T18:59:40+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">understanding ITF</title><link href="http://localhost:4000/understanding-itf/" rel="alternate" type="text/html" title="understanding ITF" /><published>2017-11-08T00:00:00+08:00</published><updated>2017-11-08T00:00:00+08:00</updated><id>http://localhost:4000/understanding-itf</id><content type="html" xml:base="http://localhost:4000/understanding-itf/">&lt;p&gt;后端设计中，我们需要知道每条net的RC值来计算timing，RC由process直接决定，不同的导体/绝缘体材料、金属宽度/厚度/间距、制造过程中的光刻/刻蚀/抛光等引起的工艺偏差、工作温度等因素都会导致RC变化。&lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2017-11-22T18:40:57+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">Debug PrimeTime Crash Issue In A Restored Session</title><link href="http://localhost:4000/debug-PrimeTime-crash/" rel="alternate" type="text/html" title="Debug PrimeTime Crash Issue In A Restored Session" /><published>2017-11-22T00:00:00+08:00</published><updated>2017-11-22T00:00:00+08:00</updated><id>http://localhost:4000/debug-PrimeTime-crash</id><content type="html" xml:base="http://localhost:4000/debug-PrimeTime-crash/">&lt;p&gt;之前一直用的是2015版本的PrimeTime，最近项目中有path margin约束，需要更新到2016.12sp1版本的PrimeTime。使用该版本时，由于软件feature变化，一直碰到crash的问题，最近才终于发现根源。   &lt;!--more--&gt;&lt;/p&gt;
+&lt;h2 id=&quot;1-issue&quot;&gt;1. Issue&lt;/h2&gt;
+&lt;p&gt;STA刚开始时，我习惯的做法是先DMSA flow来跑一下全部signoff secnario，save_session来保存（由于license/mem/cpu等限制，可能要分多次跑DMSA），然后选出timing最差的某些corner来fix。&lt;br /&gt;
+这次，更新到新版本后，restore session后&lt;code&gt;update_timing&lt;/code&gt;和&lt;code&gt;fix_eco_timing&lt;/code&gt;等cmd经常会导致session crash。&lt;br /&gt;
+而且，crash前不会有warning/error等提示，直接是一堆stack trace。&lt;/p&gt;
+
+&lt;h2 id=&quot;2debug&quot;&gt;2.Debug&lt;/h2&gt;
+&lt;p&gt;首先，我对通过多次single-scenario run来得到多个session; restore这些session后，无论是&lt;code&gt;update_timing&lt;/code&gt;,&lt;code&gt;fix_eco_timing&lt;/code&gt;或者其他cmd都没有引起session crash。&lt;br /&gt;
+&lt;strong&gt;这就说明，引起crash的不是database，而是DMSA。&lt;/strong&gt;&lt;br /&gt;
+然后，&lt;strong&gt;新建了一个工作目录&lt;/strong&gt;，多次DMSA跑multi-scenarios; restore这些session，发现只有第一次的那些session可以正常，其余session还是会crash。&lt;br /&gt;
+就是说，比如第一次DMSA跑了:s1,s2,s3;第二次跑了：s4,s5,s6; 第三次跑了：s7,s8,s9。仅s1/s2/s3可以restore正常工作，没有crash。&lt;br /&gt;
+于是，我再次DMSA跑了:s1,s2,s3，为了和第一次区分，就叫他们为：s1_2,s2_2,s3_2。但是s1_2/s2_2/s3_2 restore后也会crash。&lt;br /&gt;
+虽然s1/s1_1的cmd/constraint等完全一致，但是s1不会crash，s1_1会crash。&lt;br /&gt;
+接下来，就要比较s1和s1_1这两个session到底有什么差异了。&lt;br /&gt;
+PT保存的session不可读，但是lib_mapping/readme是可读的。&lt;br /&gt;
+比较了这两个file，并未发现有什么不同。&lt;br /&gt;
+就在我以为此路不通时，忽然发现session里有两个link file。而且不同session的file都link到同样的file。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;##隐path，仅示意
+mod29 -&amp;gt; /foo/bar/DMSA_work/common_data/a/mod29
+nmp29 -&amp;gt; /foo/bar/DMSA_work/common_data/a/nmp29
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;save_session&lt;/code&gt;时为了节约硬盘空间，不同session之间可以共用信息，这部分就是存在common_data下。&lt;br /&gt;
+那么问题就可以定位到DMSA common data上。&lt;br /&gt;
+为何不是同一次DMSA的session会共用同样的data？&lt;br /&gt;
+查看了旧版本的common data，每次DMSA的命名是不一样的。所以这应该就是root cause。&lt;/p&gt;
+
+&lt;h2 id=&quot;3fix&quot;&gt;3.Fix&lt;/h2&gt;
+&lt;p&gt;老版本的PT在save_session时，common data是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;% ls -rt
+a  f  k  p  u  z   ae  aj  ao  at  ay   aad  aaq  aaf  aak  aax   aaac  aaah  aaam  aaar  aaaw   aaaab  aaaag  aaaal  aaaaq  aaaav  aaaaaa  aaaaaf  aaaaak
+b  g  l  q  v  aa  af  ak  ap  au  az   aam  aar  aag  aal  aay   aaad  aaai  aaan  aaas  aaax   aaaac  aaaah  aaaam  aaaar  aaaaw  aaaaab  aaaaag  tracking_file
+c  h  m  r  w  ab  ag  al  aq  av  aaa  aan  aas  aah  aau  aaz   aaae  aaaj  aaao  aaat  aaay   aaaad  aaaai  aaaan  aaaas  aaaax  aaaaac  aaaaah
+d  i  n  s  x  ac  ah  am  ar  aw  aab  aao  aat  aai  aav  aaaa  aaaf  aaak  aaap  aaau  aaaz   aaaae  aaaaj  aaaao  aaaat  aaaay  aaaaad  aaaaai
+e  j  o  t  y  ad  ai  an  as  ax  aac  aap  aae  aaj  aaw  aaab  aaag  aaal  aaaq  aaav  aaaaa  aaaaf  aaaak  aaaap  aaaau  aaaaz  aaaaae  aaaaaj
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;DMSA save_session时，common data下会从a到z开始命名，用完了就用aa-az，aaa-aaz，aaaa-aaaz以此类推。&lt;br /&gt;
+就是说，每次DMSA在save session时会查看下common data目录，如果已经有data了，就会用新的名字来保存，以保证不覆盖已存的data。&lt;br /&gt;
+但是2016版本的PT，在save seesion时，并不会用新名字来保存common data，而且，也不会覆盖已存在的data。或者该说，它发现已经有存在的data，它就不会重新保存，所以common data下仅会保存着第一次产生的data…… &lt;br /&gt;
+所以，只有第一次保存的session可以正常restore。&lt;br /&gt;
+那么，work around可以是每次把common data保存到不同的目录下。common data dir是怎么决定的呢？&lt;br /&gt;
+&lt;code&gt;save_session&lt;/code&gt;的manpage里有解释：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;When save_session is called in a distributed multi-scenario analysis (DMSA) run, certain data, such as parasitic and physical DB information, are stored in a common data directory named common_data. 
+The images saved by each scenario contain softlinks to the data in this common data directory to avoid a duplication of storage of the data that scenarios share in common. 
+When save_session is issued directly to the master session, the common data directory is created in the specified image directory. 
+When save_session is issued to the slaves via remote_execute, the location of the common data directory is based on whether the image directory specified to the command is relative or absolute:
+
+For absolute paths, the common data is located in the parent directory of the specified directory. All scenario images should share the same parent directory to maximise sharing.
+
+For relative paths, the common data directory is located directly under the multi-scenario working directory.
+
+To execute a multi_scenario save_session with common data sharing disabled, use the -disable_common_data_sharing option.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;所以，&lt;code&gt;save_session&lt;/code&gt;时指定绝对路径就可以把common data保存到session的上一级目录，而不是master working dir，这样就不会有多次DMSA的common data冲突的情况。&lt;/p&gt;</content><author><name>Leon Sun</name></author><category term="STA" /><category term="PT" /><summary type="html">之前一直用的是2015版本的PrimeTime，最近项目中有path margin约束，需要更新到2016.12sp1版本的PrimeTime。使用该版本时，由于软件feature变化，一直碰到crash的问题，最近才终于发现根源。</summary></entry><entry><title type="html">understanding ITF</title><link href="http://localhost:4000/understanding-itf/" rel="alternate" type="text/html" title="understanding ITF" /><published>2017-11-08T00:00:00+08:00</published><updated>2017-11-08T00:00:00+08:00</updated><id>http://localhost:4000/understanding-itf</id><content type="html" xml:base="http://localhost:4000/understanding-itf/">&lt;p&gt;后端设计中，我们需要知道每条net的RC值来计算timing，RC由process直接决定，不同的导体/绝缘体材料、金属宽度/厚度/间距、制造过程中的光刻/刻蚀/抛光等引起的工艺偏差、工作温度等因素都会导致RC变化。&lt;br /&gt;
 Foundary会考虑制造过程中的种种因素，建立RC模型，来提供给后端；后端根据此模型，抽取计算得到整条net的RC，继而得出net timing。 &lt;br /&gt;
 Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以通过Starrc相互转换。&lt;!--more--&gt;&lt;/p&gt;
 &lt;blockquote&gt;
@@ -65,8 +118,8 @@ CONDUCTOR M8 {THICKNESS= 0.885450
              0    9.83830E-01    -2.18583E+00    1.54960E+00    -8.13606E-01  
              0    -3.44482E-02    7.69210E-02    -3.26943E-02    5.70675E-02  
          }
-		 $$ 多项式的系数，因为上面density/width指数都有5种，所以多项式有5*5=25项，表格分别为每项的指数，具体为：
-		 $$ delta_thickness = 
+         $$ 多项式的系数，因为上面density/width指数都有5种，所以多项式有5*5=25项，表格分别为每项的指数，具体为：
+         $$ delta_thickness = 
          $$     0 * D^4W^4  +  -2.09675E+01 * D^3W^4 +  4.71013E+01 * D^2W^4  +  -3.63903E+01 * D^1W^4 +  1.10754E+01 * D^0W^4 
          $$     0 * D^4W^3  +  2.24127E+01  * D^3W^3 + -5.02114E+01 * D^2W^3  +  3.88210E+01  * D^1W^3 + -1.28144E+01 * D^0W^3 
          $$     0 * D^4W^2  +  -7.76371E+00 * D^3W^2 +  1.73158E+01 * D^2W^2  +  -1.32161E+01 * D^1W^2 +  5.02100E+00 * D^0W^2 
