@@ -30,7 +30,7 @@ JSON虽然源于JavaScript，但是因为它简单易读的数据格式，已被
 这个主要是出于stdcell方面的考虑，因为为了得到stdcell的track number,channel width/pitch，vt info等需要解析其库名，但是各个foundary或者第三方提供的命名规则完全不一样，例如TSMC的命名如tcbn28hpcplusbwp7t35p140ssg0p81v0p9vm40c_ccs，而ARM的命名如sc9mc_cln28hpm_base_svt_c38_tt_typical_max_0p81v_0c，所以无法统一的处理。  
 所以为了方便扩展，给这个stdcell信息定义一个interface，不同的foundary parser都来实现这个interface，可以很好的解决问题。遇到新的命名规则，只需要新写个类来实现interface。  
 整个package class structure比较简单，大致如下：  
-![Fig2. class structure](/img/2017-12-10-package-hier-diagram.png)
+![Fig2. class structure](/img/2017-12-10-package-hier-diagram.png "Fig2. class structure")
 目前，vender只扩展了TSMC和ARM，以后会继续扩展。  
 由于库里的operation condition命名规则不同会导致混乱，我将其拿出单独一个object Opc，其opc_name field是按照我定的规则得到的新name，我称其为归一化后的opc name，它和.lib里的default opc name可能会不同。  
 JSON的序列化和反序列化使用的是Gson,这是google的json库,详情参考[这里](https://sites.google.com/site/gson/gson-user-guide)。  
@@ -51,10 +51,10 @@ Please refer README for more info
 ### 3.1 save info to json
 toJson时，需要提供所有待解析的.lib文件，放在一个文本里，格式如下：  
 	`lib_file_path <vender_if_stdcell>`   
-\<vender_if_stdcell\>用来解析stdcell相关的信息。  
+`<vender_if_stdcell>`用来解析stdcell相关的信息。  
 `-outputFile outputFile`为optional，不指定情况下，默认保存到当前目录的libs.json。  
 实例如下：
-```
+```bash
 $cat libs.list
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0c_ccs.lib TSMC
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0p88v0c_ccs.lib TSMC
@@ -219,7 +219,7 @@ Total 4372 libs are parsed.
 `-outputAttr`指的是需要输出的lib attribute，比如我们需要ss_0.81_-40下的所有link lib，我们只要dbfile attribute，其它我们并不需要。   
 `-outputFile`是将输出重定向到你指定的file。  
 实例如下：
-```
+```bash
 ##比如，我们需要ICC里ss_0.81_-40 corner下的link library
 ##这里用了multi filter，来过滤到lowpower stdcell(假设design为非low power dsign,不需要这些库).
 $ java -jar ~/Liberty/Lib.jar -json libs.json -filter "opc_name=~ss.*_0.81_-40 && libfile!~.*\dv.*\dv.*" -outputAttr dbfile -outputFile sslt.list

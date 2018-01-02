@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2018-01-02T18:05:30+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">save library info into json</title><link href="http://localhost:4000/save-library-info-in-json/" rel="alternate" type="text/html" title="save library info into json" /><published>2017-12-10T00:00:00+08:00</published><updated>2017-12-10T00:00:00+08:00</updated><id>http://localhost:4000/save-library-info-in-json</id><content type="html" xml:base="http://localhost:4000/save-library-info-in-json/">&lt;p&gt;Library(.lib)里一种可读文本格式，它定义了这个逻辑库的特征和所包含的逻辑单元。如下图，它的内容格式必须满足一定的格式，上部分为库的基本特征，包括lib name,operating condition,voltage map,wire load model,timing/power/niose template definitions等; 下部分为该库所包含的所有cell,包括cell的function/timing/power/noise等详细信息。&lt;!--more--&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2018-01-02T18:16:22+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">save library info into json</title><link href="http://localhost:4000/save-library-info-in-json/" rel="alternate" type="text/html" title="save library info into json" /><published>2017-12-10T00:00:00+08:00</published><updated>2017-12-10T00:00:00+08:00</updated><id>http://localhost:4000/save-library-info-in-json</id><content type="html" xml:base="http://localhost:4000/save-library-info-in-json/">&lt;p&gt;Library(.lib)里一种可读文本格式，它定义了这个逻辑库的特征和所包含的逻辑单元。如下图，它的内容格式必须满足一定的格式，上部分为库的基本特征，包括lib name,operating condition,voltage map,wire load model,timing/power/niose template definitions等; 下部分为该库所包含的所有cell,包括cell的function/timing/power/noise等详细信息。&lt;!--more--&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/2017-12-10-logic-lib-structrue.png&quot; alt=&quot;Fig1. sturcture of a logic library&quot; title=&quot;Fig1. sturcture of a logic library&quot; /&gt;&lt;/p&gt;
 
@@ -22,7 +22,7 @@
 &lt;p&gt;这个主要是出于stdcell方面的考虑，因为为了得到stdcell的track number,channel width/pitch，vt info等需要解析其库名，但是各个foundary或者第三方提供的命名规则完全不一样，例如TSMC的命名如tcbn28hpcplusbwp7t35p140ssg0p81v0p9vm40c_ccs，而ARM的命名如sc9mc_cln28hpm_base_svt_c38_tt_typical_max_0p81v_0c，所以无法统一的处理。&lt;br /&gt;
 所以为了方便扩展，给这个stdcell信息定义一个interface，不同的foundary parser都来实现这个interface，可以很好的解决问题。遇到新的命名规则，只需要新写个类来实现interface。&lt;br /&gt;
 整个package class structure比较简单，大致如下：&lt;br /&gt;
-&lt;img src=&quot;/img/2017-12-10-package-hier-diagram.png&quot; alt=&quot;Fig2. class structure&quot; /&gt;
+&lt;img src=&quot;/img/2017-12-10-package-hier-diagram.png&quot; alt=&quot;Fig2. class structure&quot; title=&quot;Fig2. class structure&quot; /&gt;
 目前，vender只扩展了TSMC和ARM，以后会继续扩展。&lt;br /&gt;
 由于库里的operation condition命名规则不同会导致混乱，我将其拿出单独一个object Opc，其opc_name field是按照我定的规则得到的新name，我称其为归一化后的opc name，它和.lib里的default opc name可能会不同。&lt;br /&gt;
 JSON的序列化和反序列化使用的是Gson,这是google的json库,详情参考&lt;a href=&quot;https://sites.google.com/site/gson/gson-user-guide&quot;&gt;这里&lt;/a&gt;。&lt;br /&gt;
@@ -42,10 +42,10 @@ Please refer README for more info
 &lt;h3 id=&quot;31-save-info-to-json&quot;&gt;3.1 save info to json&lt;/h3&gt;
 &lt;p&gt;toJson时，需要提供所有待解析的.lib文件，放在一个文本里，格式如下：&lt;br /&gt;
 	&lt;code&gt;lib_file_path &amp;lt;vender_if_stdcell&amp;gt;&lt;/code&gt; &lt;br /&gt;
-&amp;lt;vender_if_stdcell&amp;gt;用来解析stdcell相关的信息。&lt;br /&gt;
+&lt;code&gt;&amp;lt;vender_if_stdcell&amp;gt;&lt;/code&gt;用来解析stdcell相关的信息。&lt;br /&gt;
 &lt;code&gt;-outputFile outputFile&lt;/code&gt;为optional，不指定情况下，默认保存到当前目录的libs.json。&lt;br /&gt;
 实例如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$cat libs.list
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$cat libs.list
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0c_ccs.lib TSMC
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0p88v0c_ccs.lib TSMC
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0p88v125c_ccs.lib TSMC
@@ -208,7 +208,7 @@ Total 4372 libs are parsed.
 &lt;code&gt;-outputAttr&lt;/code&gt;指的是需要输出的lib attribute，比如我们需要ss_0.81_-40下的所有link lib，我们只要dbfile attribute，其它我们并不需要。 &lt;br /&gt;
 &lt;code&gt;-outputFile&lt;/code&gt;是将输出重定向到你指定的file。&lt;br /&gt;
 实例如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;##比如，我们需要ICC里ss_0.81_-40 corner下的link library
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;##比如，我们需要ICC里ss_0.81_-40 corner下的link library
 ##这里用了multi filter，来过滤到lowpower stdcell(假设design为非low power dsign,不需要这些库).
 $ java -jar ~/Liberty/Lib.jar -json libs.json -filter &quot;opc_name=~ss.*_0.81_-40 &amp;amp;&amp;amp; libfile!~.*\dv.*\dv.*&quot; -outputAttr dbfile -outputFile sslt.list
 $ cat sslt.list
