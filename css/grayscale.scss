@@ -59,7 +59,9 @@ pre {
 h1 {
     margin: 0 0 35px;
     /*text-transform: uppercase;*/
-    font-family: 'Courgette', cursive,Georgia, Times, 'Times New Roman', serif,'宋体', "SimSun";
+	text-transform:capitalize;
+    /*font-family: 'Courgette', cursive,Georgia, Times, 'Times New Roman', serif,'宋体', "SimSun";*/
+    font-family: Georgia,'Times New Roman', serif,'宋体', "SimSun";
 	font-size: 45px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -72,8 +74,8 @@ h5,
 h6 {
     margin: 0 0 35px;
     /*text-transform: uppercase;*/
-    font-family: Georgia, Times, 'Times New Roman', serif,'宋体', "SimSun";
-    font-weight: 700;
+    font-family: 'Times New Roman', serif,'宋体', "SimSun";
+    font-weight: 800;
     letter-spacing: 1px;
 }
 
@@ -91,19 +93,22 @@ h4 {
 p {
     margin: 0 0 25px;
     font-size: 18px;
-    line-height: 1.5;
-    @media(min-width:768px) {
+    /*line-height: 1.5;*/
+   /* @media(min-width:768px) {
         margin: 0 0 35px;
         font-size: 18px;
         line-height: 1.6;
     }
+	*/
 /* word break add 0824 */
 	word-wrap: break-word;
     -ms-word-break: break-all;
     word-break: break-all;
 
- /* Non standard for webkit */
+	white-space: pre;
+ /* Non standard for webkit 
      word-break: break-word;
+  */
 
     -webkit-hyphens: auto;
        -moz-hyphens: auto;
@@ -613,4 +618,20 @@ body div#content section {
     left: 50%;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+
+blockquote {
+	padding:10px 20px;
+	margin:0 0 20px;
+	font-size:17.5px;
+	border-left:5px solid #4BBBE7;
+	background:rgba(238, 238, 238, 0.6);
+}
+
+.bloglistbg {
+	background-image: url("/img/bloglist_bg.png");
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	margin:0 -100px 20px -50px;
+	padding:0 50px 10px 20px;
 }

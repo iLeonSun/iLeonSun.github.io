@@ -1,36 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="zh" /><updated>2018-01-02T18:16:22+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">save library info into json</title><link href="http://localhost:4000/save-library-info-in-json/" rel="alternate" type="text/html" title="save library info into json" /><published>2017-12-10T00:00:00+08:00</published><updated>2017-12-10T00:00:00+08:00</updated><id>http://localhost:4000/save-library-info-in-json</id><content type="html" xml:base="http://localhost:4000/save-library-info-in-json/">&lt;p&gt;Library(.lib)里一种可读文本格式，它定义了这个逻辑库的特征和所包含的逻辑单元。如下图，它的内容格式必须满足一定的格式，上部分为库的基本特征，包括lib name,operating condition,voltage map,wire load model,timing/power/niose template definitions等; 下部分为该库所包含的所有cell,包括cell的function/timing/power/noise等详细信息。&lt;!--more--&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-01-12T18:05:43+08:00</updated><id>http://localhost:4000/</id><title type="html">Leon Sun</title><subtitle>Blog and website of Leon Sun</subtitle><author><name>Leon Sun</name></author><entry><title type="html">save library info into json</title><link href="http://localhost:4000/save-library-info-in-json/" rel="alternate" type="text/html" title="save library info into json" /><published>2017-12-10T00:00:00+08:00</published><updated>2017-12-10T00:00:00+08:00</updated><id>http://localhost:4000/save-library-info-in-json</id><content type="html" xml:base="http://localhost:4000/save-library-info-in-json/">&lt;p&gt;Library(.lib)里一种可读文本格式，它定义了这个逻辑库的特征和所包含的逻辑单元。如下图，它的内容格式必须满足一定的格式，上部分为库的基本特征，包括lib name,operating condition,voltage map,wire load model,timing/power/niose template definitions等; 下部分为该库所包含的所有cell,包括cell的function/timing/power/noise等详细信息。&lt;!--more--&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/2017-12-10-logic-lib-structrue.png&quot; alt=&quot;Fig1. sturcture of a logic library&quot; title=&quot;Fig1. sturcture of a logic library&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Library很重要，前后端都要用到，Synopsys为了提高它家tool处理lib的速度，会将.lib转成二进制的.db文件，DC/ICC/PT都是读.db。&lt;/p&gt;
 
 &lt;h2 id=&quot;1我为何要处理这些lib文件&quot;&gt;1.我为何要处理这些.lib文件?&lt;/h2&gt;
-&lt;p&gt;我们知道，一个项目中，可能会用到数千个.lib文件，stdcell有不同的track number,channel width/pitch,这些不同的特征cell不能在PR里弄混，比如正常情况下7 track的core里不能放进去9 track和12 track的cell(multi track情况除外);包括memory/ip/io在内的所有的cell的timing都与operation condition有关，同一个signoff corner下，不能混用到不同operation condition的cell。&lt;br /&gt;
-一般情况下，foundary提供的stdcell lib的命名比较规范，从lib name就可以看出track number/operaction condition等许多lib信息。但是memory/IP/IO等lib常常是第三方提供的，命名五花八门，常常需要打开.lib来寻找信息。&lt;br /&gt;
-因此，我就打算将这些.lib信息全部抽取出来单独保存到json，以后需要查看库基本信息时，只要看该json文件。&lt;br /&gt;
+
+&lt;p&gt;我们知道，一个项目中，可能会用到数千个.lib文件，stdcell有不同的track number,channel width/pitch,这些不同的特征cell不能在PR里弄混，比如正常情况下7 track的core里不能放进去9 track和12 track的cell(multi track情况除外);包括memory/ip/io在内的所有的cell的timing都与operation condition有关，同一个signoff corner下，不能混用到不同operation condition的cell。&lt;/p&gt;
+
+&lt;p&gt;一般情况下，foundary提供的stdcell lib的命名比较规范，从lib name就可以看出track number/operaction condition等许多lib信息。但是memory/IP/IO等lib常常是第三方提供的，命名五花八门，常常需要打开.lib来寻找信息。&lt;/p&gt;
+
+&lt;p&gt;因此，我就打算将这些.lib信息全部抽取出来单独保存到json，以后需要查看库基本信息时，只要看该json文件。&lt;br /&gt;
 除此以外，我还加入filter json功能，来处理简单的filter操作，比如找出不同operation condition的.lib，这个在后面会提到。&lt;/p&gt;
 
 &lt;h2 id=&quot;2为何用json&quot;&gt;2.为何用json?&lt;/h2&gt;
+
 &lt;p&gt;首先要介绍一下json：&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。 易于人阅读和编写。同时也易于机器解析和生成。 它基于JavaScript Programming Language, Standard ECMA-262 3rd Edition - December 1999的一个子集。 JSON采用完全独立于语言的文本格式，但是也使用了类似于C语言家族的习惯（包括C, C++, C#, Java, JavaScript, Perl, Python等）。 这些特性使JSON成为理想的数据交换语言&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;JSON虽然源于JavaScript，但是因为它简单易读的数据格式，已被广泛应用，多种语言都有库支持json的解析和生成。更多信息可以参考&lt;a href=&quot;https://www.json.org/&quot;&gt;这里&lt;/a&gt; &lt;br /&gt;
-每个.lib对应一个object，所以.lib存到一个list里，可以很简单的写到json里，读起来非常方便。&lt;/p&gt;
+&lt;p&gt;JSON虽然源于JavaScript，但是因为它简单易读的数据格式，已被广泛应用，多种语言都有库支持json的解析和生成。更多信息可以参考&lt;a href=&quot;https://www.json.org/&quot;&gt;这里&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;每个.lib对应一个object，所以.lib存到一个list里，可以很简单的写到json里，读起来非常方便。&lt;/p&gt;
+
 &lt;h2 id=&quot;3为何用java&quot;&gt;3.为何用java?&lt;/h2&gt;
-&lt;p&gt;这个主要是出于stdcell方面的考虑，因为为了得到stdcell的track number,channel width/pitch，vt info等需要解析其库名，但是各个foundary或者第三方提供的命名规则完全不一样，例如TSMC的命名如tcbn28hpcplusbwp7t35p140ssg0p81v0p9vm40c_ccs，而ARM的命名如sc9mc_cln28hpm_base_svt_c38_tt_typical_max_0p81v_0c，所以无法统一的处理。&lt;br /&gt;
-所以为了方便扩展，给这个stdcell信息定义一个interface，不同的foundary parser都来实现这个interface，可以很好的解决问题。遇到新的命名规则，只需要新写个类来实现interface。&lt;br /&gt;
-整个package class structure比较简单，大致如下：&lt;br /&gt;
-&lt;img src=&quot;/img/2017-12-10-package-hier-diagram.png&quot; alt=&quot;Fig2. class structure&quot; title=&quot;Fig2. class structure&quot; /&gt;
-目前，vender只扩展了TSMC和ARM，以后会继续扩展。&lt;br /&gt;
-由于库里的operation condition命名规则不同会导致混乱，我将其拿出单独一个object Opc，其opc_name field是按照我定的规则得到的新name，我称其为归一化后的opc name，它和.lib里的default opc name可能会不同。&lt;br /&gt;
-JSON的序列化和反序列化使用的是Gson,这是google的json库,详情参考&lt;a href=&quot;https://sites.google.com/site/gson/gson-user-guide&quot;&gt;这里&lt;/a&gt;。&lt;br /&gt;
-Filter类是用来过滤一些expression，目前支持&lt;code&gt;==&lt;/code&gt;,&lt;code&gt;!=&lt;/code&gt;,&lt;code&gt;=~&lt;/code&gt;,&lt;code&gt;!~&lt;/code&gt;操作，匹配是需用正则表达式，而不是简单的glob。另外，加入了对多个表达式通过&lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt;和&lt;code&gt;||&lt;/code&gt;的支持，实例会在后面给出。&lt;br /&gt;
-Util类为工具类，里面包括一些public static的method。&lt;/p&gt;
+
+&lt;p&gt;这个主要是出于stdcell方面的考虑，因为为了得到stdcell的track number,channel width/pitch，vt info等需要解析其库名，但是各个foundary或者第三方提供的命名规则完全不一样，例如TSMC的命名如tcbn28hpcplusbwp7t35p140ssg0p81v0p9vm40c_ccs，而ARM的命名如sc9mc_cln28hpm_base_svt_c38_tt_typical_max_0p81v_0c，所以无法统一的处理。&lt;/p&gt;
+
+&lt;p&gt;所以为了方便扩展，给这个stdcell信息定义一个interface，不同的foundary parser都来实现这个interface，可以很好的解决问题。遇到新的命名规则，只需要新写个类来实现interface。&lt;/p&gt;
+
+&lt;p&gt;整个package class structure比较简单，大致如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/2017-12-10-package-hier-diagram.png&quot; alt=&quot;Fig2. class structure&quot; title=&quot;Fig2. class structure&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;目前，vender只扩展了TSMC和ARM，以后会继续扩展。&lt;/p&gt;
+
+&lt;p&gt;由于库里的operation condition命名规则不同会导致混乱，我将其拿出单独一个object Opc，其opc_name field是按照我定的规则得到的新name，我称其为归一化后的opc name，它和.lib里的default opc name可能会不同。&lt;/p&gt;
+
+&lt;p&gt;JSON的序列化和反序列化使用的是Gson,这是google的json库,详情参考&lt;a href=&quot;https://sites.google.com/site/gson/gson-user-guide&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;Filter类是用来过滤一些expression，目前支持&lt;code&gt;==&lt;/code&gt;,&lt;code&gt;!=&lt;/code&gt;,&lt;code&gt;=~&lt;/code&gt;,&lt;code&gt;!~&lt;/code&gt;操作，匹配是需用正则表达式，而不是简单的glob。另外，加入了对多个表达式通过&lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt;和&lt;code&gt;||&lt;/code&gt;的支持，实例会在后面给出。&lt;/p&gt;
+
+&lt;p&gt;Util类为工具类，里面包括一些public static的method。&lt;/p&gt;
 
 &lt;h2 id=&quot;3使用&quot;&gt;3.使用&lt;/h2&gt;
+
 &lt;p&gt;我生成了runable jar包，使用时直接使用该jar包。只要有两个方式，toJson和FilterJson，如下：&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;$java -jar ~/Liberty/Lib.jar -help
 usage:
 toJson:
@@ -39,12 +56,15 @@ filterJson:
 java -jar Lib.jar -json jsonFile -filter filterExpression -outputAttr AttrName -outputFile outputFile
 Please refer README for more info
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;h3 id=&quot;31-save-info-to-json&quot;&gt;3.1 save info to json&lt;/h3&gt;
+
 &lt;p&gt;toJson时，需要提供所有待解析的.lib文件，放在一个文本里，格式如下：&lt;br /&gt;
 	&lt;code&gt;lib_file_path &amp;lt;vender_if_stdcell&amp;gt;&lt;/code&gt; &lt;br /&gt;
 &lt;code&gt;&amp;lt;vender_if_stdcell&amp;gt;&lt;/code&gt;用来解析stdcell相关的信息。&lt;br /&gt;
-&lt;code&gt;-outputFile outputFile&lt;/code&gt;为optional，不指定情况下，默认保存到当前目录的libs.json。&lt;br /&gt;
-实例如下：&lt;/p&gt;
+&lt;code&gt;-outputFile outputFile&lt;/code&gt;为optional，不指定情况下，默认保存到当前目录的libs.json。&lt;/p&gt;
+
+&lt;p&gt;实例如下：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$cat libs.list
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0c_ccs.lib TSMC
 ...some_path.../tcbn28hpcplusbwp7t30p140hvt/lib_ccs/tcbn28hpcplusbwp7t30p140hvtffg0p88v0p88v0c_ccs.lib TSMC
@@ -202,12 +222,14 @@ Total 4372 libs are parsed.
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;32-filterjson&quot;&gt;3.2 filterJson&lt;/h3&gt;
+
 &lt;p&gt;得到json之后，我们对它处理，得到我们需要的信息，用法如下：&lt;br /&gt;
   &lt;code&gt;java -jar Lib.jar -json jsonFile -filter filterExpression -outputAttr AttrName -outputFile outputFile&lt;/code&gt; &lt;br /&gt;
 &lt;code&gt;-filter&lt;/code&gt;后是filter expression，为String，所以如果是多个条件过滤的话，要加上引号。&lt;br /&gt;
 &lt;code&gt;-outputAttr&lt;/code&gt;指的是需要输出的lib attribute，比如我们需要ss_0.81_-40下的所有link lib，我们只要dbfile attribute，其它我们并不需要。 &lt;br /&gt;
-&lt;code&gt;-outputFile&lt;/code&gt;是将输出重定向到你指定的file。&lt;br /&gt;
-实例如下：&lt;/p&gt;
+&lt;code&gt;-outputFile&lt;/code&gt;是将输出重定向到你指定的file。&lt;/p&gt;
+
+&lt;p&gt;实例如下：&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;##比如，我们需要ICC里ss_0.81_-40 corner下的link library
 ##这里用了multi filter，来过滤到lowpower stdcell(假设design为非low power dsign,不需要这些库).
 $ java -jar ~/Liberty/Lib.jar -json libs.json -filter &quot;opc_name=~ss.*_0.81_-40 &amp;amp;&amp;amp; libfile!~.*\dv.*\dv.*&quot; -outputAttr dbfile -outputFile sslt.list
@@ -240,8 +262,11 @@ SENSOR_RX_LAI053_WCL.db
 USB_AFE_LAI053_WCL.db 
 
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;可以看到，不同的命名规则的lib都可以被抓出来。下面我们只要在ICC里利用简单的proc将output file读进去。&lt;/p&gt;
+
 &lt;h3 id=&quot;33-tcl-proc&quot;&gt;3.3 Tcl proc&lt;/h3&gt;
+
 &lt;p&gt;这里附上我的proc，将文本读进tcl，存在List里。这里我会过滤掉空白行和以&lt;code&gt;#&lt;/code&gt;开始的注释行：这主要是以防万一，需要人为额外添加内容时，可以加入注释便于阅读。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-tcl&quot;&gt;##其实很简单，大家肯定都会
 proc file2list {file_name} {

@@ -1,7 +1,7 @@
 
 <!-- Post List Start -->
-
-<h4 align="left" style="font-family:Times">
+<div class="bloglistbg">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
   <strong>{{ post.date | date:"%Y/%m/%d" }}</strong>
   <small>
     <a class="category" href="{{site.baseurl}}/categories/{{ post.category | downcase }}.html">
@@ -9,14 +9,16 @@
     </a>
   </small>
   &ensp;
-  <a href="{{site.baseurl}}{{post.url}}" style="font-family:'Courgette', cursive,Georgia, Times, 'Times New Roman', serif,'宋体', 'SimSun'">
+  <a href="{{site.baseurl}}{{post.url}}" style="font-family:cursive,Georgia,'Times New Roman', serif,'宋体', 'SimSun'">
     <strong>{{ post.title }}</strong>
   </a>
 </h4>
-<p align="left" style="font-size:16px;font-style:italic">
+<p align="left" style="font-size:16px;font-style:italic;white-space:normal">
 	{{ post.excerpt | strip_html| append: "......"}}
-	<br/>
+	</br>
+	<div style="display:inline-block;text_align:center;padding:0 50px 0 20px">
 	<a href="{{ site.baseurl }}{{ post.url }}" style="font-size:18px" align="center !important">Read More</a>
+	</div>
 </p>
-
+</div>
 <!-- Post List End -->
