@@ -8,7 +8,7 @@ category: verification
 tags: [formality]
 excerpt_separator: <!--more-->
 ---
-IC设计中，到处都有`top-down`和`bottom-up`的思想，在formal verification里也同样存在。Formality默认就是使用`top-down` + `bottom-up`先结合的策略来做形式验证。<!--more-->    
+IC设计中，到处都有`top-down`和`bottom-up`的思想，在formal verification里也同样存在。Formality默认就是使用`top-down` + `bottom-up`相结合的策略来做形式验证。<!--more-->    
 `top-down verification`其实就是flatten verification，把整个design打平，一个logic cone可以跨越多个hierarchy；这样的好处是可以减少logic cone数目，但是缺点也很明显，就是logic cone会比较大。   
 `bottom-up verification`就是hierarchical verification，对design从最底层开始验证，底层验证pass后，将其设为black box，再对上层进行验证，依次进行，直至top design；可以看出来，hierarchical verification的logic cone都相对较小，因为即使是对上层deign验证时，下层design会被设为black box。   
 简单情况下，Formality的默认行为已经能够很好的处理了。但是当碰到有些inconclusive verification，可能由于logic cone比较大导致，这时使用hierarchical verification可以帮助我们来减小logic cone，简化验证，就可能在较短的时间获得succeeded verification；对于fail verification，也可以通过hierarchical verification来定位到导致failing的root cause。  
