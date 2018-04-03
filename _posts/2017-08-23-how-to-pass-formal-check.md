@@ -4,8 +4,8 @@ date: 2017-08-23
 layout: post
 section-type: post
 comments: true
-category: tool
-tags: [formality,verification]
+category: verification
+tags: [formality]
 ---
 
 ## Formality
@@ -61,6 +61,7 @@ Inconclusive 一般由于逻辑太复杂，logic cone 太大，导致formality�
 > none s2 s3 s1 l2 s10 s8 l1 l3 s4 s6 s5 k1 k2 s7 s9
 - DC里相关design设置verification优先，降低opt effort；
 - DC先compile hard_verification design, 再compile other designs.
+- 使用hierarchical verification.
 
 ## Project Cases
 ### Case 1

@@ -4,8 +4,8 @@ layout: post
 section-type: post
 comments: true
 date: 2017-09-15
-category: tool
-tags: [verification,formality]
+category: verification
+tags: [RTL,formality]
 excerpt_separator: <!--more-->
 ---
 最近项目中碰到一个hard verification，有11个点inconclusive，属于同一个module下。由于RTL是加密的，无法获知这个module的内容，这也给debug带来了一定麻烦。

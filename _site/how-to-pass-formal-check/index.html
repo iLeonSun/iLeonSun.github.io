@@ -151,13 +151,11 @@
 						
 						<li><a href="/year/2017"> <i class="fa fa-calendar" aria-hidden="true" style="letter-spacing:-1px">2017/08/23</i></a></li>
 						
-							<li><a href="/category/tool"><i class="fa fa-folder-open" aria-hidden="true">tool</i></a></li>
+							<li><a href="/category/verification"><i class="fa fa-folder-open" aria-hidden="true">verification</i></a></li>
 						
 						<!-- <li><a href="#todo"><i class="fa fa-comments" aria-hidden="true">#comments</i></a></li> -->
 						
 							<li><a href="/tag/formality"><i class="fa fa-tags" aria-hidden="true">formality</i></a></li>
-						
-							<li><a href="/tag/verification"><i class="fa fa-tags" aria-hidden="true">verification</i></a></li>
 						
 		    		</ul>
 		    		</h5>
@@ -197,7 +195,7 @@ Formality debug 可以有logic cone, failing pattern, analyze_point, alternative
 </ol>
 
 <ul>
-  <li>DC里对整个design 设置<code>simplified_verification_mode</code>，其实就是设置下面的参数:
+  <li>DC里对整个design 设置<code class="highlighter-rouge">simplified_verification_mode</code>，其实就是设置下面的参数:
     <blockquote>
       <p>The tool sets the value for the following  environment  variables  when the  simplified_verification_mode variable is set to true regardless of the value you specify:</p>
 
@@ -208,10 +206,10 @@ Formality debug 可以有logic cone, failing pattern, analyze_point, alternative
       <p>hdlin_verification_priority = true</p>
     </blockquote>
   </li>
-  <li>在DC里使用<code>set_verification_priority</code> 来告诉DC某个cell/design，要verification优先，不要优化地太狠，不要ungroup。但是verification_priority attribute不会传到subdesign.</li>
+  <li>在DC里使用<code class="highlighter-rouge">set_verification_priority</code> 来告诉DC某个cell/design，要verification优先，不要优化地太狠，不要ungroup。但是verification_priority attribute不会传到subdesign.</li>
   <li>分两步综合，首先对相关design设dont_retime，compile后,再对design 用optimize_register 做Retime 优化。</li>
   <li>前面的法都是goabl方法，虽然简单，但是个人发现通常效果并不好,这样的话就要具体问题具分析。
-利用<code>analyze_points</code> 对failing point分析，通常formality会给出fail reason 和recommendtion. Fail reason 通常会是某些相关的svf operation 被formality rejected.常见的有guide_reg_constant,guide_replace，guide_change_name之类。然后可以用<code>report_svf_operation -command * -status rejected</code> 来查看具体是为啥这个svf operation 被formality rejected。比如经常出现的是formality找不到某些pin/cell,这时候就要确认原因，是因为name mismatch 还是真的不存在，不存在的情况多为DC默认会把redundant cell/constant register 删除掉，也许它是为了area考虑，结果导致了formality fail。确定起因后，就要在DC 里work-around 来避免这个问题发生。</li>
+利用<code class="highlighter-rouge">analyze_points</code> 对failing point分析，通常formality会给出fail reason 和recommendtion. Fail reason 通常会是某些相关的svf operation 被formality rejected.常见的有guide_reg_constant,guide_replace，guide_change_name之类。然后可以用<code class="highlighter-rouge">report_svf_operation -command * -status rejected</code> 来查看具体是为啥这个svf operation 被formality rejected。比如经常出现的是formality找不到某些pin/cell,这时候就要确认原因，是因为name mismatch 还是真的不存在，不存在的情况多为DC默认会把redundant cell/constant register 删除掉，也许它是为了area考虑，结果导致了formality fail。确定起因后，就要在DC 里work-around 来避免这个问题发生。</li>
 </ul>
 
 <h3 id="inconclusive">Inconclusive</h3>
@@ -219,8 +217,8 @@ Formality debug 可以有logic cone, failing pattern, analyze_point, alternative
 <p>Inconclusive 一般由于逻辑太复杂，logic cone 太大，导致formality长时间比较后仍然得不出结论。一般解决方法有:</p>
 <ul>
   <li>换更新的formality版本，花钱消灾…</li>
-  <li>加大timeout limit: <code>verification_timeout_limit</code>, 0 为no limit;</li>
-  <li>设高datapath effort：<code>verification_datapath_effort_level</code>；</li>
+  <li>加大timeout limit: <code class="highlighter-rouge">verification_timeout_limit</code>, 0 为no limit;</li>
+  <li>设高datapath effort：<code class="highlighter-rouge">verification_datapath_effort_level</code>；</li>
   <li>使用alternate strategy：formality内置其它多种不同算法来比较hard verification,需要挨个尝试，可能全部试过多没用，自求多福…
     <blockquote>
       <p>verification_alternate_strategy specifies that verification uses a nonstandard strategy for solving hard verifications.</p>
@@ -232,6 +230,7 @@ Formality debug 可以有logic cone, failing pattern, analyze_point, alternative
   </li>
   <li>DC里相关design设置verification优先，降低opt effort；</li>
   <li>DC先compile hard_verification design, 再compile other designs.</li>
+  <li>使用hierarchical verification.</li>
 </ul>
 
 <h2 id="project-cases">Project Cases</h2>
@@ -246,7 +245,44 @@ u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U
 <p><img src="/img/logic_cone.png" alt="logic cone" title="logic cone"></p>
 
 <p>analyze_points 对这个点分析：</p>
-<pre><code>fm_shell (verify)&gt; analyze_points r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre></td>
+<td class="code"><pre>fm_shell (verify)&gt; analyze_points r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
 Found 2 Unmatched Cone Inputs
 --------------------------------
 Unmatched cone inputs result either from mismatched compare points
@@ -280,12 +316,27 @@ reg_constant
 ****************************************************************************************
 Analysis Completed
 1
-</code></pre>
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
 
 <p>分析report,首先logic cone 有两个unmatched inputs：一个是gating, 但是发现这个gating并不影响func,而且ref/imp reg的CK 都是r,所以这个gating并不是导致failing points的原因；另一个是fm_bb，这个存在于ref里，也正是由于这个fm_bb的output是1才导致SD/AD pin fail。
 接着，有一个guidance cmd 被rejected：guide_reg_constant，这是svf里把reg标为constant 0/1 的操作。联想到imp里SD/AD pin的startpoints 都是constant 0, 所以应该是DC做reg_constant 操作，将failing point 前的reg 标为0，但是这个操作因为某种原因被formality rejected, 从而ref 里引入了fm_bb。那么到底是为何被reject? report_svf_operation report 截取一段如下：</p>
 
-<pre><code>## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td>
+<td class="code"><pre>## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
 ## Operation Id: 945483
 guide_reg_constant \
   -design { wp45 } \
@@ -294,11 +345,32 @@ guide_reg_constant \
   { 0 } 
 
 Info:  guide_reg_constant 945483 (Line: 8463522) Cannot find master reference cell 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1'.
-</code></pre>
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
 
 <p>原因就是：<strong>cannot find master reference cell</strong>。居然没有这个cell?那它又是哪来的？查找svf file，发现：</p>
 
-<pre><code>## Operation Id: 875794
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</pre></td>
+<td class="code"><pre>## Operation Id: 875794
 guide_retiming \
   -design { wp45 } \
   -direction { forward } \
@@ -313,22 +385,56 @@ guide_reg_constant \
   { u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1 } \
   { 0 } 
 
-</code></pre>
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
 
 <p>这个reg是经过forward retime后命名为此，随后DC觉得它是个constant 0 reg。constant0 reg可能是因为D pin tie 0,也可能是reset pin tie 1 导致的。那么DC是怎么处理这些constant register 的呢？查找DC log,发现如下信息：</p>
-<pre><code>Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4</pre></td>
+<td class="code"><pre>Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm2/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm1/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm0/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
-</code></pre>
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
 <p>真相大白：<strong>默认情况下，DC会remove constant register, 并在log里给出OPT-1206提示</strong>。至此，终于找到failing root cause,下面就是针对问题找到解决方法了。DC 对constant register 的处理由以下3个变量控制，默认值都是true:</p>
-<pre><code>compile_seqmap_propagate_constants:           Removes cells with a constant on the input.
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td>
+<td class="code"><pre>compile_seqmap_propagate_constants:           Removes cells with a constant on the input.
 compile_seqmap_propagate_high_effort:         Removes cells with a constant on the reset.
 compile_seqmap_propagate_constants_size_only: Propagates constants through size_only cells.
-</code></pre>
-<p>其中，<code>compile_seqmap_propagate_constants_size_only</code> 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。
-所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了吧。尝试之后，万万没想到，failing points居然更多，而且有很多<code>Required Inputs</code>。</p>
-<pre><code>--------------------------------
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
+<p>其中，<code class="highlighter-rouge">compile_seqmap_propagate_constants_size_only</code> 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。
+所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了吧。尝试之后，万万没想到，failing points居然更多，而且有很多<code class="highlighter-rouge">Required Inputs</code>。</p>
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td>
+<td class="code"><pre>--------------------------------
 Found 61 Required Inputs
 --------------------------------
 A required input is one that is designated as required
@@ -337,7 +443,10 @@ to more failing than passing points.
 This implies that it may be driving downstream logic that is related to
 the failure(s)
 --------------------------------
-</code></pre>
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
 <p>如此看来，这个变量好像不能乱设啊。不清楚为啥不remove const reg，会导致这么严重的问题。之前的debug好像都付诸东流了…</p>
 
 <h4 id="13-slove">1.3 Slove</h4>
@@ -348,7 +457,25 @@ the failure(s)
 <h3 id="case2">Case2</h3>
 <h4 id="21-problem">2.1 Problem</h4>
 <p>综合完，RTL-Gate Formality inconclusive, 有33个points。原来这个module属于一个42bit除以9bit的除法器，每一位quotient的logic cone都很大，formality 很难比较。</p>
-<pre><code>
+<div class="highlighter-rouge">
+<div class="highlight">
+<table style="border-spacing: 0"><tbody><tr>
+<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</pre></td>
+<td class="code"><pre>
 ********************************* Verification Results *********************************
 Verification INCONCLUSIVE
 (Equivalence checking aborted due to complexity)
@@ -363,7 +490,10 @@ Verification INCONCLUSIVE
  161129 Passing compare points
  33 Aborted compare points
  0 Unverified compare points
-</code></pre>
+</pre></td>
+</tr></tbody></table>
+</div>
+</div>
 <h4 id="22-debug">2.2 Debug</h4>
 <p>前文提到的方法我都一一试过:timeout-limit, datapath-effort, new tool version, set_verification_priority, 10多种alternative strategy 都没用……
 难道真的是因为这个42bit/9bit 的除法器太大了，无论如何都无法过formality?
