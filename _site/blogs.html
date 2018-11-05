@@ -148,7 +148,68 @@
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
+  <strong>2018/07/15</strong>
+  <small>
+    <a class="category" href="/categories/script.html">
+      script
+    </a>
+  </small>
+  &ensp;
+  <a href="/Tcl-Array-VS-Tcl-Dict/" style="font-family:cursive,Georgia,'Times New Roman', serif,'宋体', 'SimSun'">
+    <strong>Array VS Dict in Tcl</strong>
+  </a>
+</h4>
+<p align="left" style="font-size:16px;font-style:italic;white-space:normal">
+	Tcl8.5开始引入了dict,dict与array类似，都是处理键值对；但它们又有明显的差异。Tcl Array虽然译为数组，但它其实不是数组，它存储的是变量；Tcl dict可被视为Tcl list，它存储的是值。
+
+  Tcl arrays are collections of variables;   
+Tcl dicts are pure values.
+
+
+......
+	</br>
+	<div style="display:inline-block;text_align:center;padding:0 50px 0 20px">
+	<a href="/Tcl-Array-VS-Tcl-Dict/" style="font-size:18px" align="center !important">Read More</a>
+	</div>
+</p>
+</div>
+<!-- Post List End -->
+
+				
+						
+<!-- Post List Start -->
+<div class="bloglistbg">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
+  <strong>2018/05/23</strong>
+  <small>
+    <a class="category" href="/categories/script.html">
+      script
+    </a>
+  </small>
+  &ensp;
+  <a href="/quick-seach-multi-cells-in-def-file/" style="font-family:cursive,Georgia,'Times New Roman', serif,'宋体', 'SimSun'">
+    <strong>quick search for multi cells in def file</strong>
+  </a>
+</h4>
+<p align="left" style="font-size:16px;font-style:italic;white-space:normal">
+	目前参与一个GPU项目,芯片很大,划分成了100+个block。项目中我需要找到这些block内的某些flatten cell的location信息，这就要求我去def file里找到这些cell。每个block的基本都是大于1million的instance，def file 其实还是挺大的。  
+首先把所有这些cell分开到每个block，reused block 里需要uniq一下; 比如，处理后将他们分到n个不同block，每个block又m=f(n)个cell，n个cell name存进dict。对于n个文件，每个里找到m行，如果每次open一个文件，按照顺序依次找到其中一行，然后return，那么时间复杂度会很大，O(mn)，这是很浪费时间的。
+
+......
+	</br>
+	<div style="display:inline-block;text_align:center;padding:0 50px 0 20px">
+	<a href="/quick-seach-multi-cells-in-def-file/" style="font-size:18px" align="center !important">Read More</a>
+	</div>
+</p>
+</div>
+<!-- Post List End -->
+
+				
+						
+<!-- Post List Start -->
+<div class="bloglistbg">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2018/03/30</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -181,7 +242,7 @@ Real Clock: 定义了时钟源的时钟。
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2018/03/06</strong>
   <small>
     <a class="category" href="/categories/verification.html">
@@ -209,7 +270,7 @@ Real Clock: 定义了时钟源的时钟。
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/12/10</strong>
   <small>
     <a class="category" href="/categories/java.html">
@@ -237,7 +298,7 @@ Real Clock: 定义了时钟源的时钟。
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/11/22</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -265,7 +326,7 @@ Real Clock: 定义了时钟源的时钟。
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/11/08</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -295,7 +356,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/11/06</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -324,7 +385,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/10/25</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -352,7 +413,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/10/02</strong>
   <small>
     <a class="category" href="/categories/sta.html">
@@ -380,7 +441,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/09/15</strong>
   <small>
     <a class="category" href="/categories/verification.html">
@@ -408,7 +469,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/08/31</strong>
   <small>
     <a class="category" href="/categories/pr.html">
@@ -444,7 +505,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/08/23</strong>
   <small>
     <a class="category" href="/categories/verification.html">
@@ -475,7 +536,7 @@ Foundary提供的process RC有三种格式：itf，TLU+，nxtgrd；三者可以�
 						
 <!-- Post List Start -->
 <div class="bloglistbg">
-<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;">
+<h4 align="left" style="font-family:Times;padding-left:150px;padding-top:40px;text-transform:capitalize;background:none">
   <strong>2017/07/26</strong>
   <small>
     <a class="category" href="/categories/杂谈.html">

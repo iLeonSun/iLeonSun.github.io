@@ -1,11 +1,13 @@
+
+<!-- Post Layout Start -->
+
 <!DOCTYPE html>
-<!-- Post Layout Start --><html lang="en">
+<html lang="en">
 
   
 <!-- HEAD Start -->
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
 
 
@@ -32,7 +34,7 @@
   <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/rrssb.css">
+  <link rel="stylesheet" href="/css/rrssb.css" >
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -245,10 +247,8 @@ u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U
 <p><img src="/img/logic_cone.png" alt="logic cone" title="logic cone"></p>
 
 <p>analyze_points 对这个点分析：</p>
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -281,53 +281,50 @@ u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U
 31
 32
 33
-34</pre></td>
-<td class="code"><pre>fm_shell (verify)&gt; analyze_points r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
+34
+</pre></td>
+<td class="rouge-code"><pre>fm_shell (verify)&gt; analyze_points r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
 Found 2 Unmatched Cone Inputs
---------------------------------
-Unmatched cone inputs result either from mismatched compare points
+<span class="gd">--------------------------------
+</span>Unmatched cone inputs result either from mismatched compare points
 or from differences in the logic within the cones. Only unmatched
 inputs that are suspected of contributing to verification failures
 are included in the report.
 The source of the matching or logical differences may be determined
 using the schematic, cone and source views.
---------------------------------
-r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/clk_gate_a_int_reg[1]/latch/\*lat.00\*
+<span class="gd">--------------------------------
+</span>r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/clk_gate_a_int_reg[1]/latch/\*lat.00\*
     Is globally unmatched affecting 1 compare point(s):
         i:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
 
------------
-r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/fm_bb/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/a_int_reg[3][0]
+<span class="gd">-----------
+</span>r:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/fm_bb/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/a_int_reg[3][0]
     Matched with pin i:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/fm_bb/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/a_int_reg[3][0]
     Exists in the ref cone but not in the impl cone for 1 compare point(s):
         i:/WORK/wp45/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/fm_ret_fwmc_1_1_323/u_disptop/U_DISPD_LAI053/u_pnlmemctl/u_imgmemctl/u_abc4x4_dec/prl_ari_0__u_div/U_DIV/bdramclk1x_r_REG42_S1
 
------------
+<span class="gd">-----------
 --------------------------------
-Found 1 Rejected Guidance Command
---------------------------------
-The rejection of some SVF guidance commands will almost invariably
+</span>Found 1 Rejected Guidance Command
+<span class="gd">--------------------------------
+</span>The rejection of some SVF guidance commands will almost invariably
 cause verification failures. For more information use:
         report_svf_operation -status rejected -command command_name
+<span class="gd">--------------------------------
+</span>reg_constant
+<span class="gd">-----------
 --------------------------------
-reg_constant
------------
---------------------------------
-****************************************************************************************
+</span>****************************************************************************************
 Analysis Completed
 1
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 
 <p>分析report,首先logic cone 有两个unmatched inputs：一个是gating, 但是发现这个gating并不影响func,而且ref/imp reg的CK 都是r,所以这个gating并不是导致failing points的原因；另一个是fm_bb，这个存在于ref里，也正是由于这个fm_bb的output是1才导致SD/AD pin fail。
 接着，有一个guidance cmd 被rejected：guide_reg_constant，这是svf里把reg标为constant 0/1 的操作。联想到imp里SD/AD pin的startpoints 都是constant 0, 所以应该是DC做reg_constant 操作，将failing point 前的reg 标为0，但是这个操作因为某种原因被formality rejected, 从而ref 里引入了fm_bb。那么到底是为何被reject? report_svf_operation report 截取一段如下：</p>
 
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -335,8 +332,9 @@ Analysis Completed
 6
 7
 8
-9</pre></td>
-<td class="code"><pre>## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
+9
+</pre></td>
+<td class="rouge-code"><pre>## SVF Operation 945483 (Line: 8463522) - reg_constant.  Status: rejected
 ## Operation Id: 945483
 guide_reg_constant \
   -design { wp45 } \
@@ -346,16 +344,12 @@ guide_reg_constant \
 
 Info:  guide_reg_constant 945483 (Line: 8463522) Cannot find master reference cell 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1'.
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 
 <p>原因就是：<strong>cannot find master reference cell</strong>。居然没有这个cell?那它又是哪来的？查找svf file，发现：</p>
 
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -369,8 +363,9 @@ Info:  guide_reg_constant 945483 (Line: 8463522) Cannot find master reference ce
 12
 13
 14
-15</pre></td>
-<td class="code"><pre>## Operation Id: 875794
+15
+</pre></td>
+<td class="rouge-code"><pre>## Operation Id: 875794
 guide_retiming \
   -design { wp45 } \
   -direction { forward } \
@@ -386,46 +381,36 @@ guide_reg_constant \
   { 0 } 
 
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 
 <p>这个reg是经过forward retime后命名为此，随后DC觉得它是个constant 0 reg。constant0 reg可能是因为D pin tie 0,也可能是reset pin tie 1 导致的。那么DC是怎么处理这些constant register 的呢？查找DC log,发现如下信息：</p>
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
-4</pre></td>
-<td class="code"><pre>Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
+4
+</pre></td>
+<td class="rouge-code"><pre>Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm3/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm2/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm1/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 Information: The register 'u_moetop/u_imetop/u_imemap/u_imetf2_2p/u_ime_norm0/u_mult_0/mult_x_1/bimeclk_r_REG123_S1' is a constant and will be removed. (OPT-1206)
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 <p>真相大白：<strong>默认情况下，DC会remove constant register, 并在log里给出OPT-1206提示</strong>。至此，终于找到failing root cause,下面就是针对问题找到解决方法了。DC 对constant register 的处理由以下3个变量控制，默认值都是true:</p>
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
-3</pre></td>
-<td class="code"><pre>compile_seqmap_propagate_constants:           Removes cells with a constant on the input.
+3
+</pre></td>
+<td class="rouge-code"><pre>compile_seqmap_propagate_constants:           Removes cells with a constant on the input.
 compile_seqmap_propagate_high_effort:         Removes cells with a constant on the reset.
 compile_seqmap_propagate_constants_size_only: Propagates constants through size_only cells.
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 <p>其中，<code class="highlighter-rouge">compile_seqmap_propagate_constants_size_only</code> 是控制是否传递size_only/dont_touch attribute的constant reg 的constant value，而不是要remove size_only/dont_touch reg。
 所以，我们在compile前将这些变量设为false,问题应该就可以迎刃而解了吧。尝试之后，万万没想到，failing points居然更多，而且有很多<code class="highlighter-rouge">Required Inputs</code>。</p>
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -433,8 +418,9 @@ compile_seqmap_propagate_constants_size_only: Propagates constants through size_
 6
 7
 8
-9</pre></td>
-<td class="code"><pre>--------------------------------
+9
+</pre></td>
+<td class="rouge-code"><pre>--------------------------------
 Found 61 Required Inputs
 --------------------------------
 A required input is one that is designated as required
@@ -444,23 +430,19 @@ This implies that it may be driving downstream logic that is related to
 the failure(s)
 --------------------------------
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 <p>如此看来，这个变量好像不能乱设啊。不清楚为啥不remove const reg，会导致这么严重的问题。之前的debug好像都付诸东流了…</p>
 
 <h4 id="13-slove">1.3 Slove</h4>
 <p>既然这些reg 是例化了的DW_div_pipe内部的，然后经retime命名为此；那么为何FM retime的时候不能找到它了？难道是FM 的retime 与DC的retime有什么不一样了？明明已经读了SVF，FM会根据SVF做retime呀，真是越想越不合理… <br>
-换个更新版本的DC/FM尝试一下吧，结果居然pass了！！！<img class="emoji" title=":disappointed_relieved:" alt=":disappointed_relieved:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f625.png" height="20" width="20" align="absmiddle"> <br>
+换个更新版本的DC/FM尝试一下吧，结果居然pass了！！！<img class="emoji" title=":disappointed_relieved:" alt=":disappointed_relieved:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f625.png" height="20" width="20"> <br>
 所以，<strong>如果failing points不多，而且都与DesignWare相关，那么请首先尝试更新版本！</strong></p>
 
 <h3 id="case2">Case2</h3>
 <h4 id="21-problem">2.1 Problem</h4>
 <p>综合完，RTL-Gate Formality inconclusive, 有33个points。原来这个module属于一个42bit除以9bit的除法器，每一位quotient的logic cone都很大，formality 很难比较。</p>
-<div class="highlighter-rouge">
-<div class="highlight">
-<table style="border-spacing: 0"><tbody><tr>
-<td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr>
+<td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -474,8 +456,9 @@ the failure(s)
 12
 13
 14
-15</pre></td>
-<td class="code"><pre>
+15
+</pre></td>
+<td class="rouge-code"><pre>
 ********************************* Verification Results *********************************
 Verification INCONCLUSIVE
 (Equivalence checking aborted due to complexity)
@@ -491,9 +474,7 @@ Verification INCONCLUSIVE
  33 Aborted compare points
  0 Unverified compare points
 </pre></td>
-</tr></tbody></table>
-</div>
-</div>
+</tr></tbody></table></code></pre></div></div>
 <h4 id="22-debug">2.2 Debug</h4>
 <p>前文提到的方法我都一一试过:timeout-limit, datapath-effort, new tool version, set_verification_priority, 10多种alternative strategy 都没用……
 难道真的是因为这个42bit/9bit 的除法器太大了，无论如何都无法过formality?
@@ -511,7 +492,7 @@ Verification INCONCLUSIVE
 					<br>
 					<!-- % include share.html % -->
 					<div style="display:block">
-					<h4 style="text-align:left"> 分享到: 
+					<h4 style="text-align:left;background:none"> 分享到: 
 					<div class="social-share share-component" data-sites="weibo,wechat,qq,qzone"></div>
 					</h4>
 </div>
@@ -777,4 +758,6 @@ function off() {
 <!-- <script src="/js/social-share.min.js"></script> -->
 
   </body>
-</html><!-- Post Layout End -->
+</html>
+
+<!-- Post Layout End -->
