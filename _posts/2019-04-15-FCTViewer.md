@@ -27,6 +27,9 @@ FCTViewer是笔者最近完成的一个小工具，它的可以用来分析full 
 3. 右上：timing rpt 表格  
 4. 右中：timing arc 表格（detail datapath timing report of selected in upper-right table）  
 5. 右下：信息区，显示鼠标选择arc/instance的具体信息  
+  
+zoom in 后可以清楚地显示timing arc，如下图，虚线为cell arc, 实线为net arc.  
+![zoomin view][2]
 
 ## Features
 FCTViewer有以下features:  
@@ -46,3 +49,4 @@ FCTViewer有以下features:
 1. 点击arc/instance高亮时，可能会有肉眼可见的延迟（使用blit原理）。  
 
 [1]: /img/2019-04-15_FCTViewerGuide.png "FCTViewer Guide"
+[2]: /img/2019-04-15_FCTViewerZoomIn.png "ZoomIn view"
